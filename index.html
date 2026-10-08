@@ -49,39 +49,25 @@ tailwind.config = {
 </script>
 
 <style>
-    html, body { background:#FAF9F5; }
-    body { font-family:'Plus Jakarta Sans',system-ui,sans-serif; -webkit-font-smoothing:antialiased; color:#1C1917; }
-    [hidden] { display:none !important; }
+  html, body { background:#FAF9F5; }
+  body { font-family:'Plus Jakarta Sans',system-ui,sans-serif; -webkit-font-smoothing:antialiased; color:#1C1917; }
+  [hidden] { display:none !important; }
 
-    ::-webkit-scrollbar { width:10px; height:10px; }
-    ::-webkit-scrollbar-track { background:transparent; }
-    ::-webkit-scrollbar-thumb { background:#E7E5E4; border-radius:8px; border:3px solid #FAF9F5; }
-    ::-webkit-scrollbar-thumb:hover { background:#D6D3D1; }
-    .sidebar-scroll::-webkit-scrollbar-thumb { background:#3A3531; border-color:#221E1B; }
-    .sidebar-dark { background:#1F1C1A; }
+  ::-webkit-scrollbar { width:10px; height:10px; }
+  ::-webkit-scrollbar-track { background:transparent; }
+  ::-webkit-scrollbar-thumb { background:#E7E5E4; border-radius:8px; border:3px solid #FAF9F5; }
+  ::-webkit-scrollbar-thumb:hover { background:#D6D3D1; }
+  .sidebar-scroll::-webkit-scrollbar-thumb { background:#3A3531; border-color:#221E1B; }
+  .sidebar-dark { background:#1F1C1A; }
 
-    input:focus, select:focus, textarea:focus, button:focus-visible {
-      outline:none; border-color:#A8A29E; box-shadow:0 0 0 4px rgba(63,58,52,0.08);
-    }
-    input[type=number]::-webkit-outer-spin-button,
-    input[type=number]::-webkit-inner-spin-button { -webkit-appearance:none; margin:0; }
-    input[type=number] { -moz-appearance:textfield; appearance:textfield; }
-    .table-row { transition:background 120ms ease; }
-    @media print { .no-print { display:none !important; } }
-
-    /* ── Mobile nav drawer ── */
-    #mobileNavDrawer {
-      width: min(85vw, 320px);
-      max-width: 85vw;
-    }
-    @media (max-width: 1023px) {
-      #sidebar { display: none !important; }
-      .lg\:ml-64 { margin-left: 0 !important; }
-      .lg\:flex { display: none !important; }
-    }
-    @media (min-width: 1024px) {
-      #mobileNavDrawer { display: none !important; }
-    }
+  input:focus, select:focus, textarea:focus, button:focus-visible {
+    outline:none; border-color:#A8A29E; box-shadow:0 0 0 4px rgba(63,58,52,0.08);
+  }
+  input[type=number]::-webkit-outer-spin-button,
+  input[type=number]::-webkit-inner-spin-button { -webkit-appearance:none; margin:0; }
+  input[type=number] { -moz-appearance:textfield; appearance:textfield; }
+  .table-row { transition:background 120ms ease; }
+  @media print { .no-print { display:none !important; } }
 
   /* ── Buttons ── */
   .btn-primary,.btn-secondary,.btn-wa,.btn-tertiary,.btn-danger-soft,.btn-success-soft{
@@ -122,7 +108,7 @@ tailwind.config = {
   .f-input:disabled{background:#F5F5F4;color:#78716C}
 
   /* Tab bar */
-  .tabbar { display:flex; gap:2px; padding:4px; background:#F5F5F4; border-radius:.85rem; }
+  .tabbar { display:flex; gap:2px; padding:4px; background:#F5F5F4; border-radius:.85rem; overflow-x:auto; }
   .tabbar button { flex:1; padding:.55rem 1rem; border-radius:.65rem; font-size:12.5px; font-weight:600; color:#78716C; background:transparent; border:none; cursor:pointer; transition:all .12s; white-space:nowrap; }
   .tabbar button:hover { color:#292524; }
   .tabbar button.active { background:#fff; color:#1C1917; box-shadow:0 1px 2px rgba(28,25,23,0.06); }
@@ -133,14 +119,48 @@ tailwind.config = {
 
   /* Big number */
   .bignum { font-variant-numeric: tabular-nums; letter-spacing:-0.02em; }
+
+  /* ── Mobile bottom nav ── */
+  .mnav-btn { -webkit-tap-highlight-color: transparent; }
+  .mnav-btn i { transition: transform .15s ease; }
+  .mnav-btn.active { color:#1C1917; }
+  .mnav-btn.active i { color:#3F3A34; transform: scale(1.08); }
+
+  /* Safe area (notch / home indicator) */
+  .safe-bottom { padding-bottom: env(safe-area-inset-bottom, 0px); }
+  .safe-top    { padding-top:    env(safe-area-inset-top, 0px); }
+
+  /* Mobile: touch targets + cegah iOS zoom */
+  @media (max-width: 1023px) {
+    .btn-primary, .btn-secondary, .btn-wa, .btn-tertiary,
+    .btn-danger-soft, .btn-success-soft { min-height: 44px; }
+    .btn-lg { min-height: 48px; }
+    .wa-btn { min-height: 38px; }
+    .wa-btn-sm { min-height: 32px; }
+    .f-input, select.f-input, textarea.f-input {
+      min-height: 44px;
+      font-size: 16px !important; /* anti-zoom iOS */
+    }
+    .pill { min-height: 36px; }
+    /* Fallback bila Tailwind belum load */
+    #sidebar { display: none !important; }
+  }
+  @media (min-width: 1024px) {
+    #mobileNav { display: none !important; }
+  }
+
+  /* iOS dynamic viewport (100dvh) */
+  @supports (height: 100dvh) {
+    .min-h-screen { min-height: 100dvh !important; }
+  }
 </style>
 </head>
 <body class="bg-canvas text-ink-900 min-h-screen">
 
 <div class="flex min-h-screen">
 
-  <!-- ══════════ SIDEBAR (5 MENU) ══════════ -->
-  <aside id="sidebar" class="sidebar-dark sidebar-scroll hidden lg:flex lg:w-64 lg:fixed lg:inset-y-0 lg:flex lg:flex-col z-30 overflow-y-auto">
+  <!-- ══════════ SIDEBAR (desktop only) ══════════ -->
+  <aside id="sidebar" class="hidden lg:flex sidebar-dark sidebar-scroll lg:w-64 lg:fixed lg:inset-y-0 lg:flex-col z-30 overflow-y-auto">
     <div class="px-6 pt-7 pb-6 border-b border-white/[0.04]">
       <div class="flex items-center gap-3">
         <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#4A433B] to-[#2A2520] flex items-center justify-center shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
@@ -184,40 +204,35 @@ tailwind.config = {
   <main class="flex-1 min-w-0 lg:ml-64 flex flex-col">
 
     <header class="sticky top-0 z-20 bg-canvas border-b border-ink-200/60">
-      <div class="px-4 lg:px-10 py-4 flex items-center justify-between gap-3 flex-wrap">
-        <div class="flex items-center gap-2 min-w-0">
-          <button id="mobileMenuBtn" class="lg:hidden w-10 h-10 flex items-center justify-center rounded-lg text-ink-700 hover:bg-ink-100 transition-colors flex-shrink-0" type="button" aria-label="Menu">
-            <i class="fa-solid fa-bars text-[16px]"></i>
-          </button>
-          <div class="min-w-0">
-            <h1 id="pageTitle" class="text-[20px] lg:text-[26px] font-bold text-ink-900 tracking-tight leading-none">Hari Ini</h1>
-            <p id="pageSub" class="text-[12px] lg:text-[13px] text-ink-500 mt-1 leading-snug"></p>
-          </div>
+      <div class="px-4 sm:px-5 lg:px-10 py-3 sm:py-5 flex items-center justify-between gap-3 sm:gap-4">
+        <div class="min-w-0">
+          <h1 id="pageTitle" class="text-[19px] sm:text-[22px] lg:text-[26px] font-bold text-ink-900 tracking-tight leading-none truncate">Hari Ini</h1>
+          <p id="pageSub" class="text-[12px] sm:text-[13px] text-ink-500 mt-1 sm:mt-1.5 leading-snug truncate"></p>
         </div>
-        <div class="flex items-center gap-2 flex-wrap">
-          <button id="globalAddBtn" class="btn-primary btn-lg" type="button">
-            <i class="fa-solid fa-plus text-[12px]"></i><span class="hidden sm:inline">Sewakan Kamar</span>
+        <div class="flex items-center gap-2 flex-shrink-0">
+          <button id="globalAddBtn" class="btn-primary text-[13px] sm:text-[14.5px] px-3.5 sm:px-5 py-2.5 sm:py-3.5" type="button">
+            <i class="fa-solid fa-plus text-[11px]"></i><span class="hidden sm:inline">Sewakan Kamar</span><span class="sm:hidden">Sewa</span>
           </button>
         </div>
       </div>
     </header>
 
-    <div id="content" class="px-5 lg:px-10 py-6 lg:py-8 pb-28 lg:pb-8 flex-1 w-full max-w-[1400px] mx-auto"></div>
+    <div id="content" class="px-4 sm:px-5 lg:px-10 py-5 sm:py-6 lg:py-8 pb-24 lg:pb-8 flex-1 w-full max-w-[1400px] mx-auto"></div>
   </main>
 </div>
 
-<!-- ══════════ MODAL (generic + drawer) ══════════ -->
-<div id="modalBackdrop" hidden class="fixed inset-0 z-50 bg-ink-900/40 flex items-start justify-center px-4 py-6 lg:py-10 overflow-y-auto animate-fade-in">
+<!-- ══════════ MODAL ══════════ -->
+<div id="modalBackdrop" hidden class="fixed inset-0 z-50 bg-ink-900/40 flex items-start justify-center px-2 sm:px-4 py-3 sm:py-6 lg:py-10 overflow-y-auto animate-fade-in">
   <div id="modal" class="w-full max-w-[880px] bg-white rounded-2xl shadow-modal animate-slide-up overflow-hidden"></div>
 </div>
 
-<!-- ══════════ DRAWER (slide dari kanan) ══════════ -->
+<!-- ══════════ DRAWER ══════════ -->
 <div id="drawerBackdrop" hidden class="fixed inset-0 z-[55] bg-ink-900/40 flex justify-end animate-fade-in">
   <div id="drawer" class="w-full max-w-[520px] h-full bg-white shadow-modal animate-slide-right overflow-y-auto"></div>
 </div>
 
 <!-- ══════════ BULK WA PANEL ══════════ -->
-<div id="bulkPanel" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[60] w-[min(480px,90vw)] bg-white border border-ink-200/60 rounded-2xl shadow-modal p-5 hidden">
+<div id="bulkPanel" class="fixed bottom-20 lg:bottom-6 left-1/2 -translate-x-1/2 z-[60] w-[min(480px,92vw)] bg-white border border-ink-200/60 rounded-2xl shadow-modal p-4 sm:p-5 hidden">
   <div class="flex items-center justify-between gap-4 mb-3">
     <div class="flex items-center gap-3 min-w-0">
       <div class="w-9 h-9 rounded-xl bg-wa-soft flex items-center justify-center flex-shrink-0">
@@ -240,34 +255,35 @@ tailwind.config = {
   </div>
 </div>
 
-<div id="mobileNavBackdrop" hidden class="fixed inset-0 z-[55] bg-ink-900/40 flex justify-start animate-fade-in">
-  <div id="mobileNavDrawer" class="h-full bg-white shadow-modal animate-slide-right overflow-y-auto">
-    <div class="px-5 pt-6 pb-4 border-b border-ink-200/60 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-[#4A433B] to-[#2A2520] flex items-center justify-center">
-          <i class="fa-solid fa-building-columns text-[#D9CFC0] text-[14px]"></i>
-        </div>
-        <div>
-          <div class="text-[14px] font-bold text-ink-900">KosManager</div>
-          <div class="text-[10px] text-ink-500 font-medium tracking-wider uppercase">Versi 6</div>
-        </div>
-      </div>
-      <button id="closeMobileNav" class="w-8 h-8 flex items-center justify-center rounded-lg text-ink-400 hover:text-ink-700 hover:bg-ink-100 transition-colors">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
-    </div>
-    <nav id="mobileNav" class="flex flex-col gap-1 p-3"></nav>
-    <div class="px-3 pb-6 pt-3 border-t border-ink-200/60">
-      <button id="mobileHelpBtn" class="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-ink-700 hover:bg-ink-100 text-[13px] font-medium w-full">
-        <i class="fa-regular fa-circle-question w-4 text-center text-[13px]"></i><span>Bantuan</span>
-      </button>
-      <p class="text-[11px] text-ink-400 leading-relaxed px-3 pt-2">Data tersimpan otomatis di perangkat ini.</p>
-    </div>
-  </div>
-</div>
-
-<div id="toasts" class="fixed bottom-6 right-6 z-[100] flex flex-col gap-2 max-w-sm"></div>
+<div id="toasts" class="fixed bottom-24 lg:bottom-6 left-4 right-4 lg:left-auto lg:right-6 z-[100] flex flex-col gap-2 lg:max-w-sm"></div>
 <input type="file" id="importFile" accept=".json,.csv" hidden>
+
+<!-- ══════════ MOBILE BOTTOM NAV ══════════ -->
+<nav id="mobileNav" class="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur border-t border-ink-200/60 safe-bottom">
+  <div class="grid grid-cols-5">
+    <button data-view="today" class="mnav-btn relative flex flex-col items-center justify-center gap-1 py-2.5 text-ink-400 transition-colors">
+      <i class="fa-solid fa-house text-[17px]"></i>
+      <span class="text-[10px] font-semibold">Hari Ini</span>
+      <span id="mnavBadgeToday" class="hidden absolute top-1 right-[22%] bg-terra text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full leading-none min-w-[16px] text-center">0</span>
+    </button>
+    <button data-view="rooms" class="mnav-btn flex flex-col items-center justify-center gap-1 py-2.5 text-ink-400 transition-colors">
+      <i class="fa-solid fa-door-open text-[17px]"></i>
+      <span class="text-[10px] font-semibold">Kamar</span>
+    </button>
+    <button data-view="tenants" class="mnav-btn flex flex-col items-center justify-center gap-1 py-2.5 text-ink-400 transition-colors">
+      <i class="fa-solid fa-users text-[17px]"></i>
+      <span class="text-[10px] font-semibold">Penyewa</span>
+    </button>
+    <button data-view="money" class="mnav-btn flex flex-col items-center justify-center gap-1 py-2.5 text-ink-400 transition-colors">
+      <i class="fa-solid fa-wallet text-[17px]"></i>
+      <span class="text-[10px] font-semibold">Uang</span>
+    </button>
+    <button data-view="settings" class="mnav-btn flex flex-col items-center justify-center gap-1 py-2.5 text-ink-400 transition-colors">
+      <i class="fa-solid fa-gear text-[17px]"></i>
+      <span class="text-[10px] font-semibold">Lainnya</span>
+    </button>
+  </div>
+</nav>
 
 <script>
 /* ============================================================
@@ -350,7 +366,7 @@ const formatDurasi=(v,u)=>v?`${v} ${({day:'hari',week:'minggu',month:'bulan'})[u
 const formatDurasiPanjang=(v,u)=>v?`${v} ${({day:'hari',week:'minggu',month:'bulan'})[u]||u}`:'-';
 
 /* ============================================================
-   JENIS PEMBAYARAN (istilah awam)
+   JENIS PEMBAYARAN
    ============================================================ */
 const TX={
   rent:{label:'Sewa',kind:'payment',icon:'fa-money-bill-wave'},
@@ -406,7 +422,7 @@ function nextId(p){
 }
 
 /* ============================================================
-   SEED DATA (sama seperti sebelumnya)
+   SEED DATA
    ============================================================ */
 function genRooms(){
   const harga={'1A':1200000,'1B':1200000,'1C':1200000,'1D':1100000,'1E':1200000,'1F':1300000,'1G':1300000,'1H':1300000,'1I':1500000,'1J':1100000,'1K':1200000,'1L':1200000,'1M':1200000,'1N':1200000,'2A':1300000,'2B':1300000,'2C':1300000,'2D':1300000,'2E':1300000,'2F':1300000,'2G':1400000,'2H':1300000,'2I':1300000,'2J':1300000,'2K':1300000,'2L':1300000,'2M':1300000,'2N':1300000,'2O':1300000,'2P':1300000};
@@ -752,7 +768,7 @@ function previewReminder(rentalId){
   const t=getTenant(r.tenantId);const phone=cleanPhone(t?t.phone:'');const msg=buildReminderMessage(r);
   openModal(
     modalHeader('Pesan WhatsApp',`${esc(t?t.name:'')} — ${esc(phone||'nomor belum diisi')}`)+
-    `<div class="p-6 flex flex-col gap-5">
+    `<div class="p-4 sm:p-6 flex flex-col gap-4 sm:gap-5">
       ${!phone?`<div class="flex items-start gap-3 p-3.5 bg-amber-soft border border-amber-ring/40 rounded-xl text-[12.5px] text-amber">
         <i class="fa-solid fa-triangle-exclamation mt-0.5 flex-shrink-0"></i>
         <div>Nomor HP belum diisi. Klik <strong>Edit Penyewa</strong> dulu.</div>
@@ -763,10 +779,10 @@ function previewReminder(rentalId){
       </label>
       <label class="flex flex-col gap-2">
         <span class="text-[11px] font-semibold text-ink-400 tracking-wider uppercase">Isi Pesan (bisa diedit)</span>
-        <textarea id="waMsg" rows="14" class="f-input font-mono leading-relaxed text-[12.5px]">${esc(msg)}</textarea>
+        <textarea id="waMsg" rows="12" class="f-input font-mono leading-relaxed text-[12.5px]">${esc(msg)}</textarea>
       </label>
     </div>
-    <div class="px-6 py-4 border-t border-ink-200/60 bg-ink-100/40 flex justify-end gap-2 flex-wrap">
+    <div class="px-4 sm:px-6 py-4 border-t border-ink-200/60 bg-ink-100/40 flex justify-end gap-2 flex-wrap">
       <button class="btn-secondary" data-action="close-modal" type="button">Batal</button>
       <button class="btn-secondary" data-action="edit-tenant" data-id="${r.tenantId}" type="button">
         <i class="fa-solid fa-pen text-[11px]"></i> Edit Penyewa
@@ -864,17 +880,17 @@ function finishBulk(){
    ============================================================ */
 const card=(content,extraCls)=>`<div class="bg-white border border-ink-200/60 rounded-xl2 shadow-card ${extraCls||''}">${content}</div>`;
 const cardHead=(title,sub,actions)=>`
-  <div class="px-6 py-5 border-b border-ink-200/60 flex items-start justify-between gap-4 flex-wrap">
+  <div class="px-4 sm:px-6 py-4 sm:py-5 border-b border-ink-200/60 flex items-start justify-between gap-3 sm:gap-4 flex-wrap">
     <div class="min-w-0">
-      <h3 class="text-[15px] font-bold text-ink-900 tracking-tight">${title}</h3>
-      ${sub?`<p class="text-[12px] text-ink-500 mt-1 leading-snug">${sub}</p>`:''}
+      <h3 class="text-[14px] sm:text-[15px] font-bold text-ink-900 tracking-tight">${title}</h3>
+      ${sub?`<p class="text-[11.5px] sm:text-[12px] text-ink-500 mt-1 leading-snug">${sub}</p>`:''}
     </div>
     ${actions?`<div class="flex items-center gap-2 flex-wrap">${actions}</div>`:''}
   </div>`;
 const tableWrap=inner=>`<div class="overflow-x-auto">${inner}</div>`;
-const th=(...cols)=>`<thead><tr class="bg-ink-100/50 text-left">${cols.map(c=>`<th class="px-5 py-3 text-[10.5px] font-semibold text-ink-400 tracking-wider uppercase whitespace-nowrap">${c}</th>`).join('')}</tr></thead>`;
-const td=(c,cls)=>`<td class="px-5 py-3.5 align-middle ${cls||''}">${c}</td>`;
-const emptyState=(icon,msg)=>`<div class="py-16 text-center"><i class="fa-solid ${icon} text-2xl text-ink-300"></i><p class="text-[13px] text-ink-400 mt-3">${msg}</p></div>`;
+const th=(...cols)=>`<thead><tr class="bg-ink-100/50 text-left">${cols.map(c=>`<th class="px-3 sm:px-5 py-3 text-[10px] sm:text-[10.5px] font-semibold text-ink-400 tracking-wider uppercase whitespace-nowrap">${c}</th>`).join('')}</tr></thead>`;
+const td=(c,cls)=>`<td class="px-3 sm:px-5 py-3 sm:py-3.5 align-middle ${cls||''}">${c}</td>`;
+const emptyState=(icon,msg)=>`<div class="py-12 sm:py-16 text-center px-4"><i class="fa-solid ${icon} text-2xl text-ink-300"></i><p class="text-[13px] text-ink-400 mt-3">${msg}</p></div>`;
 const fld=(label,inner)=>`<label class="flex flex-col gap-1.5"><span class="text-[11px] font-semibold text-ink-400 tracking-wider uppercase">${label}</span>${inner}</label>`;
 const pillHTML=(pills,active,action)=>`<div class="flex items-center gap-1.5 flex-wrap">${pills.map(p=>`<button class="pill ${p[0]===active?'active':''}" data-action="${action}" data-id="${p[0]}" type="button">${p[1]}</button>`).join('')}</div>`;
 const tabHTML=(tabs,active,action)=>`<div class="tabbar">${tabs.map(t=>`<button class="${t[0]===active?'active':''}" data-action="${action}" data-id="${t[0]}" type="button"><i class="fa-solid ${t[2]} mr-1.5 text-[11px]"></i>${t[1]}</button>`).join('')}</div>`;
@@ -883,19 +899,19 @@ const tabHTML=(tabs,active,action)=>`<div class="tabbar">${tabs.map(t=>`<button 
    MODAL & DRAWER
    ============================================================ */
 function modalHeader(title,sub){
-  return `<div class="px-6 py-5 border-b border-ink-200/60 flex items-start justify-between gap-4">
+  return `<div class="px-4 sm:px-6 py-4 sm:py-5 border-b border-ink-200/60 flex items-start justify-between gap-3 sm:gap-4">
     <div class="min-w-0">
-      <h3 class="text-[16px] font-bold text-ink-900 tracking-tight">${title}</h3>
-      ${sub?`<p class="text-[12px] text-ink-500 mt-1 leading-snug">${sub}</p>`:''}
+      <h3 class="text-[15px] sm:text-[16px] font-bold text-ink-900 tracking-tight">${title}</h3>
+      ${sub?`<p class="text-[11.5px] sm:text-[12px] text-ink-500 mt-1 leading-snug">${sub}</p>`:''}
     </div>
-    <button data-action="close-modal" type="button" class="w-8 h-8 flex items-center justify-center rounded-lg text-ink-400 hover:text-ink-700 hover:bg-ink-100 transition-colors flex-shrink-0">
+    <button data-action="close-modal" type="button" class="w-9 h-9 flex items-center justify-center rounded-lg text-ink-400 hover:text-ink-700 hover:bg-ink-100 transition-colors flex-shrink-0">
       <i class="fa-solid fa-xmark"></i>
     </button>
   </div>`;
 }
 function openModal(html,size){
   const m=el('modal');
-  m.className='w-full bg-white rounded-2xl shadow-modal animate-slide-up overflow-hidden '+
+  m.className='w-full bg-white rounded-xl sm:rounded-2xl shadow-modal animate-slide-up overflow-hidden '+
     ({sm:'max-w-[480px]',md:'max-w-[680px]',lg:'max-w-[880px]',xl:'max-w-[1080px]'}[size||'md']);
   m.innerHTML=html;
   el('modalBackdrop').hidden=false;
@@ -907,13 +923,13 @@ function closeModal(){
   document.body.style.overflow='';
 }
 function drawerHeader(title,sub,extra){
-  return `<div class="px-6 py-5 border-b border-ink-200/60 flex items-start justify-between gap-4 sticky top-0 bg-white z-10">
+  return `<div class="px-4 sm:px-6 py-4 sm:py-5 border-b border-ink-200/60 flex items-start justify-between gap-3 sm:gap-4 sticky top-0 bg-white z-10">
     <div class="min-w-0">
-      <h3 class="text-[17px] font-bold text-ink-900 tracking-tight">${title}</h3>
-      ${sub?`<p class="text-[12.5px] text-ink-500 mt-1 leading-snug">${sub}</p>`:''}
+      <h3 class="text-[16px] sm:text-[17px] font-bold text-ink-900 tracking-tight">${title}</h3>
+      ${sub?`<p class="text-[12px] sm:text-[12.5px] text-ink-500 mt-1 leading-snug">${sub}</p>`:''}
     </div>
     <div class="flex items-center gap-1.5 flex-shrink-0">${extra||''}
-      <button data-action="close-drawer" type="button" class="w-8 h-8 flex items-center justify-center rounded-lg text-ink-400 hover:text-ink-700 hover:bg-ink-100 transition-colors">
+      <button data-action="close-drawer" type="button" class="w-9 h-9 flex items-center justify-center rounded-lg text-ink-400 hover:text-ink-700 hover:bg-ink-100 transition-colors">
         <i class="fa-solid fa-xmark"></i>
       </button>
     </div>
@@ -931,7 +947,7 @@ function closeDrawer(){
 }
 
 /* ============================================================
-   ROUTER (5 VIEWS)
+   ROUTER
    ============================================================ */
 const META={
   today:['Hari Ini','Tugas dan ringkasan kos Anda'],
@@ -940,7 +956,7 @@ const META={
   money:['Uang','Pembayaran, tagihan, dan laporan'],
   settings:['Pengaturan','Konfigurasi aplikasi']
 };
-const SEARCHABLE=['rooms','tenants'];
+
 function render(){
   const ae=document.activeElement;
   const fid=ae&&ae.id;
@@ -955,27 +971,30 @@ function render(){
     b.classList.toggle('font-semibold',active);
     b.classList.toggle('text-ink-400',!active);
   });
+  // Sinkron mobile bottom nav
+  $$('#mobileNav .mnav-btn').forEach(b=>{
+    const active=b.dataset.view===state.activeView;
+    b.classList.toggle('active',active);
+    b.classList.toggle('text-ink-900',active);
+    b.classList.toggle('text-ink-400',!active);
+  });
 
-  // Contextual global add button
   const addBtn=el('globalAddBtn');
   if(state.activeView==='tenants'){
-    addBtn.innerHTML='<i class="fa-solid fa-user-plus text-[12px]"></i><span class="hidden sm:inline"> tambahkan Penyewa</span>';
+    addBtn.innerHTML='<i class="fa-solid fa-user-plus text-[11px]"></i><span class="hidden sm:inline">Tambah Penyewa</span><span class="sm:hidden">Penyewa</span>';
     addBtn.dataset.global='add-tenant';
   } else {
-    addBtn.innerHTML='<i class="fa-solid fa-plus text-[12px]"></i><span class="hidden sm:inline">Sewakan Kamar</span>';
+    addBtn.innerHTML='<i class="fa-solid fa-plus text-[11px]"></i><span class="hidden sm:inline">Sewakan Kamar</span><span class="sm:hidden">Sewa</span>';
     addBtn.dataset.global='rent-wizard';
   }
 
-  // Badge on "Hari Ini" nav
   const urgentCount=state.rentals.filter(r=>{
     const c=getRentalStatus(r).code;return (c==='overdue'||c==='lastday')&&calculateBilling(r).sisa>0;
   }).length;
   const nb=el('navBadgeToday');
-  nb.classList.toggle('hidden',!urgentCount);
-  nb.textContent=urgentCount;
-
-  // Update mobile nav badge
-  updateMobileNavBadge();
+  if(nb){nb.classList.toggle('hidden',!urgentCount);nb.textContent=urgentCount;}
+  const mbn=el('mnavBadgeToday');
+  if(mbn){mbn.classList.toggle('hidden',!urgentCount);mbn.textContent=urgentCount;}
 
   const V={
     today:viewToday,rooms:viewRooms,tenants:viewTenants,
@@ -996,7 +1015,7 @@ const matchQ=(...f)=>{
 };
 
 /* ============================================================
-   VIEW: HARI INI (berorientasi aksi)
+   VIEW: HARI INI
    ============================================================ */
 function viewToday(){
   const t=state.today;
@@ -1005,19 +1024,15 @@ function viewToday(){
   const terisi=statuses.filter(s=>s.code==='terisi').length;
   const kosong=statuses.filter(s=>s.code==='kosong').length;
   const booking=statuses.filter(s=>s.code==='booking').length;
-  const maint=statuses.filter(s=>s.code==='maintenance').length;
 
-  // Pemasukan bulan ini
   const y=t.getFullYear(),m=t.getMonth();
   const inMonth=x=>{const d=parseISO(x.transactionDate);return!!d&&d.getFullYear()===y&&d.getMonth()===m};
   const sumKind=k=>state.transactions.filter(x=>inMonth(x)&&(TX[x.type]||{}).kind===k).reduce((s,x)=>s+(Number(x.amount)||0),0);
   const pemasukan=sumKind('payment')+sumKind('deposit');
 
-  // Greeting
   const hour=new Date().getHours();
   const greet=hour<11?'Selamat pagi':hour<15?'Selamat siang':hour<18?'Selamat sore':'Selamat malam';
 
-  // ── Kartu tugas besar ──
   const actionCard=(item,tone)=>{
     const r=item.rental;
     const room=getRoom(r.roomId);
@@ -1027,23 +1042,23 @@ function viewToday(){
     };
     const s=toneMap[tone];
     return `<div class="action-card bg-white border border-ink-200/60 rounded-xl2 shadow-card overflow-hidden">
-      <div class="p-5 flex flex-col gap-4">
-        <div class="flex items-start justify-between gap-3">
+      <div class="p-4 sm:p-5 flex flex-col gap-3 sm:gap-4">
+        <div class="flex items-start justify-between gap-2 sm:gap-3">
           <div class="min-w-0 flex items-start gap-3">
             <div class="w-10 h-10 rounded-xl ${s.bg} flex items-center justify-center flex-shrink-0">
               <i class="fa-solid ${tone==='danger'?'fa-clock-rotate-left':'fa-hourglass-half'} ${s.icon}"></i>
             </div>
             <div class="min-w-0">
-              <div class="text-[15px] font-bold text-ink-900 truncate">${esc(tenantName(r.tenantId))}</div>
-              <div class="text-[12.5px] text-ink-500 truncate mt-0.5">${esc(room?room.name:r.roomId)} · ${formatTanggalShort(r.startDate)} – ${formatTanggalShort(r.endDate)}</div>
+              <div class="text-[14.5px] sm:text-[15px] font-bold text-ink-900 truncate">${esc(tenantName(r.tenantId))}</div>
+              <div class="text-[12px] sm:text-[12.5px] text-ink-500 truncate mt-0.5">${esc(room?room.name:r.roomId)} · ${formatTanggalShort(r.startDate)} – ${formatTanggalShort(r.endDate)}</div>
             </div>
           </div>
-          <span class="text-[10.5px] font-semibold px-2 py-1 rounded-md ${s.bg} ${s.label} whitespace-nowrap">${esc(item.reason)}</span>
+          <span class="text-[10px] sm:text-[10.5px] font-semibold px-2 py-1 rounded-md ${s.bg} ${s.label} whitespace-nowrap">${esc(item.reason)}</span>
         </div>
         <div class="flex items-end justify-between gap-3 flex-wrap">
           <div>
-            <div class="text-[11px] text-ink-400 font-semibold tracking-wider uppercase">Sisa Tagihan</div>
-            <div class="text-[22px] font-bold text-ink-900 bignum leading-none mt-1">${rupiah(item.b.sisa)}</div>
+            <div class="text-[10.5px] sm:text-[11px] text-ink-400 font-semibold tracking-wider uppercase">Sisa Tagihan</div>
+            <div class="text-[20px] sm:text-[22px] font-bold text-ink-900 bignum leading-none mt-1">${rupiah(item.b.sisa)}</div>
           </div>
           <div class="flex items-center gap-2 flex-wrap">
             ${waButtonHTML(r.id,'','Chat WA')}
@@ -1056,16 +1071,15 @@ function viewToday(){
     </div>`;
   };
 
-  // ── Kartu penyewa baru / mulai sebentar lagi (info) ──
   const infoCard=(item)=>{
     const r=item.rental;const room=getRoom(r.roomId);
-    return `<div class="action-card bg-white border border-ink-200/60 rounded-xl2 shadow-card p-5 flex flex-col gap-3">
+    return `<div class="action-card bg-white border border-ink-200/60 rounded-xl2 shadow-card p-4 sm:p-5 flex flex-col gap-3">
       <div class="flex items-start gap-3">
         <div class="w-10 h-10 rounded-xl bg-steel-soft flex items-center justify-center flex-shrink-0">
           <i class="fa-solid fa-calendar-check text-steel"></i>
         </div>
         <div class="min-w-0 flex-1">
-          <div class="text-[14.5px] font-bold text-ink-900 truncate">${esc(tenantName(r.tenantId))}</div>
+          <div class="text-[14px] sm:text-[14.5px] font-bold text-ink-900 truncate">${esc(tenantName(r.tenantId))}</div>
           <div class="text-[12px] text-ink-500 mt-0.5">${esc(room?room.name:r.roomId)} · ${esc(item.reason)}</div>
           <div class="text-[11.5px] text-ink-400 mt-1 tabular-nums">Mulai ${formatTanggalID(r.startDate)}</div>
         </div>
@@ -1077,108 +1091,100 @@ function viewToday(){
     </div>`;
   };
 
-  // ── Daftar kamar kosong (quick action) ──
   const kosongRooms=state.rooms.filter(r=>getRoomDisplayStatus(r).code==='kosong').slice(0,8);
-  const roomChip=r=>`<button data-action="open-room" data-id="${r.id}" type="button" class="action-card bg-white border border-ink-200/60 rounded-xl px-4 py-3 text-left hover:border-accent-ring transition-colors min-w-[140px]">
-    <div class="text-[13.5px] font-bold text-ink-900">${esc(r.name)}</div>
-    <div class="text-[11px] text-ink-500 mt-0.5 tabular-nums">${rupiah(r.priceMonthly)}/bln</div>
+  const roomChip=r=>`<button data-action="open-room" data-id="${r.id}" type="button" class="action-card bg-white border border-ink-200/60 rounded-xl px-3.5 sm:px-4 py-3 text-left hover:border-accent-ring transition-colors">
+    <div class="text-[13px] sm:text-[13.5px] font-bold text-ink-900 truncate">${esc(r.name)}</div>
+    <div class="text-[10.5px] sm:text-[11px] text-ink-500 mt-0.5 tabular-nums">${rupiah(r.priceMonthly)}/bln</div>
   </button>`;
 
   const totalTasks=tasks.urgent.length+tasks.warning.length;
 
   return `
-  <!-- Salam & ringkasan cepat -->
-  <div class="mb-6">
-    <div class="text-[13px] text-ink-500 font-medium">${greet} 👋</div>
-    <div class="text-[18px] lg:text-[20px] font-bold text-ink-900 tracking-tight mt-1">
+  <div class="mb-5 sm:mb-6">
+    <div class="text-[12.5px] sm:text-[13px] text-ink-500 font-medium">${greet} 👋</div>
+    <div class="text-[17px] sm:text-[18px] lg:text-[20px] font-bold text-ink-900 tracking-tight mt-1">
       ${totalTasks===0 ? 'Semua beres hari ini!' : `Ada <span class="text-terra">${totalTasks}</span> hal yang perlu ditangani`}
     </div>
   </div>
 
-  <!-- Statistik ringkas (kecil, di atas) -->
-  <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-7">
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3 mb-6 sm:mb-7">
     ${[
       ['Kamar Terisi',terisi,'fa-door-open','bg-sage-soft text-sage'],
       ['Kamar Kosong',kosong,'fa-door-closed','bg-ink-100 text-ink-500'],
       ['Sudah Dipesan',booking,'fa-calendar-check','bg-steel-soft text-steel'],
       ['Pemasukan Bulan Ini',rupiah(pemasukan),'fa-money-bill-wave','bg-amber-soft text-amber']
     ].map(([label,val,icon,cls])=>`
-      <div class="bg-white border border-ink-200/60 rounded-xl2 shadow-soft px-4 py-3.5 flex items-center gap-3">
-        <div class="w-9 h-9 rounded-lg ${cls} flex items-center justify-center flex-shrink-0"><i class="fa-solid ${icon} text-[12px]"></i></div>
+      <div class="bg-white border border-ink-200/60 rounded-xl2 shadow-soft px-3 sm:px-4 py-3 sm:py-3.5 flex items-center gap-2.5 sm:gap-3 min-w-0">
+        <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg ${cls} flex items-center justify-center flex-shrink-0"><i class="fa-solid ${icon} text-[11px] sm:text-[12px]"></i></div>
         <div class="min-w-0">
-          <div class="text-[10.5px] font-semibold text-ink-400 tracking-wider uppercase">${label}</div>
-          <div class="text-[15px] font-bold text-ink-900 bignum mt-0.5">${val}</div>
+          <div class="text-[10px] sm:text-[10.5px] font-semibold text-ink-400 tracking-wider uppercase truncate">${label}</div>
+          <div class="text-[13px] sm:text-[15px] font-bold text-ink-900 bignum mt-0.5 truncate">${val}</div>
         </div>
       </div>`).join('')}
   </div>
 
-  <!-- PERLU TINDAKAN -->
   ${tasks.urgent.length?`
-    <div class="mb-7">
+    <div class="mb-6 sm:mb-7">
       <div class="flex items-center gap-2 mb-3">
         <span class="w-2 h-2 rounded-full bg-terra"></span>
-        <h2 class="text-[14px] font-bold text-ink-900 tracking-tight">Perlu Tindakan</h2>
+        <h2 class="text-[13.5px] sm:text-[14px] font-bold text-ink-900 tracking-tight">Perlu Tindakan</h2>
         ${badge('danger',tasks.urgent.length+' item')}
       </div>
-      <div class="grid lg:grid-cols-2 gap-4">
+      <div class="grid lg:grid-cols-2 gap-3 sm:gap-4">
         ${tasks.urgent.map(x=>actionCard(x,'danger')).join('')}
       </div>
     </div>
   `:''}
 
-  <!-- JATUH TEMPO MINGGU INI -->
   ${tasks.warning.length?`
-    <div class="mb-7">
+    <div class="mb-6 sm:mb-7">
       <div class="flex items-center gap-2 mb-3">
         <span class="w-2 h-2 rounded-full bg-amber"></span>
-        <h2 class="text-[14px] font-bold text-ink-900 tracking-tight">Jatuh Tempo ≤ 7 Hari</h2>
+        <h2 class="text-[13.5px] sm:text-[14px] font-bold text-ink-900 tracking-tight">Jatuh Tempo ≤ 7 Hari</h2>
         ${badge('warning',tasks.warning.length+' item')}
       </div>
-      <div class="grid lg:grid-cols-2 gap-4">
+      <div class="grid lg:grid-cols-2 gap-3 sm:gap-4">
         ${tasks.warning.map(x=>actionCard(x,'warning')).join('')}
       </div>
     </div>
   `:''}
 
-  <!-- Booking baru -->
   ${tasks.info.length?`
-    <div class="mb-7">
+    <div class="mb-6 sm:mb-7">
       <div class="flex items-center gap-2 mb-3">
         <span class="w-2 h-2 rounded-full bg-steel"></span>
-        <h2 class="text-[14px] font-bold text-ink-900 tracking-tight">Akan Mulai ≤ 7 Hari</h2>
+        <h2 class="text-[13.5px] sm:text-[14px] font-bold text-ink-900 tracking-tight">Akan Mulai ≤ 7 Hari</h2>
       </div>
-      <div class="grid lg:grid-cols-2 gap-4">
+      <div class="grid lg:grid-cols-2 gap-3 sm:gap-4">
         ${tasks.info.map(infoCard).join('')}
       </div>
     </div>
   `:''}
 
-  <!-- KAMAR KOSONG -->
   ${kosongRooms.length?`
-    <div class="mb-7">
+    <div class="mb-6 sm:mb-7">
       <div class="flex items-center justify-between gap-3 mb-3">
-        <div class="flex items-center gap-2">
-          <span class="w-2 h-2 rounded-full bg-ink-300"></span>
-          <h2 class="text-[14px] font-bold text-ink-900 tracking-tight">Kamar Kosong — siap disewakan</h2>
+        <div class="flex items-center gap-2 min-w-0">
+          <span class="w-2 h-2 rounded-full bg-ink-300 flex-shrink-0"></span>
+          <h2 class="text-[13.5px] sm:text-[14px] font-bold text-ink-900 tracking-tight truncate">Kamar Kosong</h2>
           ${badge('muted',kosong+' kamar')}
         </div>
-        <button class="btn-ghost" data-view="rooms" type="button">Lihat semua <i class="fa-solid fa-arrow-right text-[10px]"></i></button>
+        <button class="btn-ghost flex-shrink-0" data-view="rooms" type="button">Lihat semua <i class="fa-solid fa-arrow-right text-[10px]"></i></button>
       </div>
-      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-3">
         ${kosongRooms.map(roomChip).join('')}
       </div>
     </div>
   `:''}
 
-  <!-- Kirim pengingat massal -->
   ${totalTasks>0?`
     <div class="mt-4 flex justify-center no-print">
       <button class="btn-wa btn-lg" data-action="bulk-wa" type="button">
-        <i class="fa-brands fa-whatsapp"></i> Kirim Pengingat Massal ke ${totalTasks} penyewa
+        <i class="fa-brands fa-whatsapp"></i> Kirim Pengingat Massal (${totalTasks})
       </button>
     </div>
   `:`
-    <div class="mt-8 py-14 text-center bg-white border border-ink-200/60 rounded-xl2 shadow-soft">
+    <div class="mt-6 sm:mt-8 py-12 sm:py-14 text-center bg-white border border-ink-200/60 rounded-xl2 shadow-soft">
       <div class="w-14 h-14 rounded-full bg-sage-soft flex items-center justify-center mx-auto">
         <i class="fa-solid fa-mug-hot text-sage text-[18px]"></i>
       </div>
@@ -1195,7 +1201,7 @@ function viewToday(){
 function viewRooms(){
   const f=state.filter.rooms;
   const statusesAll=state.rooms.map(r=>getRoomDisplayStatus(r));
-  const pills=[['all','Semua'],['terisi','Terisi'],['kosong','Kosong'],['booking','Sudah Dipesan'],['maintenance','Perbaikan']];
+  const pills=[['all','Semua'],['terisi','Terisi'],['kosong','Kosong'],['booking','Dipesan'],['maintenance','Perbaikan']];
   const rooms=state.rooms.filter(r=>f==='all'||getRoomDisplayStatus(r).code===f)
     .filter(r=>matchQ(r.name,r.facilities));
 
@@ -1217,17 +1223,17 @@ function viewRooms(){
     }else{
       info=`<div class="mt-3 pt-3 border-t border-ink-200/60 text-[11.5px] text-ink-400">Ketuk untuk ${s.code==='maintenance'?'aktifkan kembali':'sewakan'}</div>`;
     }
-    return `<button data-action="open-room" data-id="${r.id}" type="button" class="action-card text-left bg-white border border-ink-200/60 rounded-xl2 shadow-card p-5 flex flex-col">
+    return `<button data-action="open-room" data-id="${r.id}" type="button" class="action-card text-left bg-white border border-ink-200/60 rounded-xl2 shadow-card p-4 sm:p-5 flex flex-col">
       <div class="flex items-start justify-between gap-2">
         <div class="min-w-0">
-          <div class="text-[14px] font-bold text-ink-900 truncate">${esc(r.name)}</div>
+          <div class="text-[13.5px] sm:text-[14px] font-bold text-ink-900 truncate">${esc(r.name)}</div>
           <div class="text-[10.5px] text-ink-400 mt-0.5 truncate">${esc(r.facilities||'')}</div>
         </div>
         <span class="inline-flex items-center gap-1.5 text-[10.5px] font-semibold text-ink-500 whitespace-nowrap">
           <span class="w-2 h-2 rounded-full ${toneDot}"></span>${s.label}
         </span>
       </div>
-      <div class="mt-3 text-[18px] font-bold text-ink-900 bignum">${rupiah(r.priceMonthly)}<span class="text-[11px] font-medium text-ink-400"> /bulan</span></div>
+      <div class="mt-3 text-[17px] sm:text-[18px] font-bold text-ink-900 bignum">${rupiah(r.priceMonthly)}<span class="text-[11px] font-medium text-ink-400"> /bulan</span></div>
       ${info}
     </button>`;
   };
@@ -1235,13 +1241,13 @@ function viewRooms(){
   return card(
     cardHead('Kamar',`${state.rooms.length} kamar · ${statusesAll.filter(s=>s.code==='terisi').length} terisi`,
       pillHTML(pills,f,'filter-rooms')+
-      `<button class="btn-primary" data-action="add-room" type="button"><i class="fa-solid fa-plus text-[11px]"></i> Tambah Kamar</button>`)+
-    (rooms.length?`<div class="p-5 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">${rooms.map(roomCard).join('')}</div>`:emptyState('fa-door-open','Tidak ada kamar yang cocok.'))
+      `<button class="btn-primary" data-action="add-room" type="button"><i class="fa-solid fa-plus text-[11px]"></i> <span class="hidden sm:inline">Tambah Kamar</span><span class="sm:hidden">Tambah</span></button>`)+
+    (rooms.length?`<div class="p-4 sm:p-5 grid sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">${rooms.map(roomCard).join('')}</div>`:emptyState('fa-door-open','Tidak ada kamar yang cocok.'))
   );
 }
 
 /* ============================================================
-   DRAWER: KAMAR (semua aksi dalam 1 panel)
+   DRAWER: KAMAR
    ============================================================ */
 function openRoomDrawer(roomId){
   const room=getRoom(roomId);if(!room)return;
@@ -1252,19 +1258,19 @@ function openRoomDrawer(roomId){
 
   if(s.code==='kosong'){
     body=`
-    <div class="p-6 flex flex-col gap-5">
-      <div class="rounded-xl2 bg-sage-soft border border-sage-ring/50 p-5">
+    <div class="p-4 sm:p-6 flex flex-col gap-4 sm:gap-5">
+      <div class="rounded-xl2 bg-sage-soft border border-sage-ring/50 p-4 sm:p-5">
         <div class="flex items-center gap-3">
           <div class="w-11 h-11 rounded-xl bg-white/60 flex items-center justify-center"><i class="fa-solid fa-door-open text-sage text-[18px]"></i></div>
           <div>
             <div class="text-[11px] font-semibold text-sage tracking-wider uppercase">Siap disewakan</div>
-            <div class="text-[16px] font-bold text-ink-900">${esc(room.name)}</div>
+            <div class="text-[15px] sm:text-[16px] font-bold text-ink-900">${esc(room.name)}</div>
           </div>
         </div>
-        <div class="grid grid-cols-3 gap-3 mt-4">
-          <div><div class="text-[10px] text-ink-500 font-semibold tracking-wider uppercase">Bulanan</div><div class="text-[13px] font-bold text-ink-900 bignum">${rupiah(room.priceMonthly)}</div></div>
-          <div><div class="text-[10px] text-ink-500 font-semibold tracking-wider uppercase">Mingguan</div><div class="text-[13px] font-bold text-ink-900 bignum">${rupiah(room.priceWeekly)}</div></div>
-          <div><div class="text-[10px] text-ink-500 font-semibold tracking-wider uppercase">Harian</div><div class="text-[13px] font-bold text-ink-900 bignum">${rupiah(room.priceDaily)}</div></div>
+        <div class="grid grid-cols-3 gap-2 sm:gap-3 mt-4">
+          <div><div class="text-[10px] text-ink-500 font-semibold tracking-wider uppercase">Bulanan</div><div class="text-[12px] sm:text-[13px] font-bold text-ink-900 bignum">${rupiah(room.priceMonthly)}</div></div>
+          <div><div class="text-[10px] text-ink-500 font-semibold tracking-wider uppercase">Mingguan</div><div class="text-[12px] sm:text-[13px] font-bold text-ink-900 bignum">${rupiah(room.priceWeekly)}</div></div>
+          <div><div class="text-[10px] text-ink-500 font-semibold tracking-wider uppercase">Harian</div><div class="text-[12px] sm:text-[13px] font-bold text-ink-900 bignum">${rupiah(room.priceDaily)}</div></div>
         </div>
       </div>
       <button class="btn-primary btn-lg btn-block" data-action="rent-room" data-id="${room.id}" type="button">
@@ -1278,13 +1284,13 @@ function openRoomDrawer(roomId){
     </div>`;
   } else if(s.code==='maintenance'){
     body=`
-    <div class="p-6 flex flex-col gap-5">
-      <div class="rounded-xl2 bg-ink-100 border border-ink-200/60 p-5">
+    <div class="p-4 sm:p-6 flex flex-col gap-4 sm:gap-5">
+      <div class="rounded-xl2 bg-ink-100 border border-ink-200/60 p-4 sm:p-5">
         <div class="flex items-center gap-3">
           <div class="w-11 h-11 rounded-xl bg-white flex items-center justify-center"><i class="fa-solid fa-screwdriver-wrench text-ink-500 text-[18px]"></i></div>
           <div>
             <div class="text-[11px] font-semibold text-ink-500 tracking-wider uppercase">Sedang perbaikan</div>
-            <div class="text-[16px] font-bold text-ink-900">${esc(room.name)}</div>
+            <div class="text-[15px] sm:text-[16px] font-bold text-ink-900">${esc(room.name)}</div>
           </div>
         </div>
         <p class="text-[12.5px] text-ink-600 mt-4 leading-relaxed">Kamar ini tidak akan dihitung sebagai kosong sampai Anda mengaktifkannya kembali.</p>
@@ -1301,37 +1307,37 @@ function openRoomDrawer(roomId){
     const txs=b.transactions.slice().sort((a,c)=>a.transactionDate.localeCompare(c.transactionDate));
 
     body=`
-    <div class="p-6 flex flex-col gap-5">
-      <div class="rounded-xl2 border border-ink-200/60 p-5 bg-white">
+    <div class="p-4 sm:p-6 flex flex-col gap-4 sm:gap-5">
+      <div class="rounded-xl2 border border-ink-200/60 p-4 sm:p-5 bg-white">
         <div class="flex items-start gap-3">
           <div class="w-11 h-11 rounded-xl ${st.tone==='danger'?'bg-terra-soft':st.tone==='warning'?'bg-amber-soft':st.tone==='info'?'bg-steel-soft':'bg-sage-soft'} flex items-center justify-center flex-shrink-0">
             <i class="fa-solid fa-user text-[16px] ${st.tone==='danger'?'text-terra':st.tone==='warning'?'text-amber':st.tone==='info'?'text-steel':'text-sage'}"></i>
           </div>
           <div class="min-w-0 flex-1">
-            <div class="text-[15px] font-bold text-ink-900">${esc(tenantName(act.tenantId))}</div>
+            <div class="text-[14.5px] sm:text-[15px] font-bold text-ink-900 truncate">${esc(tenantName(act.tenantId))}</div>
             <div class="text-[11.5px] text-ink-500 mt-0.5 tabular-nums">${formatTanggalID(act.startDate)} – ${formatTanggalID(act.endDate)}</div>
             <div class="mt-2 flex items-center gap-1.5 flex-wrap">${badge(st.tone,st.label)}${badge(ps.tone,ps.label)}</div>
           </div>
         </div>
       </div>
 
-      <div class="grid grid-cols-2 gap-3">
-        <div class="rounded-xl bg-ink-100 px-4 py-3">
-          <div class="text-[10.5px] font-semibold text-ink-500 tracking-wider uppercase">Total Tagihan</div>
-          <div class="text-[15px] font-bold text-ink-900 bignum mt-1">${rupiah(b.totalTagihan)}</div>
+      <div class="grid grid-cols-2 gap-2.5 sm:gap-3">
+        <div class="rounded-xl bg-ink-100 px-3 sm:px-4 py-3">
+          <div class="text-[10px] sm:text-[10.5px] font-semibold text-ink-500 tracking-wider uppercase">Total Tagihan</div>
+          <div class="text-[14px] sm:text-[15px] font-bold text-ink-900 bignum mt-1">${rupiah(b.totalTagihan)}</div>
         </div>
-        <div class="rounded-xl bg-sage-soft px-4 py-3">
-          <div class="text-[10.5px] font-semibold text-ink-500 tracking-wider uppercase">Sudah Dibayar</div>
-          <div class="text-[15px] font-bold text-sage bignum mt-1">${rupiah(b.totalDibayar)}</div>
+        <div class="rounded-xl bg-sage-soft px-3 sm:px-4 py-3">
+          <div class="text-[10px] sm:text-[10.5px] font-semibold text-ink-500 tracking-wider uppercase">Sudah Dibayar</div>
+          <div class="text-[14px] sm:text-[15px] font-bold text-sage bignum mt-1">${rupiah(b.totalDibayar)}</div>
         </div>
       </div>
 
       ${b.sisa>0?`
-        <div class="rounded-xl2 bg-terra-soft border border-terra-ring/50 p-5">
+        <div class="rounded-xl2 bg-terra-soft border border-terra-ring/50 p-4 sm:p-5">
           <div class="flex items-baseline justify-between gap-3 flex-wrap">
             <div>
               <div class="text-[11px] font-semibold text-terra tracking-wider uppercase">Belum Dibayar</div>
-              <div class="text-[26px] font-bold text-ink-900 bignum leading-none mt-1">${rupiah(b.sisa)}</div>
+              <div class="text-[24px] sm:text-[26px] font-bold text-ink-900 bignum leading-none mt-1">${rupiah(b.sisa)}</div>
             </div>
             <button class="btn-primary btn-lg" data-action="quick-pay" data-id="${act.id}" type="button">
               <i class="fa-solid fa-money-bill-wave"></i> Catat Bayar
@@ -1341,7 +1347,7 @@ function openRoomDrawer(roomId){
       `:`
         <div class="rounded-xl2 bg-sage-soft border border-sage-ring/50 p-4 flex items-center gap-3">
           <i class="fa-solid fa-circle-check text-sage text-[18px]"></i>
-          <div class="text-[13.5px] font-semibold text-sage">Lunas — tidak ada tunggakan</div>
+          <div class="text-[13px] sm:text-[13.5px] font-semibold text-sage">Lunas — tidak ada tunggakan</div>
         </div>
       `}
 
@@ -1377,13 +1383,13 @@ function openRoomDrawer(roomId){
         </div>
       </details>
 
-      <div class="flex items-center gap-2 pt-1">
-        <button class="btn-ghost" data-action="open-rental" data-id="${act.id}" type="button"><i class="fa-regular fa-eye text-[11px]"></i> Lihat Detail Sewa</button>
+      <div class="flex items-center gap-2 pt-1 flex-wrap">
+        <button class="btn-ghost" data-action="open-rental" data-id="${act.id}" type="button"><i class="fa-regular fa-eye text-[11px]"></i> Detail Sewa</button>
         <button class="btn-ghost" data-action="edit-rental" data-id="${act.id}" type="button"><i class="fa-solid fa-pen text-[11px]"></i> Edit Sewa</button>
       </div>
     </div>`;
   } else {
-    body=`<div class="p-6"><div class="text-[13px] text-ink-500">Status tidak dikenal.</div></div>`;
+    body=`<div class="p-4 sm:p-6"><div class="text-[13px] text-ink-500">Status tidak dikenal.</div></div>`;
   }
 
   openDrawer(
@@ -1406,17 +1412,20 @@ function viewTenants(){
     const ps=b?getPaymentStatus(b):null;
     const st=shown?getRentalStatus(shown):null;
     const room=shown?getRoom(shown.roomId):null;
-    const phone=cleanPhone(t.phone);
-    return `<button data-action="open-tenant" data-id="${t.id}" type="button" class="w-full text-left table-row border-t border-ink-200/60 hover:bg-ink-100/40 flex items-center gap-4 px-5 py-4">
+    return `<button data-action="open-tenant" data-id="${t.id}" type="button" class="w-full text-left table-row border-t border-ink-200/60 hover:bg-ink-100/40 flex items-center gap-3 sm:gap-4 px-4 sm:px-5 py-3.5 sm:py-4">
       <div class="w-10 h-10 rounded-full bg-accent-soft flex items-center justify-center flex-shrink-0">
         <span class="text-[13px] font-bold text-accent">${esc((t.name||'?').slice(0,1).toUpperCase())}</span>
       </div>
       <div class="min-w-0 flex-1">
-        <div class="flex items-center gap-2">
-          <div class="font-semibold text-[13.5px] text-ink-900 truncate">${esc(t.name)}</div>
+        <div class="flex items-center gap-2 flex-wrap">
+          <div class="font-semibold text-[13px] sm:text-[13.5px] text-ink-900 truncate">${esc(t.name)}</div>
           ${badge(type==='lama'?'info':'primary',type==='lama'?'Lama':'Baru')}
         </div>
         <div class="text-[11.5px] text-ink-500 mt-0.5 tabular-nums truncate">${esc(t.phone||'belum ada nomor')}</div>
+        <div class="sm:hidden mt-1 flex items-center gap-1.5 flex-wrap">
+          ${shown?`<div class="text-[11px] text-ink-500 tabular-nums">${esc(room?room.name:shown.roomId)}</div>`:''}
+          ${st?badge(st.tone,st.label):badge('muted','—')}
+        </div>
       </div>
       <div class="hidden sm:block min-w-0 flex-shrink-0 text-right">
         ${shown?`
@@ -1435,12 +1444,11 @@ function viewTenants(){
   }).join('');
   return card(
     cardHead('Penyewa',`${state.tenants.length} orang terdaftar`,
-      `<button class="btn-primary" data-action="add-tenant" type="button"><i class="fa-solid fa-plus text-[11px]"></i> Tambah</button>`)+
+      `<button class="btn-primary" data-action="add-tenant" type="button"><i class="fa-solid fa-plus text-[11px]"></i> <span class="hidden sm:inline">Tambah Penyewa</span><span class="sm:hidden">Tambah</span></button>`)+
     (rows?`<div class="divide-y divide-ink-200/60">${rows}</div>`:emptyState('fa-users','Belum ada penyewa.'))
   );
 }
 
-/* Drawer detail penyewa */
 function openTenantDrawer(tenantId){
   const t=getTenant(tenantId);if(!t)return;
   const rs=state.rentals.filter(r=>r.tenantId===t.id).sort((a,b)=>b.startDate.localeCompare(a.startDate));
@@ -1454,10 +1462,9 @@ function openTenantDrawer(tenantId){
   const history=rs.map(r=>{
     const rroom=getRoom(r.roomId);
     const rstate=getRentalStatus(r);
-    const rb=calculateBilling(r);
-    return `<div class="flex items-center justify-between gap-3 px-4 py-3 rounded-xl border border-ink-200/60">
+    return `<div class="flex items-center justify-between gap-3 px-3 sm:px-4 py-3 rounded-xl border border-ink-200/60">
       <div class="min-w-0">
-        <div class="text-[12.5px] font-semibold text-ink-800">${esc(rroom?rroom.name:r.roomId)}</div>
+        <div class="text-[12.5px] font-semibold text-ink-800 truncate">${esc(rroom?rroom.name:r.roomId)}</div>
         <div class="text-[11px] text-ink-400 tabular-nums">${formatTanggalShort(r.startDate)} – ${formatTanggalShort(r.endDate)}</div>
       </div>
       <div class="flex items-center gap-2 flex-shrink-0">${badge(rstate.tone,rstate.label)}
@@ -1469,28 +1476,28 @@ function openTenantDrawer(tenantId){
   openDrawer(
     drawerHeader(esc(t.name),esc(t.phone||'belum ada nomor'),
       `<button class="btn-ghost" data-action="edit-tenant" data-id="${t.id}" type="button" title="Edit"><i class="fa-solid fa-pen text-[11px]"></i></button>`)+
-    `<div class="p-6 flex flex-col gap-5">
+    `<div class="p-4 sm:p-6 flex flex-col gap-4 sm:gap-5">
       <div class="flex items-center gap-2 flex-wrap">
         ${badge(type==='lama'?'info':'primary',type==='lama'?'Penyewa Lama':'Penyewa Baru')}
         ${phone?badge('success','WhatsApp siap'):badge('warning','Nomor HP belum diisi')}
       </div>
 
       ${active?`
-        <div class="rounded-xl2 border border-ink-200/60 p-5 bg-white">
+        <div class="rounded-xl2 border border-ink-200/60 p-4 sm:p-5 bg-white">
           <div class="flex items-center justify-between gap-3 mb-2">
             <div class="text-[11px] font-semibold text-ink-400 tracking-wider uppercase">Sewa Aktif</div>
             ${badge(st.tone,st.label)}
           </div>
-          <div class="text-[16px] font-bold text-ink-900">${esc(room?room.name:active.roomId)}</div>
+          <div class="text-[15px] sm:text-[16px] font-bold text-ink-900">${esc(room?room.name:active.roomId)}</div>
           <div class="text-[12px] text-ink-500 mt-0.5 tabular-nums">${formatTanggalID(active.startDate)} – ${formatTanggalID(active.endDate)}</div>
-          <div class="grid grid-cols-2 gap-3 mt-4">
-            <div class="rounded-xl bg-ink-100 px-4 py-3">
+          <div class="grid grid-cols-2 gap-2.5 sm:gap-3 mt-4">
+            <div class="rounded-xl bg-ink-100 px-3 sm:px-4 py-3">
               <div class="text-[10px] font-semibold text-ink-500 tracking-wider uppercase">Total</div>
-              <div class="text-[14px] font-bold text-ink-900 bignum mt-0.5">${rupiah(b.totalTagihan)}</div>
+              <div class="text-[13px] sm:text-[14px] font-bold text-ink-900 bignum mt-0.5">${rupiah(b.totalTagihan)}</div>
             </div>
-            <div class="rounded-xl ${b.sisa>0?'bg-terra-soft':'bg-sage-soft'} px-4 py-3">
+            <div class="rounded-xl ${b.sisa>0?'bg-terra-soft':'bg-sage-soft'} px-3 sm:px-4 py-3">
               <div class="text-[10px] font-semibold text-ink-500 tracking-wider uppercase">${b.sisa>0?'Belum Dibayar':'Lunas'}</div>
-              <div class="text-[14px] font-bold ${b.sisa>0?'text-terra':'text-sage'} bignum mt-0.5">${rupiah(b.sisa)}</div>
+              <div class="text-[13px] sm:text-[14px] font-bold ${b.sisa>0?'text-terra':'text-sage'} bignum mt-0.5">${rupiah(b.sisa)}</div>
             </div>
           </div>
         </div>
@@ -1523,13 +1530,13 @@ function openTenantDrawer(tenantId){
 }
 
 /* ============================================================
-   VIEW: UANG (3 tab: Pembayaran, Tagihan, Laporan)
+   VIEW: UANG
    ============================================================ */
 function viewMoney(){
   const tabs=[['pembayaran','Pembayaran','fa-money-bill-wave'],['tagihan','Tagihan','fa-file-invoice'],['laporan','Laporan','fa-chart-line']];
   const inner = state.moneyTab==='tagihan' ? viewBills() : state.moneyTab==='laporan' ? viewReports() : viewPayments();
   return `
-    <div class="mb-5">${tabHTML(tabs,state.moneyTab,'money-tab')}</div>
+    <div class="mb-4 sm:mb-5">${tabHTML(tabs,state.moneyTab,'money-tab')}</div>
     ${inner}
   `;
 }
@@ -1549,28 +1556,27 @@ function viewPayments(){
     const tx=TX[t.type]||{label:t.type,kind:'payment',icon:'fa-receipt'};
     const label=tx.label+(t.subtype?` · ${esc(t.subtype)}`:'');
     return `<tr class="table-row border-t border-ink-200/60 hover:bg-ink-100/40">
-      ${td(`<span class="text-[12.5px] text-ink-700 tabular-nums whitespace-nowrap">${formatTanggalShort(t.transactionDate)}</span>`)}
+      ${td(`<span class="text-[12px] sm:text-[12.5px] text-ink-700 tabular-nums whitespace-nowrap">${formatTanggalShort(t.transactionDate)}</span>`)}
       ${td(`<div class="text-[12.5px] font-medium text-ink-800">${esc(tenantName(t.tenantId))}</div><div class="text-[11px] text-ink-400">${esc((getRoom(t.roomId)||{}).name||'-')}</div>`)}
       ${td(badge(KIND_TONE[tx.kind]||'muted',`<i class="fa-solid ${tx.icon} text-[9px]"></i> ${label}`))}
       ${td(`<span class="text-[12px] text-ink-600">${esc(t.paymentMethod||'-')}</span>`)}
-      ${td(`<span class="text-[13px] font-semibold tabular-nums ${tx.kind==='refund'?'text-terra':'text-ink-900'}">${tx.kind==='refund'?'-':''}${rupiah(t.amount)}</span>`,'whitespace-nowrap')}
-      ${td(`<span class="text-[11.5px] text-ink-500">${esc(t.notes||'')}</span>`,'max-w-[220px]')}
+      ${td(`<span class="text-[12.5px] sm:text-[13px] font-semibold tabular-nums ${tx.kind==='refund'?'text-terra':'text-ink-900'}">${tx.kind==='refund'?'-':''}${rupiah(t.amount)}</span>`,'whitespace-nowrap')}
+      ${td(`<span class="text-[11.5px] text-ink-500">${esc(t.notes||'')}</span>`,'hidden lg:table-cell max-w-[220px]')}
       ${td(`<button class="btn-ghost" data-action="del-tx" data-id="${t.id}" type="button" title="Hapus"><i class="fa-regular fa-trash-can text-[11px]"></i></button>`,'text-right')}
     </tr>`;
   }).join('');
   return card(
     cardHead('Pembayaran',`${state.transactions.length} catatan`,
-      `<button class="btn-secondary" data-action="export-tx" type="button"><i class="fa-solid fa-file-csv text-[11px]"></i> Unduh CSV</button>`)+
-    `<div class="px-6 py-4 grid grid-cols-2 lg:grid-cols-4 gap-3 border-b border-ink-200/60">${chips.map(c=>`
-      <div class="rounded-xl ${c[2]} border border-ink-200/50 px-4 py-3">
-        <div class="text-[10.5px] font-semibold text-ink-500 tracking-wider uppercase">${c[0]}</div>
-        <div class="text-[15px] font-bold ${c[3]} bignum mt-1">${rupiah(c[1])}</div>
+      `<button class="btn-secondary" data-action="export-tx" type="button"><i class="fa-solid fa-file-csv text-[11px]"></i> <span class="hidden sm:inline">Unduh CSV</span></button>`)+
+    `<div class="px-4 sm:px-6 py-4 grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3 border-b border-ink-200/60">${chips.map(c=>`
+      <div class="rounded-xl ${c[2]} border border-ink-200/50 px-3 sm:px-4 py-3">
+        <div class="text-[10px] sm:text-[10.5px] font-semibold text-ink-500 tracking-wider uppercase truncate">${c[0]}</div>
+        <div class="text-[13px] sm:text-[15px] font-bold ${c[3]} bignum mt-1 truncate">${rupiah(c[1])}</div>
       </div>`).join('')}</div>`+
     (rows?tableWrap(`<table class="w-full">${th('Tanggal','Penyewa','Jenis','Metode','Jumlah','Catatan','')}${rows}</table>`):emptyState('fa-receipt','Belum ada pembayaran.'))
   );
 }
 function viewBills(){
-  // Daftar tagihan per sewa (bukan transaksi)
   const list=state.rentals
     .filter(r=>r.status!=='cancelled')
     .map(r=>({r,b:calculateBilling(r),st:getRentalStatus(r)}))
@@ -1585,9 +1591,9 @@ function viewBills(){
     return `<tr class="table-row border-t border-ink-200/60 hover:bg-ink-100/40">
       ${td(`<div class="text-[12.5px] font-semibold text-ink-900">${esc(tenantName(r.tenantId))}</div><div class="text-[11px] text-ink-400">${esc(room?room.name:r.roomId)}</div>`)}
       ${td(`<span class="text-[12px] text-ink-600 tabular-nums whitespace-nowrap">${formatTanggalShort(r.startDate)} – ${formatTanggalShort(r.endDate)}</span>`)}
-      ${td(`<span class="text-[12.5px] tabular-nums">${rupiah(b.totalTagihan)}</span>`)}
-      ${td(`<span class="text-[12.5px] tabular-nums text-sage">${rupiah(b.totalDibayar)}</span>`)}
-      ${td(`<span class="text-[13px] font-bold tabular-nums ${b.sisa>0?'text-terra':'text-ink-400'}">${rupiah(b.sisa)}</span>`)}
+      ${td(`<span class="text-[12.5px] tabular-nums">${rupiah(b.totalTagihan)}</span>`,'hidden md:table-cell')}
+      ${td(`<span class="text-[12.5px] tabular-nums text-sage">${rupiah(b.totalDibayar)}</span>`,'hidden md:table-cell')}
+      ${td(`<span class="text-[12.5px] sm:text-[13px] font-bold tabular-nums ${b.sisa>0?'text-terra':'text-ink-400'}">${rupiah(b.sisa)}</span>`)}
       ${td(badge(ps.tone,ps.label))}
       ${td(`<div class="flex items-center gap-1.5 justify-end">
         ${waButtonHTML(r.id,'sm','WA')}
@@ -1597,19 +1603,19 @@ function viewBills(){
   }).join('');
   return card(
     cardHead('Tagihan',`${list.length} sewa terdaftar`,
-      `<button class="btn-secondary" data-action="export-bills" type="button"><i class="fa-solid fa-file-csv text-[11px]"></i> Unduh CSV</button>`)+
-    `<div class="px-6 py-4 grid grid-cols-3 gap-3 border-b border-ink-200/60">
-      <div class="rounded-xl bg-ink-100 px-4 py-3">
-        <div class="text-[10.5px] font-semibold text-ink-500 tracking-wider uppercase">Total Tagihan</div>
-        <div class="text-[15px] font-bold text-ink-900 bignum mt-1">${rupiah(totalTagih)}</div>
+      `<button class="btn-secondary" data-action="export-bills" type="button"><i class="fa-solid fa-file-csv text-[11px]"></i> <span class="hidden sm:inline">Unduh CSV</span></button>`)+
+    `<div class="px-4 sm:px-6 py-4 grid grid-cols-3 gap-2.5 sm:gap-3 border-b border-ink-200/60">
+      <div class="rounded-xl bg-ink-100 px-3 sm:px-4 py-3 min-w-0">
+        <div class="text-[10px] sm:text-[10.5px] font-semibold text-ink-500 tracking-wider uppercase truncate">Total Tagihan</div>
+        <div class="text-[12.5px] sm:text-[15px] font-bold text-ink-900 bignum mt-1 truncate">${rupiah(totalTagih)}</div>
       </div>
-      <div class="rounded-xl bg-sage-soft px-4 py-3">
-        <div class="text-[10.5px] font-semibold text-ink-500 tracking-wider uppercase">Sudah Dibayar</div>
-        <div class="text-[15px] font-bold text-sage bignum mt-1">${rupiah(totalBayar)}</div>
+      <div class="rounded-xl bg-sage-soft px-3 sm:px-4 py-3 min-w-0">
+        <div class="text-[10px] sm:text-[10.5px] font-semibold text-ink-500 tracking-wider uppercase truncate">Dibayar</div>
+        <div class="text-[12.5px] sm:text-[15px] font-bold text-sage bignum mt-1 truncate">${rupiah(totalBayar)}</div>
       </div>
-      <div class="rounded-xl bg-terra-soft px-4 py-3">
-        <div class="text-[10.5px] font-semibold text-ink-500 tracking-wider uppercase">Belum Dibayar</div>
-        <div class="text-[15px] font-bold text-terra bignum mt-1">${rupiah(totalSisa)}</div>
+      <div class="rounded-xl bg-terra-soft px-3 sm:px-4 py-3 min-w-0">
+        <div class="text-[10px] sm:text-[10.5px] font-semibold text-ink-500 tracking-wider uppercase truncate">Belum Dibayar</div>
+        <div class="text-[12.5px] sm:text-[15px] font-bold text-terra bignum mt-1 truncate">${rupiah(totalSisa)}</div>
       </div>
     </div>`+
     (rows?tableWrap(`<table class="w-full">${th('Penyewa','Periode','Tagihan','Dibayar','Sisa','Status','')}${rows}</table>`):emptyState('fa-file-invoice','Belum ada tagihan.'))
@@ -1619,7 +1625,6 @@ function viewReports(){
   const rm=state.reportMonth;
   const ms=new Date(rm.year,rm.month,1,12);
   const me=new Date(rm.year,rm.month+1,0,12);
-  const msISO=toISO(ms),meISO=toISO(me);
   const label=`${BULAN[rm.month]} ${rm.year}`;
   const inMonthTx=state.transactions.filter(t=>{const d=parseISO(t.transactionDate);return!!d&&d>=ms&&d<=me});
   const KIND_LABEL={payment:'Pembayaran (Sewa / Uang Muka)',deposit:'Deposit',charge:'Biaya Tambahan & Denda',refund:'Pengembalian'};
@@ -1628,7 +1633,7 @@ function viewReports(){
     return{k,n:arr.length,total:arr.reduce((s,t)=>s+(Number(t.amount)||0),0)};
   });
   const rekapRows=rekap.map(x=>`<tr class="table-row border-t border-ink-200/60">
-    ${td(`<span class="text-[12.5px] font-medium text-ink-800">${KIND_LABEL[x.k]}</span>`)}
+    ${td(`<span class="text-[12px] sm:text-[12.5px] font-medium text-ink-800">${KIND_LABEL[x.k]}</span>`)}
     ${td(`<span class="text-[12.5px] text-ink-600 tabular-nums">${x.n}x</span>`)}
     ${td(`<span class="text-[12.5px] font-semibold tabular-nums">${rupiah(x.total)}</span>`,'text-right')}
   </tr>`).join('');
@@ -1638,45 +1643,45 @@ function viewReports(){
     cardHead('Laporan — '+label,'Rekap bulanan',
       `<button class="btn-secondary" data-action="report-prev" type="button"><i class="fa-solid fa-chevron-left text-[11px]"></i></button>
        <button class="btn-secondary" data-action="report-next" type="button"><i class="fa-solid fa-chevron-right text-[11px]"></i></button>
-       <button class="btn-primary" data-action="export-report" type="button"><i class="fa-solid fa-file-csv text-[11px]"></i> Unduh</button>`)+
-    `<div class="p-5 grid sm:grid-cols-2 gap-3">
-      <div class="rounded-xl bg-sage-soft px-5 py-4">
+       <button class="btn-primary" data-action="export-report" type="button"><i class="fa-solid fa-file-csv text-[11px]"></i> <span class="hidden sm:inline">Unduh</span></button>`)+
+    `<div class="p-4 sm:p-5 grid sm:grid-cols-2 gap-2.5 sm:gap-3">
+      <div class="rounded-xl bg-sage-soft px-4 sm:px-5 py-4">
         <div class="text-[11px] font-semibold text-ink-500 tracking-wider uppercase">Total Uang Masuk</div>
-        <div class="text-[22px] font-bold text-sage bignum mt-1">${rupiah(totalMasuk)}</div>
+        <div class="text-[19px] sm:text-[22px] font-bold text-sage bignum mt-1">${rupiah(totalMasuk)}</div>
       </div>
-      <div class="rounded-xl bg-ink-100 px-5 py-4">
+      <div class="rounded-xl bg-ink-100 px-4 sm:px-5 py-4">
         <div class="text-[11px] font-semibold text-ink-500 tracking-wider uppercase">Transaksi</div>
-        <div class="text-[22px] font-bold text-ink-900 bignum mt-1">${inMonthTx.length}</div>
+        <div class="text-[19px] sm:text-[22px] font-bold text-ink-900 bignum mt-1">${inMonthTx.length}</div>
       </div>
     </div>`)}
-  <div class="mt-5">${card(cardHead('Rincian',label)+tableWrap(`<table class="w-full">${th('Jenis','Jumlah','Total')}${rekapRows}</table>`))}</div>
+  <div class="mt-4 sm:mt-5">${card(cardHead('Rincian',label)+tableWrap(`<table class="w-full">${th('Jenis','Jumlah','Total')}${rekapRows}</table>`))}</div>
   `;
 }
 
 /* ============================================================
-   VIEW: PENGATURAN (2 tab: Umum, Riwayat WA)
+   VIEW: PENGATURAN
    ============================================================ */
 function viewSettings(){
   const tabs=[['umum','Umum','fa-gear'],['wa','Riwayat WA','fa-brands fa-whatsapp']];
   const inner = state.settingsTab==='wa' ? viewWAHistory() : viewSettingsGeneral();
-  return `<div class="mb-5">${tabHTML(tabs,state.settingsTab,'settings-tab')}</div>${inner}`;
+  return `<div class="mb-4 sm:mb-5">${tabHTML(tabs,state.settingsTab,'settings-tab')}</div>${inner}`;
 }
 function viewSettingsGeneral(){
-  return `<div class="grid lg:grid-cols-2 gap-5 items-start">
+  return `<div class="grid lg:grid-cols-2 gap-4 sm:gap-5 items-start">
     ${card(cardHead('Denda Keterlambatan','Dipakai saat pengingat WhatsApp dibuat')+
-      `<div class="p-6">
+      `<div class="p-4 sm:p-6">
         ${fld('Denda per hari (Rp)',`<input id="setLateFee" type="number" min="0" step="500" value="${state.settings.lateFeePerDay}" class="f-input">`)}
         <div class="flex justify-end mt-4"><button class="btn-primary" data-action="save-settings" type="button">Simpan</button></div>
       </div>`)}
-    ${card(cardHead('Data & Backup',`${state.rooms.length} kamar · ${state.tenants.length} penyewa · ${state.rentals.length} sewa · ${state.transactions.length} catatan`)+
-      `<div class="p-6 flex flex-col gap-2.5">
-        <button class="btn-secondary justify-center" data-action="export-data" type="button"><i class="fa-solid fa-download"></i> Simpan Data (file backup)</button>
+    ${card(cardHead('Data & Backup',`${state.rooms.length} kamar · ${state.tenants.length} penyewa · ${state.rentals.length} sewa`)+
+      `<div class="p-4 sm:p-6 flex flex-col gap-2.5">
+        <button class="btn-secondary justify-center" data-action="export-data" type="button"><i class="fa-solid fa-download"></i> Simpan Data (backup)</button>
         <button class="btn-secondary justify-center" data-action="import-data" type="button"><i class="fa-solid fa-file-import"></i> Muat Data (dari file)</button>
         <button class="btn-danger-soft justify-center" data-action="reset-data" type="button"><i class="fa-solid fa-arrows-rotate"></i> Mulai Ulang dari Nol</button>
         <p class="text-[11.5px] text-ink-400 leading-relaxed mt-2">Data tersimpan otomatis di perangkat ini. Lakukan "Simpan Data" secara berkala agar aman.</p>
       </div>`)}
     ${card(cardHead('Tentang','KosManager v6 · Kelola Kos Lebih Mudah')+
-      `<div class="p-6 text-[12.5px] text-ink-600 leading-relaxed">
+      `<div class="p-4 sm:p-6 text-[12.5px] text-ink-600 leading-relaxed">
         <p>Aplikasi manajemen kos yang dirancang untuk pemilik kos: kelola kamar, penyewa, pembayaran, dan pengingat WhatsApp dalam satu tempat.</p>
         <p class="mt-3">Pengingat massal membuka tab WhatsApp per penerima — pastikan pop-up browser diizinkan.</p>
       </div>`, 'lg:col-span-2')}
@@ -1685,22 +1690,22 @@ function viewSettingsGeneral(){
 function viewWAHistory(){
   const list=state.waHistory.filter(w=>matchQ(w.tenantName,w.phone)).slice().sort((a,b)=>(b.sentAt||'').localeCompare(a.sentAt||''));
   const rows=list.map(w=>`<tr class="table-row border-t border-ink-200/60 hover:bg-ink-100/40">
-    ${td(`<span class="text-[12px] text-ink-600 whitespace-nowrap tabular-nums">${formatDateTimeID(w.sentAt)}</span>`)}
+    ${td(`<span class="text-[11.5px] sm:text-[12px] text-ink-600 whitespace-nowrap tabular-nums">${formatDateTimeID(w.sentAt)}</span>`)}
     ${td(`<div class="text-[12.5px] font-semibold text-ink-900">${esc(w.tenantName||tenantName(w.tenantId))}</div><div class="text-[11px] text-ink-400">${esc((getRoom(w.roomId)||{}).name||w.roomId||'-')}</div>`)}
-    ${td(`<span class="text-[12px] text-ink-600 tabular-nums">${esc(w.phone||'-')}</span>`)}
-    ${td(`<span class="text-[12.5px] tabular-nums">${rupiah(w.sisa||0)}</span>`)}
+    ${td(`<span class="text-[12px] text-ink-600 tabular-nums">${esc(w.phone||'-')}</span>`,'hidden md:table-cell')}
+    ${td(`<span class="text-[12.5px] tabular-nums">${rupiah(w.sisa||0)}</span>`,'hidden sm:table-cell')}
     ${td(`<div class="flex items-center gap-1.5 justify-end"><button class="btn-ghost" data-action="open-wa-detail" data-id="${w.id}" type="button">Lihat</button></div>`,'text-right')}
   </tr>`).join('');
   return card(
     cardHead('Riwayat WhatsApp',`${state.waHistory.length} pesan terkirim`,
-      `<button class="btn-secondary" data-action="export-wa" type="button"><i class="fa-solid fa-file-csv text-[11px]"></i> Unduh</button>
-       <button class="btn-danger-soft" data-action="clear-wa" type="button"><i class="fa-regular fa-trash-can text-[11px]"></i> Hapus Semua</button>`)+
+      `<button class="btn-secondary" data-action="export-wa" type="button"><i class="fa-solid fa-file-csv text-[11px]"></i> <span class="hidden sm:inline">Unduh</span></button>
+       <button class="btn-danger-soft" data-action="clear-wa" type="button"><i class="fa-regular fa-trash-can text-[11px]"></i> <span class="hidden sm:inline">Hapus Semua</span></button>`)+
     (rows?tableWrap(`<table class="w-full">${th('Waktu','Penyewa','No. HP','Sisa','')}${rows}</table>`):emptyState('fa-brands fa-whatsapp','Belum ada pesan terkirim.'))
   );
 }
 
 /* ============================================================
-   WIZARD: SEWAKAN KAMAR (3 langkah)
+   WIZARD: SEWAKAN KAMAR
    ============================================================ */
 const wizard={
   step:1, roomId:'',
@@ -1722,12 +1727,12 @@ function openRentWizard(preset){
   renderWizard();
 }
 function renderWizard(){
-  const stepIndicator=(n)=>{
+  const stepIndicator=()=>{
     const labels=['Pilih Kamar','Pilih Penyewa','Durasi & Harga'];
-    return `<div class="flex items-center gap-2 px-6 pt-5">
+    return `<div class="flex items-center gap-1.5 sm:gap-2 px-4 sm:px-6 pt-4 sm:pt-5">
       ${labels.map((l,i)=>{
         const num=i+1,active=num===wizard.step,done=num<wizard.step;
-        return `<div class="flex items-center gap-2 flex-1 min-w-0">
+        return `<div class="flex items-center gap-1.5 sm:gap-2 flex-1 min-w-0">
           <div class="flex items-center gap-2 min-w-0">
             <span class="w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-bold flex-shrink-0 ${done?'bg-sage text-white':active?'bg-accent text-white':'bg-ink-200 text-ink-500'}">${done?'<i class="fa-solid fa-check text-[10px]"></i>':num}</span>
             <span class="text-[12px] font-semibold truncate hidden sm:inline ${active?'text-ink-900':'text-ink-400'}">${l}</span>
@@ -1743,42 +1748,42 @@ function renderWizard(){
     const kosong=state.rooms.filter(r=>getRoomDisplayStatus(r).code==='kosong');
     const grid=kosong.map(r=>{
       const sel=r.id===wizard.roomId;
-      return `<button data-action="wiz-room" data-id="${r.id}" type="button" class="action-card text-left bg-white border-2 ${sel?'border-accent shadow-card':'border-ink-200/60'} rounded-xl2 p-4 hover:border-accent-ring transition-colors">
+      return `<button data-action="wiz-room" data-id="${r.id}" type="button" class="action-card text-left bg-white border-2 ${sel?'border-accent shadow-card':'border-ink-200/60'} rounded-xl2 p-3.5 sm:p-4 hover:border-accent-ring transition-colors">
         <div class="flex items-start justify-between gap-2">
-          <div class="text-[14px] font-bold text-ink-900">${esc(r.name)}</div>
+          <div class="text-[13.5px] sm:text-[14px] font-bold text-ink-900 truncate">${esc(r.name)}</div>
           ${sel?'<i class="fa-solid fa-circle-check text-accent"></i>':''}
         </div>
         <div class="text-[11px] text-ink-500 mt-0.5 truncate">${esc(r.facilities||'')}</div>
-        <div class="text-[15px] font-bold text-ink-900 bignum mt-2">${rupiah(r.priceMonthly)}<span class="text-[10.5px] text-ink-400 font-medium"> /bln</span></div>
+        <div class="text-[14px] sm:text-[15px] font-bold text-ink-900 bignum mt-2">${rupiah(r.priceMonthly)}<span class="text-[10.5px] text-ink-400 font-medium"> /bln</span></div>
       </button>`;
     }).join('');
-    body=`<div class="p-6">
-      <h4 class="text-[14px] font-bold text-ink-900 mb-1">Pilih kamar yang akan disewakan</h4>
+    body=`<div class="p-4 sm:p-6">
+      <h4 class="text-[13.5px] sm:text-[14px] font-bold text-ink-900 mb-1">Pilih kamar yang akan disewakan</h4>
       <p class="text-[12px] text-ink-500 mb-4">Hanya kamar kosong yang muncul di sini.</p>
-      ${kosong.length?`<div class="grid sm:grid-cols-2 gap-3 max-h-[400px] overflow-y-auto pr-1">${grid}</div>`:emptyState('fa-door-closed','Semua kamar sudah terisi. Tambahkan kamar dulu di menu Kamar.')}
+      ${kosong.length?`<div class="grid sm:grid-cols-2 gap-2.5 sm:gap-3 max-h-[400px] overflow-y-auto pr-1">${grid}</div>`:emptyState('fa-door-closed','Semua kamar sudah terisi. Tambahkan kamar dulu di menu Kamar.')}
     </div>
-    <div class="px-6 py-4 border-t border-ink-200/60 bg-ink-100/40 flex justify-between gap-2">
+    <div class="px-4 sm:px-6 py-4 border-t border-ink-200/60 bg-ink-100/40 flex justify-between gap-2">
       <button class="btn-secondary" data-action="close-modal" type="button">Batal</button>
       <button class="btn-primary" data-action="wiz-next" type="button" ${wizard.roomId?'':'disabled style="opacity:.5"'}>Lanjut <i class="fa-solid fa-arrow-right text-[11px]"></i></button>
     </div>`;
   } else if(wizard.step===2){
     const existing=state.tenants.length>0;
     const tenantOpts=state.tenants.map(t=>`<option value="${esc(t.id)}"${t.id===wizard.tenantId?' selected':''}>${esc(t.name)} ${t.phone?'· '+esc(t.phone):''}</option>`).join('');
-    body=`<div class="p-6 flex flex-col gap-5">
+    body=`<div class="p-4 sm:p-6 flex flex-col gap-4 sm:gap-5">
       <div>
-        <h4 class="text-[14px] font-bold text-ink-900 mb-1">Siapa yang menyewa?</h4>
+        <h4 class="text-[13.5px] sm:text-[14px] font-bold text-ink-900 mb-1">Siapa yang menyewa?</h4>
         <p class="text-[12px] text-ink-500">Pilih penyewa lama, atau tambahkan orang baru.</p>
       </div>
       ${existing?`
         <div class="grid grid-cols-2 gap-2">
-          <button data-action="wiz-tenant-mode" data-id="existing" type="button" class="rounded-xl border-2 ${wizard.tenantMode==='existing'?'border-accent bg-accent-soft':'border-ink-200/60 bg-white'} p-4 text-left">
+          <button data-action="wiz-tenant-mode" data-id="existing" type="button" class="rounded-xl border-2 ${wizard.tenantMode==='existing'?'border-accent bg-accent-soft':'border-ink-200/60 bg-white'} p-3.5 sm:p-4 text-left">
             <i class="fa-solid fa-user-check text-[14px] ${wizard.tenantMode==='existing'?'text-accent':'text-ink-400'}"></i>
-            <div class="text-[13px] font-bold text-ink-900 mt-2">Penyewa Lama</div>
+            <div class="text-[12.5px] sm:text-[13px] font-bold text-ink-900 mt-2">Penyewa Lama</div>
             <div class="text-[11px] text-ink-500 mt-0.5">Sudah pernah menginap</div>
           </button>
-          <button data-action="wiz-tenant-mode" data-id="new" type="button" class="rounded-xl border-2 ${wizard.tenantMode==='new'?'border-accent bg-accent-soft':'border-ink-200/60 bg-white'} p-4 text-left">
+          <button data-action="wiz-tenant-mode" data-id="new" type="button" class="rounded-xl border-2 ${wizard.tenantMode==='new'?'border-accent bg-accent-soft':'border-ink-200/60 bg-white'} p-3.5 sm:p-4 text-left">
             <i class="fa-solid fa-user-plus text-[14px] ${wizard.tenantMode==='new'?'text-accent':'text-ink-400'}"></i>
-            <div class="text-[13px] font-bold text-ink-900 mt-2">Orang Baru</div>
+            <div class="text-[12.5px] sm:text-[13px] font-bold text-ink-900 mt-2">Orang Baru</div>
             <div class="text-[11px] text-ink-500 mt-0.5">Pertama kali menyewa</div>
           </button>
         </div>
@@ -1792,13 +1797,13 @@ function renderWizard(){
           </select>
         </label>
       `:`
-        <div class="grid sm:grid-cols-2 gap-4">
+        <div class="grid sm:grid-cols-2 gap-3 sm:gap-4">
           ${fld('Nama Lengkap',`<input id="wizNewName" value="${esc(wizard.newName)}" class="f-input" placeholder="cth: Bu Sarah">`)}
           ${fld('No. WhatsApp',`<input id="wizNewPhone" value="${esc(wizard.newPhone)}" class="f-input" placeholder="08xx / 62xx">`)}
         </div>
       `}
     </div>
-    <div class="px-6 py-4 border-t border-ink-200/60 bg-ink-100/40 flex justify-between gap-2">
+    <div class="px-4 sm:px-6 py-4 border-t border-ink-200/60 bg-ink-100/40 flex justify-between gap-2">
       <button class="btn-secondary" data-action="wiz-back" type="button"><i class="fa-solid fa-arrow-left text-[11px]"></i> Kembali</button>
       <button class="btn-primary" data-action="wiz-next" type="button">Lanjut <i class="fa-solid fa-arrow-right text-[11px]"></i></button>
     </div>`;
@@ -1813,13 +1818,13 @@ function renderWizard(){
       ? (wizard.newName||'(orang baru)')
       : tenantName(wizard.tenantId);
 
-    body=`<div class="p-6 flex flex-col gap-5">
+    body=`<div class="p-4 sm:p-6 flex flex-col gap-4 sm:gap-5">
       <div>
-        <h4 class="text-[14px] font-bold text-ink-900 mb-1">Berapa lama & berapa harganya?</h4>
+        <h4 class="text-[13.5px] sm:text-[14px] font-bold text-ink-900 mb-1">Berapa lama & berapa harganya?</h4>
         <p class="text-[12px] text-ink-500">Harga otomatis terisi, tapi bisa diubah.</p>
       </div>
 
-      <div class="rounded-xl2 bg-accent-soft border border-accent-ring/40 p-4 flex items-center gap-3">
+      <div class="rounded-xl2 bg-accent-soft border border-accent-ring/40 p-3.5 sm:p-4 flex items-center gap-3">
         <i class="fa-solid fa-circle-info text-accent"></i>
         <div class="min-w-0 text-[12.5px]">
           <div class="font-semibold text-ink-800 truncate">${esc(room?room.name:'-')}</div>
@@ -1840,19 +1845,19 @@ function renderWizard(){
 
       ${fld('Harga Total (Rp)',`<input id="wizPrice" type="number" min="0" step="1000" value="${shownPrice||''}" class="f-input">`)}
 
-      <div id="wizPreview" class="rounded-xl2 border border-ink-200/60 p-4 text-[12.5px] leading-relaxed">
+      <div id="wizPreview" class="rounded-xl2 border border-ink-200/60 p-3.5 sm:p-4 text-[12.5px] leading-relaxed">
         ${preview?`
           <div class="flex items-center gap-2 text-ink-700">
-            <i class="fa-solid fa-calendar-check text-accent"></i>
+            <i class="fa-solid fa-calendar-check text-accent flex-shrink-0"></i>
             <span>Berakhir <strong>${formatTanggalID(toISO(preview.end),true)}</strong> · ${preview.totalDays} hari</span>
           </div>
           ${conflict?`<div class="mt-2 text-terra font-semibold"><i class="fa-solid fa-triangle-exclamation mr-1"></i>Bentrok dengan ${esc(tenantName(conflict.tenantId))}</div>`:''}
         `:'<span class="text-ink-400">Isi tanggal & durasi.</span>'}
       </div>
     </div>
-    <div class="px-6 py-4 border-t border-ink-200/60 bg-ink-100/40 flex justify-between gap-2">
+    <div class="px-4 sm:px-6 py-4 border-t border-ink-200/60 bg-ink-100/40 flex justify-between gap-2">
       <button class="btn-secondary" data-action="wiz-back" type="button"><i class="fa-solid fa-arrow-left text-[11px]"></i> Kembali</button>
-      <button class="btn-primary" data-action="wiz-finish" type="button"><i class="fa-solid fa-check"></i> Sewakan Sekarang</button>
+      <button class="btn-primary" data-action="wiz-finish" type="button"><i class="fa-solid fa-check"></i> Sewakan</button>
     </div>`;
   }
 
@@ -1862,7 +1867,6 @@ function renderWizard(){
     body,'lg'
   );
 
-  // Attach dynamic listeners for step 3
   if(wizard.step===3){
     const upd=()=>{
       wizard.startDate=el('wizStart').value;
@@ -1873,14 +1877,13 @@ function renderWizard(){
         const p=autoPriceFor(room,wizard.durationValue,wizard.durationUnit);
         el('wizPrice').value=p||'';
       }
-      // Re-render preview only
       const preview=calculateRentalEndDate(wizard.startDate,wizard.durationValue,wizard.durationUnit);
       const conflict=preview?checkRentalConflict(wizard.roomId,wizard.startDate,toISO(preview.end),null):null;
       const box=el('wizPreview');
       if(box){
         box.innerHTML=preview?`
           <div class="flex items-center gap-2 text-ink-700">
-            <i class="fa-solid fa-calendar-check text-accent"></i>
+            <i class="fa-solid fa-calendar-check text-accent flex-shrink-0"></i>
             <span>Berakhir <strong>${formatTanggalID(toISO(preview.end),true)}</strong> · ${preview.totalDays} hari</span>
           </div>
           ${conflict?`<div class="mt-2 text-terra font-semibold"><i class="fa-solid fa-triangle-exclamation mr-1"></i>Bentrok dengan ${esc(tenantName(conflict.tenantId))}</div>`:''}
@@ -1893,7 +1896,6 @@ function renderWizard(){
     const price=el('wizPrice');
     if(price)price.addEventListener('input',()=>{wizard.priceTouched=true});
   }
-  // Auto-focus on new-tenant name field in step 2
   if(wizard.step===2&&wizard.tenantMode==='new'){
     setTimeout(()=>{const n=el('wizNewName');if(n)n.focus()},50);
   }
@@ -1927,7 +1929,6 @@ function wizardBack(){
   if(wizard.step>1){wizard.step--;renderWizard()}
 }
 function wizardFinish(){
-  // Collect step 3 values
   wizard.startDate=el('wizStart').value;
   wizard.durationValue=parseInt(el('wizDur').value,10)||0;
   wizard.durationUnit=el('wizUnit').value;
@@ -1942,7 +1943,6 @@ function wizardFinish(){
   const conflict=checkRentalConflict(wizard.roomId,wizard.startDate,toISO(p.end),null);
   if(conflict)return toast(`Bentrok dengan ${tenantName(conflict.tenantId)}`,'err');
 
-  // Resolve tenant
   let tenantId=wizard.tenantId;
   if(wizard.tenantMode==='new'){
     const nt={id:nextId('TNT'),name:wizard.newName,phone:wizard.newPhone||'-',notes:''};
@@ -1960,7 +1960,6 @@ function wizardFinish(){
   closeModal();
   render();
 
-  // Offer to log payment immediately
   setTimeout(()=>{
     if(confirmAction('Sewa berhasil dibuat!\n\nCatat pembayaran pertama sekarang?')){
       openTxForm(rental.id);
@@ -1977,12 +1976,12 @@ function openTenantForm(id){
   const t=id?getTenant(id):null;
   openModal(
     modalHeader(t?'Edit Penyewa':'Tambah Penyewa',t?esc(t.name):'Data penyewa baru')+
-    `<div class="p-6 flex flex-col gap-4">
+    `<div class="p-4 sm:p-6 flex flex-col gap-4">
       ${fld('Nama Lengkap',`<input id="tfName" type="text" value="${esc(t?t.name:'')}" class="f-input" placeholder="Nama penyewa">`)}
       ${fld('No. WhatsApp',`<input id="tfPhone" type="text" value="${esc(t?t.phone:'')}" class="f-input" placeholder="08xx / 62xx">`)}
       ${fld('Catatan (opsional)',`<textarea id="tfNotes" rows="2" class="f-input" placeholder="cth: mahasiswa, kerja di...">${esc(t?t.notes:'')}</textarea>`)}
     </div>
-    <div class="px-6 py-4 border-t border-ink-200/60 bg-ink-100/40 flex justify-end gap-2">
+    <div class="px-4 sm:px-6 py-4 border-t border-ink-200/60 bg-ink-100/40 flex justify-end gap-2">
       <button class="btn-secondary" data-action="close-modal" type="button">Batal</button>
       <button class="btn-primary" data-action="save-tenant" data-id="${id||''}" type="button">Simpan</button>
     </div>`,'sm'
@@ -2002,16 +2001,16 @@ function openRoomForm(id){
   const r=id?getRoom(id):null;
   openModal(
     modalHeader(r?'Edit Kamar':'Tambah Kamar',r?esc(r.name):'Kamar baru')+
-    `<div class="p-6 flex flex-col gap-4">
+    `<div class="p-4 sm:p-6 flex flex-col gap-4">
       ${fld('Nama Kamar',`<input id="rfName" value="${esc(r?r.name:'')}" class="f-input" placeholder="cth: Kamar 3A">`)}
       ${fld('Harga per Bulan (Rp)',`<input id="rfPrice" type="number" min="0" step="1000" value="${r?r.priceMonthly:''}" class="f-input">`)}
-      <div class="grid grid-cols-2 gap-4">
+      <div class="grid grid-cols-2 gap-3 sm:gap-4">
         ${fld('Harga per Minggu',`<input id="rfWeek" type="number" min="0" value="${r?r.priceWeekly:''}" class="f-input" placeholder="otomatis">`)}
         ${fld('Harga per Hari',`<input id="rfDay" type="number" min="0" value="${r?r.priceDaily:''}" class="f-input" placeholder="otomatis">`)}
       </div>
       ${fld('Fasilitas',`<input id="rfFac" value="${esc(r?r.facilities:'')}" class="f-input" placeholder="AC, KM Dalam, Wi-Fi">`)}
     </div>
-    <div class="px-6 py-4 border-t border-ink-200/60 bg-ink-100/40 flex justify-end gap-2">
+    <div class="px-4 sm:px-6 py-4 border-t border-ink-200/60 bg-ink-100/40 flex justify-end gap-2">
       <button class="btn-secondary" data-action="close-modal" type="button">Batal</button>
       <button class="btn-primary" data-action="save-room" data-id="${id||''}" type="button">Simpan</button>
     </div>`,'sm'
@@ -2032,22 +2031,21 @@ function saveRoom(id){
   toast(id?'Kamar diperbarui':'Kamar ditambahkan','ok');
 }
 
-/* Transaksi (Pembayaran) */
 function openTxForm(rentalId,presetAmount){
   const r=getRental(rentalId);if(!r)return;
   const b=calculateBilling(r);
   const suggestAmount=presetAmount!=null?presetAmount:(b.sisa>0?b.sisa:'');
   openModal(
     modalHeader('Catat Pembayaran',`${esc(tenantName(r.tenantId))} — ${esc((getRoom(r.roomId)||{}).name||'')}`)+
-    `<div class="p-6 flex flex-col gap-4">
-      <div class="rounded-xl bg-terra-soft border border-terra-ring/40 p-4 flex items-center justify-between gap-3">
-        <div>
+    `<div class="p-4 sm:p-6 flex flex-col gap-4">
+      <div class="rounded-xl bg-terra-soft border border-terra-ring/40 p-3.5 sm:p-4 flex items-center justify-between gap-3">
+        <div class="min-w-0">
           <div class="text-[11px] font-semibold text-terra tracking-wider uppercase">Belum Dibayar</div>
-          <div class="text-[18px] font-bold text-ink-900 bignum mt-0.5">${rupiah(b.sisa)}</div>
+          <div class="text-[17px] sm:text-[18px] font-bold text-ink-900 bignum mt-0.5 truncate">${rupiah(b.sisa)}</div>
         </div>
-        <button class="btn-secondary" data-action="tx-fill-full" data-id="${r.id}" type="button">Isi Penuh</button>
+        <button class="btn-secondary flex-shrink-0" data-action="tx-fill-full" data-id="${r.id}" type="button">Isi Penuh</button>
       </div>
-      <div class="grid sm:grid-cols-2 gap-4">
+      <div class="grid sm:grid-cols-2 gap-3 sm:gap-4">
         ${fld('Jenis Pembayaran',`<select id="txType" class="f-input">${Object.keys(TX).map(k=>`<option value="${k}">${TX[k].label}</option>`).join('')}</select>`)}
         ${fld('Metode',`<select id="txMethod" class="f-input">${METHODS.map(m=>`<option>${m}</option>`).join('')}</select>`)}
         ${fld('Jumlah (Rp)',`<input id="txAmount" type="number" min="0" step="1000" value="${suggestAmount}" class="f-input" placeholder="0">`)}
@@ -2056,9 +2054,9 @@ function openTxForm(rentalId,presetAmount){
       <div id="txSubWrap" class="hidden">${fld('Keterangan Biaya',`<select id="txSub" class="f-input"><option value="">—</option>${EXTRA_SUBTYPES.map(s=>`<option>${s}</option>`).join('')}</select>`)}</div>
       ${fld('Catatan',`<input id="txNotes" class="f-input" placeholder="opsional">`)}
     </div>
-    <div class="px-6 py-4 border-t border-ink-200/60 bg-ink-100/40 flex justify-end gap-2">
+    <div class="px-4 sm:px-6 py-4 border-t border-ink-200/60 bg-ink-100/40 flex justify-end gap-2">
       <button class="btn-secondary" data-action="close-modal" type="button">Batal</button>
-      <button class="btn-primary" data-action="save-tx" data-id="${r.id}" type="button"><i class="fa-solid fa-check text-[11px]"></i> Simpan Pembayaran</button>
+      <button class="btn-primary" data-action="save-tx" data-id="${r.id}" type="button"><i class="fa-solid fa-check text-[11px]"></i> Simpan</button>
     </div>`,'md'
   );
   setTimeout(()=>{const n=el('txAmount');if(n)n.focus()},50);
@@ -2085,7 +2083,6 @@ function deleteTx(txId){
   const t=state.transactions[i];
   if(!confirmAction(`Hapus catatan ${TX[t.type]?TX[t.type].label:t.type} sebesar ${rupiah(t.amount)}?`))return;
   state.transactions.splice(i,1);persist();
-  // refresh drawer if open
   if(!el('drawerBackdrop').hidden){
     const openRoomId=[...state.rooms].find(r=>getRoomDisplayStatus(r).rental&&getRoomDisplayStatus(r).rental.id===t.rentalId);
     if(openRoomId)openRoomDrawer(openRoomId.id);
@@ -2095,7 +2092,6 @@ function deleteTx(txId){
   toast('Catatan dihapus','ok');
 }
 
-/* Rental detail modal (sederhana, dari daftar/opsi "Lihat") */
 function openRentalDetail(id){
   const r=getRental(id);if(!r)return;
   const room=getRoom(r.roomId);const b=calculateBilling(r);
@@ -2106,7 +2102,7 @@ function openRentalDetail(id){
     return `<tr class="table-row border-t border-ink-200/60">
       ${td(`<span class="text-[12px] text-ink-600 tabular-nums whitespace-nowrap">${formatTanggalShort(t.transactionDate)}</span>`)}
       ${td(badge(tx.kind==='payment'?'success':tx.kind==='deposit'?'info':tx.kind==='charge'?'warning':'danger',tx.label+(t.subtype?' · '+esc(t.subtype):'')))}
-      ${td(`<span class="text-[12px] text-ink-500">${esc(t.notes||'')}</span>`)}
+      ${td(`<span class="text-[12px] text-ink-500">${esc(t.notes||'')}</span>`,'hidden sm:table-cell')}
       ${td(`<span class="text-[12.5px] font-semibold tabular-nums whitespace-nowrap">${tx.kind==='refund'?'-':''}${rupiah(t.amount)}</span>`,'text-right')}
       ${td(`<button class="btn-ghost" data-action="del-tx" data-id="${t.id}" type="button"><i class="fa-regular fa-trash-can text-[11px]"></i></button>`,'text-right')}
     </tr>`;
@@ -2114,16 +2110,16 @@ function openRentalDetail(id){
   openModal(
     modalHeader(`${esc(tenantName(r.tenantId))} — ${esc(room?room.name:r.roomId)}`,
       `${formatTanggalID(r.startDate,true)} – ${formatTanggalID(r.endDate,true)}`)+
-    `<div class="p-6 flex flex-col gap-5">
+    `<div class="p-4 sm:p-6 flex flex-col gap-4 sm:gap-5">
       <div class="flex items-center gap-2 flex-wrap">
         ${badge(st.tone,st.label)}
         ${badge(ps.tone,ps.label)}
       </div>
-      <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 sm:gap-3">
         ${[['Total Tagihan',rupiah(b.totalTagihan),false],['Sudah Dibayar',rupiah(b.totalDibayar),false],['Belum Dibayar',rupiah(b.sisa),b.sisa>0],['Deposit',rupiah(b.depositMasuk),false],['Biaya Tambahan',rupiah(b.biayaTambahan),false],['Denda',rupiah(b.transactions.filter(t=>t.type==='late_fee').reduce((s,t)=>s+t.amount,0)),false]].map(x=>`
-          <div class="rounded-xl px-4 py-3 ${x[2]?'bg-terra-soft':'bg-ink-100'}">
-            <div class="text-[10.5px] font-semibold text-ink-500 tracking-wider uppercase">${x[0]}</div>
-            <div class="text-[14px] font-bold text-ink-900 bignum mt-1">${x[1]}</div>
+          <div class="rounded-xl px-3 sm:px-4 py-3 ${x[2]?'bg-terra-soft':'bg-ink-100'} min-w-0">
+            <div class="text-[10px] sm:text-[10.5px] font-semibold text-ink-500 tracking-wider uppercase truncate">${x[0]}</div>
+            <div class="text-[13px] sm:text-[14px] font-bold text-ink-900 bignum mt-1 truncate">${x[1]}</div>
           </div>`).join('')}
       </div>
       <div>
@@ -2131,7 +2127,7 @@ function openRentalDetail(id){
         ${rows?tableWrap(`<table class="w-full">${th('Tanggal','Jenis','Catatan','Jumlah','')}${rows}</table>`):`<div class="text-[12.5px] text-ink-400 py-4 text-center bg-ink-100 rounded-xl">Belum ada pembayaran.</div>`}
       </div>
     </div>
-    <div class="px-6 py-4 border-t border-ink-200/60 bg-ink-100/40 flex justify-between gap-2 flex-wrap">
+    <div class="px-4 sm:px-6 py-4 border-t border-ink-200/60 bg-ink-100/40 flex justify-between gap-2 flex-wrap">
       <div class="flex gap-2 flex-wrap">
         <button class="btn-tertiary" data-action="finish-rental" data-id="${r.id}" type="button"><i class="fa-solid fa-check text-[11px]"></i> Checkout</button>
         <button class="btn-tertiary" data-action="cancel-rental" data-id="${r.id}" type="button"><i class="fa-solid fa-ban text-[11px]"></i> Batalkan</button>
@@ -2149,8 +2145,6 @@ function setRentalStatus(id,status,label){
   r.status=status;persist();closeModal();closeDrawer();render();
   toast('Status diperbarui','ok');
 }
-
-/* Perpanjang sewa */
 function rentExtend(rentalId){
   const r=getRental(rentalId);if(!r)return;
   const startDate=toISO(addDays(parseISO(r.endDate),1));
@@ -2167,14 +2161,12 @@ function rentExtend(rentalId){
   closeDrawer();
   renderWizard();
 }
-
-/* WA detail */
 function openWADetail(waId){
   const w=state.waHistory.find(x=>x.id===waId);if(!w)return;
   openModal(
     modalHeader('Pesan WhatsApp',esc(w.tenantName||'')+' — '+formatDateTimeID(w.sentAt))+
-    `<div class="p-6"><pre class="whitespace-pre-wrap font-mono text-[12.5px] bg-ink-100 rounded-xl p-4 leading-relaxed text-ink-800">${esc(w.message||'')}</pre></div>
-    <div class="px-6 py-4 border-t border-ink-200/60 bg-ink-100/40 flex justify-end gap-2">
+    `<div class="p-4 sm:p-6"><pre class="whitespace-pre-wrap font-mono text-[12px] sm:text-[12.5px] bg-ink-100 rounded-xl p-3.5 sm:p-4 leading-relaxed text-ink-800">${esc(w.message||'')}</pre></div>
+    <div class="px-4 sm:px-6 py-4 border-t border-ink-200/60 bg-ink-100/40 flex justify-end gap-2">
       <button class="btn-secondary" data-action="close-modal" type="button">Tutup</button>
       <button class="btn-wa" data-action="wa-resend" data-id="${w.id}" type="button"><i class="fa-brands fa-whatsapp"></i> Kirim Ulang</button>
     </div>`,'md'
@@ -2301,18 +2293,12 @@ document.addEventListener('click',e=>{
       break;
     case 'export-wa':exportWACSV();break;
     case 'open-help':openHelp();break;
-    // Wizard actions
-    case 'wiz-room':
-      wizard.roomId=id;
-      renderWizard();
-      break;
-    case 'wiz-tenant-mode':
-      wizard.tenantMode=id;
-      renderWizard();
-      break;
+    case 'wiz-room':wizard.roomId=id;renderWizard();break;
+    case 'wiz-tenant-mode':wizard.tenantMode=id;renderWizard();break;
     case 'wiz-next':wizardNext();break;
     case 'wiz-back':wizardBack();break;
     case 'wiz-finish':wizardFinish();break;
+    case 'save-rental-edit':saveRentalEdit(id);break;
   }
 });
 
@@ -2322,7 +2308,7 @@ document.addEventListener('click',e=>{
 function openHelp(){
   openModal(
     modalHeader('Bantuan','Cara pakai KosManager')+
-    `<div class="p-6 text-[13.5px] text-ink-700 leading-relaxed flex flex-col gap-4">
+    `<div class="p-4 sm:p-6 text-[13px] sm:text-[13.5px] text-ink-700 leading-relaxed flex flex-col gap-4">
       <div class="flex items-start gap-3">
         <div class="w-8 h-8 rounded-lg bg-sage-soft flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-house text-sage text-[12px]"></i></div>
         <div><strong>Hari Ini</strong> — semua tugas harian ada di sini. Klik <em>Chat WA</em> untuk menagih, <em>Catat Bayar</em> untuk mencatat pembayaran.</div>
@@ -2337,38 +2323,37 @@ function openHelp(){
       </div>
       <div class="flex items-start gap-3">
         <div class="w-8 h-8 rounded-lg bg-accent-soft flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-wallet text-accent text-[12px]"></i></div>
-        <div><strong>Uang</strong> — 3 tab: <em>Pembayaran</em> (catatan), <em>Tagihan</em> (siapa belum bayar), <em>Laporan</em> (rekap bulanan).</div>
+        <div><strong>Uang</strong> — 3 tab: <em>Pembayaran</em>, <em>Tagihan</em>, <em>Laporan</em>.</div>
       </div>
       <div class="flex items-start gap-3">
         <div class="w-8 h-8 rounded-lg bg-terra-soft flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-lightbulb text-terra text-[12px]"></i></div>
         <div><strong>Tips:</strong> tombol biru besar di kanan atas selalu untuk <em>Sewakan Kamar</em>. Ikuti wizard 3 langkah, selesai.</div>
       </div>
     </div>
-    <div class="px-6 py-4 border-t border-ink-200/60 bg-ink-100/40 flex justify-end">
+    <div class="px-4 sm:px-6 py-4 border-t border-ink-200/60 bg-ink-100/40 flex justify-end">
       <button class="btn-primary" data-action="close-modal" type="button">Mengerti</button>
     </div>`,'md'
   );
 }
-
 function showOnboarding(){
   if(localStorage.getItem(ONBOARD_KEY))return;
   openModal(
     modalHeader('Selamat Datang di KosManager 👋','3 langkah untuk mulai mengelola kos Anda')+
-    `<div class="p-6 flex flex-col gap-4">
+    `<div class="p-4 sm:p-6 flex flex-col gap-3 sm:gap-4">
       <div class="flex items-start gap-4 p-4 rounded-xl bg-sage-soft border border-sage-ring/40">
         <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center flex-shrink-0"><span class="text-[14px] font-bold text-sage">1</span></div>
-        <div><div class="text-[13.5px] font-bold text-ink-900">Pastikan daftar kamar sudah benar</div><div class="text-[12px] text-ink-600 mt-0.5">Buka menu <strong>Kamar</strong>, sesuaikan nama dan harga.</div></div>
+        <div><div class="text-[13px] sm:text-[13.5px] font-bold text-ink-900">Pastikan daftar kamar sudah benar</div><div class="text-[12px] text-ink-600 mt-0.5">Buka menu <strong>Kamar</strong>, sesuaikan nama dan harga.</div></div>
       </div>
       <div class="flex items-start gap-4 p-4 rounded-xl bg-steel-soft border border-steel-ring/40">
         <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center flex-shrink-0"><span class="text-[14px] font-bold text-steel">2</span></div>
-        <div><div class="text-[13.5px] font-bold text-ink-900">Sewakan ke penyewa</div><div class="text-[12px] text-ink-600 mt-0.5">Klik tombol biru <strong>Sewakan Kamar</strong>, ikuti 3 langkah singkat.</div></div>
+        <div><div class="text-[13px] sm:text-[13.5px] font-bold text-ink-900">Sewakan ke penyewa</div><div class="text-[12px] text-ink-600 mt-0.5">Klik tombol biru <strong>Sewakan Kamar</strong>, ikuti 3 langkah singkat.</div></div>
       </div>
       <div class="flex items-start gap-4 p-4 rounded-xl bg-amber-soft border border-amber-ring/40">
         <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center flex-shrink-0"><span class="text-[14px] font-bold text-amber">3</span></div>
-        <div><div class="text-[13.5px] font-bold text-ink-900">Pantau di menu Hari Ini</div><div class="text-[12px] text-ink-600 mt-0.5">Semua yang perlu ditagih muncul otomatis di sini. Tinggal klik!</div></div>
+        <div><div class="text-[13px] sm:text-[13.5px] font-bold text-ink-900">Pantau di menu Hari Ini</div><div class="text-[12px] text-ink-600 mt-0.5">Semua yang perlu ditagih muncul otomatis. Tinggal klik!</div></div>
       </div>
     </div>
-    <div class="px-6 py-4 border-t border-ink-200/60 bg-ink-100/40 flex justify-between gap-2">
+    <div class="px-4 sm:px-6 py-4 border-t border-ink-200/60 bg-ink-100/40 flex justify-between gap-2">
       <button class="btn-ghost" data-action="close-modal" type="button">Lewati</button>
       <button class="btn-primary" data-action="close-modal" type="button">Mulai Sekarang</button>
     </div>`,'md'
@@ -2386,19 +2371,19 @@ function openRentalForm(rentalId){
   const tenantOpts=state.tenants.map(t=>`<option value="${esc(t.id)}"${t.id===tenantId?' selected':''}>${esc(t.name)}</option>`).join('');
   openModal(
     modalHeader('Edit Sewa',`${esc(tenantName(tenantId))} · ${esc((getRoom(roomId)||{}).name||'')}`)+
-    `<div class="p-6 grid sm:grid-cols-2 gap-4">
+    `<div class="p-4 sm:p-6 grid sm:grid-cols-2 gap-3 sm:gap-4">
       ${fld('Kamar',`<select id="rfRoom" class="f-input">${roomOpts}</select>`)}
       ${fld('Penyewa',`<select id="rfTenant" class="f-input">${tenantOpts}</select>`)}
       ${fld('Tanggal Mulai',`<input id="rfStart" type="date" value="${esc(startISO)}" class="f-input">`)}
-      <div></div>
+      <div class="hidden sm:block"></div>
       ${fld('Durasi',`<input id="rfDur" type="number" min="1" value="${dv}" class="f-input">`)}
       ${fld('Satuan',`<select id="rfUnit" class="f-input">
         <option value="day"${du==='day'?' selected':''}>Hari</option>
         <option value="week"${du==='week'?' selected':''}>Minggu</option>
         <option value="month"${du==='month'?' selected':''}>Bulan</option></select>`)}
-      ${fld('Harga Total (Rp)',`<input id="rfPrice" type="number" min="0" step="1000" value="${editing.totalPrice}" class="f-input">`)}
+      <div class="sm:col-span-2">${fld('Harga Total (Rp)',`<input id="rfPrice" type="number" min="0" step="1000" value="${editing.totalPrice}" class="f-input">`)}</div>
     </div>
-    <div class="px-6 py-4 border-t border-ink-200/60 bg-ink-100/40 flex justify-end gap-2">
+    <div class="px-4 sm:px-6 py-4 border-t border-ink-200/60 bg-ink-100/40 flex justify-end gap-2">
       <button class="btn-secondary" data-action="close-modal" type="button">Batal</button>
       <button class="btn-primary" data-action="save-rental-edit" data-id="${rentalId}" type="button">Simpan Perubahan</button>
     </div>`,'md'
@@ -2423,60 +2408,12 @@ function saveRentalEdit(rentalId){
   persist();closeModal();render();
   toast('Perubahan disimpan','ok');
 }
-// Extend the click handler for save-rental-edit
-document.addEventListener('click',e=>{
-  const t=e.target.closest('[data-action="save-rental-edit"]');
-  if(t)saveRentalEdit(t.dataset.id);
-});
-
-/* ============================================================
-   MOBILE NAV DRAWER
-   ============================================================ */
-const MOBILE_NAV_ITEMS=[
-  {view:'today', icon:'fa-house', label:'Hari Ini'},
-  {view:'rooms', icon:'fa-door-open', label:'Kamar'},
-  {view:'tenants', icon:'fa-users', label:'Penyewa'},
-  {view:'money', icon:'fa-wallet', label:'Uang'},
-  {view:'settings', icon:'fa-gear', label:'Pengaturan'}
-];
-function buildMobileNav(){
-  const nav=el('mobileNav');
-  if(!nav)return;
-  nav.innerHTML=MOBILE_NAV_ITEMS.map(item=>`
-    <button data-view="${item.view}" class="mobile-nav-btn flex items-center gap-3 px-3 py-3 rounded-lg text-ink-700 text-[15px] font-medium w-full transition-colors hover:bg-ink-100">
-      <i class="fa-solid ${item.icon} w-5 text-center text-[15px] text-ink-500"></i>
-      <span>${item.label}</span>
-      ${item.view==='today'?`<span id="mobileNavBadgeToday" class="ml-auto hidden bg-terra text-white text-[10px] font-bold px-1.5 py-0.5 rounded-md leading-none"></span>`:''}
-    </button>`).join('');
-}
-function openMobileNav(){
-  buildMobileNav();
-  el('mobileNavBackdrop').hidden=false;
-  document.body.style.overflow='hidden';
-}
-function closeMobileNav(){
-  el('mobileNavBackdrop').hidden=true;
-  document.body.style.overflow='';
-}
-function updateMobileNavBadge(){
-  const urgentCount=state.rentals.filter(r=>{
-    const c=getRentalStatus(r).code;return (c==='overdue'||c==='lastday')&&calculateBilling(r).sisa>0;
-  }).length;
-  const nb=el('mobileNavBadgeToday');
-  if(!nb)return;
-  nb.classList.toggle('hidden',!urgentCount);
-  nb.textContent=urgentCount;
-}
 
 /* ============================================================
    INIT
    ============================================================ */
 function bindStatic(){
   el('helpBtn').addEventListener('click',openHelp);
-  el('mobileHelpBtn').addEventListener('click',()=>{closeMobileNav();openHelp();});
-  el('mobileMenuBtn').addEventListener('click',openMobileNav);
-  el('closeMobileNav').addEventListener('click',closeMobileNav);
-  el('mobileNavBackdrop').addEventListener('click',e=>{if(e.target===el('mobileNavBackdrop'))closeMobileNav()});
   el('globalAddBtn').addEventListener('click',()=>{
     if(el('globalAddBtn').dataset.global==='add-tenant')openTenantForm();
     else openRentWizard();
@@ -2490,8 +2427,7 @@ function bindStatic(){
   el('drawerBackdrop').addEventListener('click',e=>{if(e.target===el('drawerBackdrop'))closeDrawer()});
   document.addEventListener('keydown',e=>{
     if(e.key==='Escape'){
-      if(!el('mobileNavBackdrop').hidden)closeMobileNav();
-      else if(!el('drawerBackdrop').hidden)closeDrawer();
+      if(!el('drawerBackdrop').hidden)closeDrawer();
       else if(!el('modalBackdrop').hidden)closeModal();
     }
   });
@@ -2504,7 +2440,6 @@ function init(){
   }
   bindStatic();
   render();
-  // Onboarding pada kunjungan pertama
   setTimeout(showOnboarding,400);
 }
 init();
