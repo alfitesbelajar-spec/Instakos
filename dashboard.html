@@ -13,203 +13,179 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
 tailwind.config = {
-  theme: {
-    extend: {
-      colors: {
-        canvas: '#FAF9F5', surface: '#FFFFFF',
-        ink: { 900:'#1C1917',800:'#292524',700:'#44403C',600:'#57534E',500:'#78716C',400:'#A8A29E',300:'#D6D3D1',200:'#E7E5E4',100:'#F5F5F4' },
-        accent:{ DEFAULT:'#3F3A34', hover:'#2A2520', soft:'#F2EFEA', ring:'#D9D3CA' },
-        sage:  { DEFAULT:'#5B8266', soft:'#EDF3EE', ring:'#CFDDD3' },
-        amber: { DEFAULT:'#B8873F', soft:'#F8F1E2', ring:'#E8D8B6' },
-        terra: { DEFAULT:'#B0554A', soft:'#F6EDEA', ring:'#E5CCC6' },
-        steel: { DEFAULT:'#5C6F8A', soft:'#EDF1F6', ring:'#D0D9E4' },
-        wa:    { DEFAULT:'#25D366', soft:'#E7F9EE' }
-      },
-      fontFamily: { sans: ['"Plus Jakarta Sans"','system-ui','sans-serif'] },
-      boxShadow: {
-        'soft':'0 1px 2px 0 rgba(28,25,23,0.03), 0 1px 3px 0 rgba(28,25,23,0.04)',
-        'card':'0 1px 3px 0 rgba(28,25,23,0.03), 0 6px 20px -6px rgba(28,25,23,0.05)',
-        'modal':'0 30px 80px -20px rgba(28,25,23,0.24)'
-      },
-      borderRadius: { 'xl2':'16px' },
-      animation: {
-        'fade-in':'fadeIn 180ms ease-out',
-        'slide-up':'slideUp 200ms ease-out',
-        'slide-right':'slideRight 220ms cubic-bezier(0.16,1,0.3,1)'
-      },
-      keyframes: {
-        fadeIn:{ '0%':{opacity:0},'100%':{opacity:1} },
-        slideUp:{ '0%':{opacity:0,transform:'translateY(8px)'},'100%':{opacity:1,transform:'none'} },
-        slideRight:{ '0%':{opacity:0,transform:'translateX(16px)'},'100%':{opacity:1,transform:'none'} }
-      }
+  theme: { extend: {
+    colors: {
+      canvas:'#FAF9F5', surface:'#FFFFFF',
+      ink:{900:'#1C1917',800:'#292524',700:'#44403C',600:'#57534E',500:'#78716C',400:'#A8A29E',300:'#D6D3D1',200:'#E7E5E4',100:'#F5F5F4'},
+      accent:{DEFAULT:'#3F3A34',hover:'#2A2520',soft:'#F2EFEA',ring:'#D9D3CA'},
+      sage:{DEFAULT:'#5B8266',soft:'#EDF3EE',ring:'#CFDDD3'},
+      amber:{DEFAULT:'#B8873F',soft:'#F8F1E2',ring:'#E8D8B6'},
+      terra:{DEFAULT:'#B0554A',soft:'#F6EDEA',ring:'#E5CCC6'},
+      steel:{DEFAULT:'#5C6F8A',soft:'#EDF1F6',ring:'#D0D9E4'},
+      wa:{DEFAULT:'#25D366',soft:'#E7F9EE'}
+    },
+    fontFamily:{ sans:['"Plus Jakarta Sans"','system-ui','sans-serif'] },
+    boxShadow:{
+      'soft':'0 1px 2px 0 rgba(28,25,23,0.03), 0 1px 3px 0 rgba(28,25,23,0.04)',
+      'card':'0 1px 3px 0 rgba(28,25,23,0.03), 0 6px 20px -6px rgba(28,25,23,0.05)',
+      'modal':'0 30px 80px -20px rgba(28,25,23,0.24)'
+    },
+    borderRadius:{'xl2':'16px'},
+    animation:{'fade-in':'fadeIn 180ms ease-out','slide-up':'slideUp 200ms ease-out','slide-right':'slideRight 220ms cubic-bezier(0.16,1,0.3,1)'},
+    keyframes:{
+      fadeIn:{'0%':{opacity:0},'100%':{opacity:1}},
+      slideUp:{'0%':{opacity:0,transform:'translateY(8px)'},'100%':{opacity:1,transform:'none'}},
+      slideRight:{'0%':{opacity:0,transform:'translateX(16px)'},'100%':{opacity:1,transform:'none'}}
     }
-  }
+  }}
 };
 </script>
-
 <style>
-  html, body { background:#FAF9F5; }
-  body { font-family:'Plus Jakarta Sans',system-ui,sans-serif; -webkit-font-smoothing:antialiased; color:#1C1917; }
-  [hidden] { display:none !important; }
-  ::-webkit-scrollbar { width:10px; height:10px; }
-  ::-webkit-scrollbar-track { background:transparent; }
-  ::-webkit-scrollbar-thumb { background:#E7E5E4; border-radius:8px; border:3px solid #FAF9F5; }
-  ::-webkit-scrollbar-thumb:hover { background:#D6D3D1; }
-  .sidebar-scroll::-webkit-scrollbar-thumb { background:#3A3531; border-color:#221E1B; }
-  .sidebar-dark { background:#1F1C1A; }
-  input:focus, select:focus, textarea:focus, button:focus-visible {
-    outline:none; border-color:#A8A29E; box-shadow:0 0 0 4px rgba(63,58,52,0.08);
-  }
-  input[type=number]::-webkit-outer-spin-button,
-  input[type=number]::-webkit-inner-spin-button { -webkit-appearance:none; margin:0; }
-  input[type=number] { -moz-appearance:textfield; appearance:textfield; }
-  .table-row { transition:background 120ms ease; }
-  @media print { .no-print { display:none !important; } }
-
-  .btn-primary,.btn-secondary,.btn-wa,.btn-tertiary,.btn-danger-soft,.btn-success-soft{
-    display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
-    padding:.6rem 1.1rem;border-radius:.85rem;font-size:13.5px;font-weight:600;
-    cursor:pointer;white-space:nowrap;
-    transition:background .12s ease,border-color .12s ease,color .12s ease;
-  }
-  .btn-primary{background:#3F3A34;color:#fff}
-  .btn-primary:hover{background:#2A2520}
-  .btn-secondary{background:#fff;color:#44403C;border:1px solid #E7E5E4}
-  .btn-secondary:hover{border-color:#D6D3D1;background:#FAFAF9}
-  .btn-tertiary{background:#F5F5F4;color:#57534E;border:1px solid transparent}
-  .btn-tertiary:hover{background:#E7E5E4;color:#292524}
-  .btn-danger-soft{background:#F6EDEA;color:#B0554A;border:1px solid transparent}
-  .btn-danger-soft:hover{background:#EFE2DE}
-  .btn-success-soft{background:#EDF3EE;color:#5B8266;border:1px solid transparent}
-  .btn-success-soft:hover{background:#DCE8DF}
-  .btn-wa{background:#25D366;color:#fff}
-  .btn-wa:hover{background:#1DA851}
-  .btn-lg{ padding:.85rem 1.35rem; font-size:14.5px; border-radius:1rem; }
-  .btn-block{ width:100%; }
-  .wa-btn,.wa-btn-sm{display:inline-flex;align-items:center;gap:.3rem;background:#25D366;color:#fff;font-weight:700;border:none;border-radius:.6rem;cursor:pointer;white-space:nowrap}
-  .wa-btn{padding:.5rem .85rem;font-size:12.5px}
-  .wa-btn-sm{padding:.35rem .6rem;font-size:11px;border-radius:.45rem}
-  .wa-btn:hover,.wa-btn-sm:hover{background:#1DA851}
-  .btn-ghost{display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .65rem;border-radius:.5rem;font-size:12.5px;font-weight:600;color:#57534E;background:transparent;border:1px solid transparent;cursor:pointer;transition:background .12s}
-  .btn-ghost:hover{background:#F5F5F4;color:#1C1917}
-  .pill{padding:.45rem 1rem;border-radius:9999px;font-size:12.5px;font-weight:600;border:1px solid #E7E5E4;background:#fff;color:#57534E;cursor:pointer;white-space:nowrap;transition:all .12s}
-  .pill:hover{border-color:#D6D3D1}
-  .pill.active{background:#3F3A34;border-color:#3F3A34;color:#fff}
-  .f-input{width:100%;padding:.7rem .9rem;background:#fff;border:1px solid rgba(231,229,228,.7);border-radius:.85rem;font-size:13.5px;color:#1C1917}
-  .f-input:disabled{background:#F5F5F4;color:#78716C}
-  .tabbar { display:flex; gap:2px; padding:4px; background:#F5F5F4; border-radius:.85rem; overflow-x:auto; }
-  .tabbar button { flex:1; padding:.55rem 1rem; border-radius:.65rem; font-size:12.5px; font-weight:600; color:#78716C; background:transparent; border:none; cursor:pointer; transition:all .12s; white-space:nowrap; }
-  .tabbar button:hover { color:#292524; }
-  .tabbar button.active { background:#fff; color:#1C1917; box-shadow:0 1px 2px rgba(28,25,23,0.06); }
-  .action-card { transition:transform .12s ease, box-shadow .12s ease; }
-  .action-card:hover { transform:translateY(-1px); box-shadow:0 8px 24px -8px rgba(28,25,23,0.12); }
-  .bignum { font-variant-numeric: tabular-nums; letter-spacing:-0.02em; }
-  .mnav-btn { -webkit-tap-highlight-color: transparent; }
-  .mnav-btn i { transition: transform .15s ease; }
-  .mnav-btn.active { color:#1C1917; }
-  .mnav-btn.active i { color:#3F3A34; transform: scale(1.08); }
-  .safe-bottom { padding-bottom: env(safe-area-inset-bottom, 0px); }
-  .safe-top    { padding-top:    env(safe-area-inset-top, 0px); }
-  @media (max-width: 1023px) {
-    .btn-primary, .btn-secondary, .btn-wa, .btn-tertiary,
-    .btn-danger-soft, .btn-success-soft { min-height: 44px; }
-    .btn-lg { min-height: 48px; }
-    .wa-btn { min-height: 38px; }
-    .wa-btn-sm { min-height: 32px; }
-    .f-input, select.f-input, textarea.f-input {
-      min-height: 44px;
-      font-size: 16px !important;
-    }
-    .pill { min-height: 36px; }
-    #sidebar { display: none !important; }
-  }
-  @media (min-width: 1024px) { #mobileNav { display: none !important; } }
-  @supports (height: 100dvh) { .min-h-screen { min-height: 100dvh !important; } }
-
-  .sync-dot { display:inline-block; width:7px; height:7px; border-radius:50%; margin-right:6px; }
-  .sync-dot.ok      { background:#5B8266; }
-  .sync-dot.syncing { background:#B8873F; animation:pulse 1s infinite; }
-  .sync-dot.error   { background:#B0554A; }
-  .sync-dot.offline { background:#A8A29E; }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
+html,body{background:#FAF9F5}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased;color:#1C1917}
+[hidden]{display:none!important}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#E7E5E4;border-radius:8px;border:3px solid #FAF9F5}
+::-webkit-scrollbar-thumb:hover{background:#D6D3D1}
+.sidebar-scroll::-webkit-scrollbar-thumb{background:#3A3531;border-color:#221E1B}
+.sidebar-dark{background:#1F1C1A}
+input:focus,select:focus,textarea:focus,button:focus-visible{outline:none;border-color:#A8A29E;box-shadow:0 0 0 4px rgba(63,58,52,0.08)}
+input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+input[type=number]{-moz-appearance:textfield;appearance:textfield}
+.table-row{transition:background 120ms ease}
+@media print{.no-print{display:none!important}}
+.btn-primary,.btn-secondary,.btn-wa,.btn-tertiary,.btn-danger-soft,.btn-success-soft{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.6rem 1.1rem;border-radius:.85rem;font-size:13.5px;font-weight:600;cursor:pointer;white-space:nowrap;transition:background .12s ease,border-color .12s ease,color .12s ease}
+.btn-primary{background:#3F3A34;color:#fff}
+.btn-primary:hover{background:#2A2520}
+.btn-secondary{background:#fff;color:#44403C;border:1px solid #E7E5E4}
+.btn-secondary:hover{border-color:#D6D3D1;background:#FAFAF9}
+.btn-tertiary{background:#F5F5F4;color:#57534E;border:1px solid transparent}
+.btn-tertiary:hover{background:#E7E5E4;color:#292524}
+.btn-danger-soft{background:#F6EDEA;color:#B0554A;border:1px solid transparent}
+.btn-danger-soft:hover{background:#EFE2DE}
+.btn-success-soft{background:#EDF3EE;color:#5B8266;border:1px solid transparent}
+.btn-success-soft:hover{background:#DCE8DF}
+.btn-wa{background:#25D366;color:#fff}
+.btn-wa:hover{background:#1DA851}
+.btn-lg{padding:.85rem 1.35rem;font-size:14.5px;border-radius:1rem}
+.btn-block{width:100%}
+.wa-btn,.wa-btn-sm{display:inline-flex;align-items:center;gap:.3rem;background:#25D366;color:#fff;font-weight:700;border:none;border-radius:.6rem;cursor:pointer;white-space:nowrap}
+.wa-btn{padding:.5rem .85rem;font-size:12.5px}
+.wa-btn-sm{padding:.35rem .6rem;font-size:11px;border-radius:.45rem}
+.wa-btn:hover,.wa-btn-sm:hover{background:#1DA851}
+.btn-ghost{display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .65rem;border-radius:.5rem;font-size:12.5px;font-weight:600;color:#57534E;background:transparent;border:1px solid transparent;cursor:pointer;transition:background .12s}
+.btn-ghost:hover{background:#F5F5F4;color:#1C1917}
+.pill{padding:.45rem 1rem;border-radius:9999px;font-size:12.5px;font-weight:600;border:1px solid #E7E5E4;background:#fff;color:#57534E;cursor:pointer;white-space:nowrap;transition:all .12s}
+.pill:hover{border-color:#D6D3D1}
+.pill.active{background:#3F3A34;border-color:#3F3A34;color:#fff}
+.f-input{width:100%;padding:.7rem .9rem;background:#fff;border:1px solid rgba(231,229,228,.7);border-radius:.85rem;font-size:13.5px;color:#1C1917}
+.f-input:disabled{background:#F5F5F4;color:#78716C}
+.tabbar{display:flex;gap:2px;padding:4px;background:#F5F5F4;border-radius:.85rem;overflow-x:auto}
+.tabbar button{flex:1;padding:.55rem 1rem;border-radius:.65rem;font-size:12.5px;font-weight:600;color:#78716C;background:transparent;border:none;cursor:pointer;transition:all .12s;white-space:nowrap}
+.tabbar button:hover{color:#292524}
+.tabbar button.active{background:#fff;color:#1C1917;box-shadow:0 1px 2px rgba(28,25,23,0.06)}
+.action-card{transition:transform .12s ease,box-shadow .12s ease}
+.action-card:hover{transform:translateY(-1px);box-shadow:0 8px 24px -8px rgba(28,25,23,0.12)}
+.bignum{font-variant-numeric:tabular-nums;letter-spacing:-0.02em}
+.mnav-btn{-webkit-tap-highlight-color:transparent}
+.mnav-btn i{transition:transform .15s ease}
+.mnav-btn.active{color:#1C1917}
+.mnav-btn.active i{color:#3F3A34;transform:scale(1.08)}
+.safe-bottom{padding-bottom:env(safe-area-inset-bottom,0px)}
+.safe-top{padding-top:env(safe-area-inset-top,0px)}
+@media (max-width:1023px){
+  .btn-primary,.btn-secondary,.btn-wa,.btn-tertiary,.btn-danger-soft,.btn-success-soft{min-height:44px}
+  .btn-lg{min-height:48px}
+  .wa-btn{min-height:38px}
+  .wa-btn-sm{min-height:32px}
+  .f-input,select.f-input,textarea.f-input{min-height:44px;font-size:16px!important}
+  .pill{min-height:36px}
+  #sidebar{display:none!important}
+}
+@media (min-width:1024px){#mobileNav{display:none!important}}
+@supports (height:100dvh){.min-h-screen{min-height:100dvh!important}}
+.sync-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px}
+.sync-dot.ok{background:#5B8266}
+.sync-dot.syncing{background:#B8873F;animation:pulse 1s infinite}
+.sync-dot.error{background:#B0554A}
+.sync-dot.offline{background:#A8A29E}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
 </style>
 </head>
 <body class="bg-canvas text-ink-900 min-h-screen">
 
 <div class="flex min-h-screen">
 
-  <!-- SIDEBAR -->
-  <aside id="sidebar" class="hidden lg:flex sidebar-dark sidebar-scroll lg:w-64 lg:fixed lg:inset-y-0 lg:flex-col z-30 overflow-y-auto">
-    <div class="px-6 pt-7 pb-6 border-b border-white/[0.04]">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#4A433B] to-[#2A2520] flex items-center justify-center shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
-          <i class="fa-solid fa-building-columns text-[#D9CFC0] text-[15px]"></i>
-        </div>
-        <div class="min-w-0">
-          <div class="text-white text-[15px] font-bold tracking-tight leading-none">KosManager</div>
-          <div class="text-[10px] text-ink-500 font-medium tracking-wider uppercase mt-1.5">Versi 7 · Cloud</div>
-        </div>
+<!-- SIDEBAR -->
+<aside id="sidebar" class="hidden lg:flex sidebar-dark sidebar-scroll lg:w-64 lg:fixed lg:inset-y-0 lg:flex-col z-30 overflow-y-auto">
+  <div class="px-6 pt-7 pb-6 border-b border-white/[0.04]">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#4A433B] to-[#2A2520] flex items-center justify-center shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
+        <i class="fa-solid fa-building-columns text-[#D9CFC0] text-[15px]"></i>
+      </div>
+      <div class="min-w-0">
+        <div class="text-white text-[15px] font-bold tracking-tight leading-none">KosManager</div>
+        <div class="text-[10px] text-ink-500 font-medium tracking-wider uppercase mt-1.5">Versi 7 · Cloud</div>
       </div>
     </div>
-
-    <nav id="nav" class="flex lg:flex-col gap-1 px-3 lg:px-4 py-4 lg:py-6 overflow-x-auto lg:overflow-x-visible">
-      <button data-view="today" class="nav-btn group flex items-center gap-3 px-3 lg:px-3.5 py-2.5 rounded-lg text-ink-400 text-[13.5px] font-medium whitespace-nowrap transition-colors hover:text-white hover:bg-white/[0.04] w-auto lg:w-full">
-        <i class="fa-solid fa-house w-4 text-center text-[13px] opacity-70 group-hover:opacity-100"></i><span>Hari Ini</span>
-        <span id="navBadgeToday" class="ml-auto hidden bg-terra text-white text-[10px] font-bold px-1.5 py-0.5 rounded-md leading-none"></span>
-      </button>
-      <button data-view="rooms" class="nav-btn group flex items-center gap-3 px-3 lg:px-3.5 py-2.5 rounded-lg text-ink-400 text-[13.5px] font-medium whitespace-nowrap transition-colors hover:text-white hover:bg-white/[0.04] w-auto lg:w-full">
-        <i class="fa-solid fa-door-open w-4 text-center text-[13px] opacity-70 group-hover:opacity-100"></i><span>Kamar</span>
-      </button>
-      <button data-view="tenants" class="nav-btn group flex items-center gap-3 px-3 lg:px-3.5 py-2.5 rounded-lg text-ink-400 text-[13.5px] font-medium whitespace-nowrap transition-colors hover:text-white hover:bg-white/[0.04] w-auto lg:w-full">
-        <i class="fa-solid fa-users w-4 text-center text-[13px] opacity-70 group-hover:opacity-100"></i><span>Penyewa</span>
-      </button>
-      <button data-view="bookings" class="nav-btn group flex items-center gap-3 px-3 lg:px-3.5 py-2.5 rounded-lg text-ink-400 text-[13.5px] font-medium whitespace-nowrap transition-colors hover:text-white hover:bg-white/[0.04] w-auto lg:w-full">
-        <i class="fa-solid fa-calendar-check w-4 text-center text-[13px] opacity-70 group-hover:opacity-100"></i><span>Pemesanan</span>
-        <span id="navBadgeBookings" class="ml-auto hidden bg-terra text-white text-[10px] font-bold px-1.5 py-0.5 rounded-md leading-none"></span>
-      </button>
-      <button data-view="money" class="nav-btn group flex items-center gap-3 px-3 lg:px-3.5 py-2.5 rounded-lg text-ink-400 text-[13.5px] font-medium whitespace-nowrap transition-colors hover:text-white hover:bg-white/[0.04] w-auto lg:w-full">
-        <i class="fa-solid fa-wallet w-4 text-center text-[13px] opacity-70 group-hover:opacity-100"></i><span>Uang</span>
-      </button>
-      <button data-view="settings" class="nav-btn group flex items-center gap-3 px-3 lg:px-3.5 py-2.5 rounded-lg text-ink-400 text-[13.5px] font-medium whitespace-nowrap transition-colors hover:text-white hover:bg-white/[0.04] w-auto lg:w-full">
-        <i class="fa-solid fa-gear w-4 text-center text-[13px] opacity-70 group-hover:opacity-100"></i><span>Pengaturan</span>
-      </button>
-    </nav>
-
-    <div class="hidden lg:flex flex-col gap-2 px-4 pb-6 mt-auto">
-      <div id="syncIndicator" class="flex items-center px-3.5 py-2 text-[11.5px] text-ink-400">
-        <span class="sync-dot ok"></span><span id="syncLabel">Tersinkron</span>
-      </div>
-      <button id="helpBtn" class="flex items-center gap-2.5 px-3.5 py-2.5 rounded-lg text-ink-400 hover:text-white hover:bg-white/[0.05] text-[12.5px] font-medium transition-colors">
-        <i class="fa-regular fa-circle-question w-4 text-center text-[13px]"></i><span>Bantuan</span>
-      </button>
-      <p class="text-[10.5px] text-ink-500 leading-relaxed px-1.5">Data tersimpan otomatis di Google Sheets.</p>
+  </div>
+  <nav id="nav" class="flex lg:flex-col gap-1 px-3 lg:px-4 py-4 lg:py-6 overflow-x-auto lg:overflow-x-visible">
+    <button data-view="today" class="nav-btn group flex items-center gap-3 px-3 lg:px-3.5 py-2.5 rounded-lg text-ink-400 text-[13.5px] font-medium whitespace-nowrap transition-colors hover:text-white hover:bg-white/[0.04] w-auto lg:w-full">
+      <i class="fa-solid fa-house w-4 text-center text-[13px] opacity-70 group-hover:opacity-100"></i><span>Hari Ini</span>
+      <span id="navBadgeToday" class="ml-auto hidden bg-terra text-white text-[10px] font-bold px-1.5 py-0.5 rounded-md leading-none"></span>
+    </button>
+    <button data-view="rooms" class="nav-btn group flex items-center gap-3 px-3 lg:px-3.5 py-2.5 rounded-lg text-ink-400 text-[13.5px] font-medium whitespace-nowrap transition-colors hover:text-white hover:bg-white/[0.04] w-auto lg:w-full">
+      <i class="fa-solid fa-door-open w-4 text-center text-[13px] opacity-70 group-hover:opacity-100"></i><span>Kamar</span>
+    </button>
+    <button data-view="tenants" class="nav-btn group flex items-center gap-3 px-3 lg:px-3.5 py-2.5 rounded-lg text-ink-400 text-[13.5px] font-medium whitespace-nowrap transition-colors hover:text-white hover:bg-white/[0.04] w-auto lg:w-full">
+      <i class="fa-solid fa-users w-4 text-center text-[13px] opacity-70 group-hover:opacity-100"></i><span>Penyewa</span>
+    </button>
+    <button data-view="bookings" class="nav-btn group flex items-center gap-3 px-3 lg:px-3.5 py-2.5 rounded-lg text-ink-400 text-[13.5px] font-medium whitespace-nowrap transition-colors hover:text-white hover:bg-white/[0.04] w-auto lg:w-full">
+      <i class="fa-solid fa-calendar-check w-4 text-center text-[13px] opacity-70 group-hover:opacity-100"></i><span>Pemesanan</span>
+      <span id="navBadgeBookings" class="ml-auto hidden bg-terra text-white text-[10px] font-bold px-1.5 py-0.5 rounded-md leading-none"></span>
+    </button>
+    <button data-view="money" class="nav-btn group flex items-center gap-3 px-3 lg:px-3.5 py-2.5 rounded-lg text-ink-400 text-[13.5px] font-medium whitespace-nowrap transition-colors hover:text-white hover:bg-white/[0.04] w-auto lg:w-full">
+      <i class="fa-solid fa-wallet w-4 text-center text-[13px] opacity-70 group-hover:opacity-100"></i><span>Uang</span>
+    </button>
+    <button data-view="settings" class="nav-btn group flex items-center gap-3 px-3 lg:px-3.5 py-2.5 rounded-lg text-ink-400 text-[13.5px] font-medium whitespace-nowrap transition-colors hover:text-white hover:bg-white/[0.04] w-auto lg:w-full">
+      <i class="fa-solid fa-gear w-4 text-center text-[13px] opacity-70 group-hover:opacity-100"></i><span>Pengaturan</span>
+    </button>
+  </nav>
+  <div class="hidden lg:flex flex-col gap-2 px-4 pb-6 mt-auto">
+    <div id="syncIndicator" class="flex items-center px-3.5 py-2 text-[11.5px] text-ink-400">
+      <span class="sync-dot ok"></span><span id="syncLabel">Tersinkron</span>
     </div>
-  </aside>
+    <button id="helpBtn" class="flex items-center gap-2.5 px-3.5 py-2.5 rounded-lg text-ink-400 hover:text-white hover:bg-white/[0.05] text-[12.5px] font-medium transition-colors">
+      <i class="fa-regular fa-circle-question w-4 text-center text-[13px]"></i><span>Bantuan</span>
+    </button>
+    <p class="text-[10.5px] text-ink-500 leading-relaxed px-1.5">Data tersimpan otomatis di Google Sheets.</p>
+  </div>
+</aside>
 
-  <!-- MAIN -->
-  <main class="flex-1 min-w-0 lg:ml-64 flex flex-col">
-    <header class="sticky top-0 z-20 bg-canvas border-b border-ink-200/60">
-      <div class="px-4 sm:px-5 lg:px-10 py-3 sm:py-5 flex items-center justify-between gap-3 sm:gap-4">
-        <div class="min-w-0">
-          <h1 id="pageTitle" class="text-[19px] sm:text-[22px] lg:text-[26px] font-bold text-ink-900 tracking-tight leading-none truncate">Hari Ini</h1>
-          <p id="pageSub" class="text-[12px] sm:text-[13px] text-ink-500 mt-1 sm:mt-1.5 leading-snug truncate"></p>
-        </div>
-        <div class="flex items-center gap-2 flex-shrink-0">
-          <div id="syncIndicatorMobile" class="lg:hidden flex items-center px-2.5 py-1.5 rounded-lg bg-white border border-ink-200/60 text-[11px] font-semibold text-ink-600">
-            <span class="sync-dot ok"></span><span id="syncLabelMobile">OK</span>
-          </div>
-          <button id="globalAddBtn" class="btn-primary text-[13px] sm:text-[14.5px] px-3.5 sm:px-5 py-2.5 sm:py-3.5" type="button">
-            <i class="fa-solid fa-plus text-[11px]"></i><span class="hidden sm:inline">Sewakan Kamar</span><span class="sm:hidden">Sewa</span>
-          </button>
-        </div>
+<!-- MAIN -->
+<main class="flex-1 min-w-0 lg:ml-64 flex flex-col">
+  <header class="sticky top-0 z-20 bg-canvas border-b border-ink-200/60">
+    <div class="px-4 sm:px-5 lg:px-10 py-3 sm:py-5 flex items-center justify-between gap-3 sm:gap-4">
+      <div class="min-w-0">
+        <h1 id="pageTitle" class="text-[19px] sm:text-[22px] lg:text-[26px] font-bold text-ink-900 tracking-tight leading-none truncate">Hari Ini</h1>
+        <p id="pageSub" class="text-[12px] sm:text-[13px] text-ink-500 mt-1 sm:mt-1.5 leading-snug truncate"></p>
       </div>
-    </header>
-
-    <div id="content" class="px-4 sm:px-5 lg:px-10 py-5 sm:py-6 lg:py-8 pb-24 lg:pb-8 flex-1 w-full max-w-[1400px] mx-auto"></div>
-  </main>
+      <div class="flex items-center gap-2 flex-shrink-0">
+        <div id="syncIndicatorMobile" class="lg:hidden flex items-center px-2.5 py-1.5 rounded-lg bg-white border border-ink-200/60 text-[11px] font-semibold text-ink-600">
+          <span class="sync-dot ok"></span><span id="syncLabelMobile">OK</span>
+        </div>
+        <button id="globalAddBtn" class="btn-primary text-[13px] sm:text-[14.5px] px-3.5 sm:px-5 py-2.5 sm:py-3.5" type="button">
+          <i class="fa-solid fa-plus text-[11px]"></i><span class="hidden sm:inline">Sewakan Kamar</span><span class="sm:hidden">Sewa</span>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div id="content" class="px-4 sm:px-5 lg:px-10 py-5 sm:py-6 lg:py-8 pb-24 lg:pb-8 flex-1 w-full max-w-[1400px] mx-auto"></div>
+</main>
 </div>
 
-<!-- MODAL / DRAWER / BULK / TOASTS -->
+<!-- MODALS / DRAWERS -->
 <div id="modalBackdrop" hidden class="fixed inset-0 z-50 bg-ink-900/40 flex items-start justify-center px-2 sm:px-4 py-3 sm:py-6 lg:py-10 overflow-y-auto animate-fade-in">
   <div id="modal" class="w-full max-w-[880px] bg-white rounded-2xl shadow-modal animate-slide-up overflow-hidden"></div>
 </div>
@@ -245,65 +221,69 @@ tailwind.config = {
 <nav id="mobileNav" class="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur border-t border-ink-200/60 safe-bottom">
   <div class="grid grid-cols-5">
     <button data-view="today" class="mnav-btn relative flex flex-col items-center justify-center gap-1 py-2.5 text-ink-400 transition-colors">
-      <i class="fa-solid fa-house text-[17px]"></i>
-      <span class="text-[10px] font-semibold">Hari Ini</span>
+      <i class="fa-solid fa-house text-[17px]"></i><span class="text-[10px] font-semibold">Hari Ini</span>
       <span id="mnavBadgeToday" class="hidden absolute top-1 right-[22%] bg-terra text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full leading-none min-w-[16px] text-center">0</span>
     </button>
     <button data-view="rooms" class="mnav-btn flex flex-col items-center justify-center gap-1 py-2.5 text-ink-400 transition-colors">
-      <i class="fa-solid fa-door-open text-[17px]"></i>
-      <span class="text-[10px] font-semibold">Kamar</span>
+      <i class="fa-solid fa-door-open text-[17px]"></i><span class="text-[10px] font-semibold">Kamar</span>
     </button>
     <button data-view="bookings" class="mnav-btn relative flex flex-col items-center justify-center gap-1 py-2.5 text-ink-400 transition-colors">
-      <i class="fa-solid fa-calendar-check text-[17px]"></i>
-      <span class="text-[10px] font-semibold">Booking</span>
+      <i class="fa-solid fa-calendar-check text-[17px]"></i><span class="text-[10px] font-semibold">Booking</span>
       <span id="mnavBadgeBookings" class="hidden absolute top-1 right-[22%] bg-terra text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full leading-none min-w-[16px] text-center">0</span>
     </button>
     <button data-view="money" class="mnav-btn flex flex-col items-center justify-center gap-1 py-2.5 text-ink-400 transition-colors">
-      <i class="fa-solid fa-wallet text-[17px]"></i>
-      <span class="text-[10px] font-semibold">Uang</span>
+      <i class="fa-solid fa-wallet text-[17px]"></i><span class="text-[10px] font-semibold">Uang</span>
     </button>
     <button data-view="settings" class="mnav-btn flex flex-col items-center justify-center gap-1 py-2.5 text-ink-400 transition-colors">
-      <i class="fa-solid fa-gear text-[17px]"></i>
-      <span class="text-[10px] font-semibold">Lainnya</span>
+      <i class="fa-solid fa-gear text-[17px]"></i><span class="text-[10px] font-semibold">Lainnya</span>
     </button>
   </div>
 </nav>
 
 <script>
 /* ═══════════════════════════════════════════════════════════════
-   👇👇👇  GANTI 2 NILAI DI BAWAH  👇👇👇
-
-   API_URL   → Paste URL Web App Anda (HARUS SAMA dengan index.html)
-   API_TOKEN → HARUS SAMA dengan API_TOKEN di Code.gs
+   👇👇👇 GANTI 2 NILAI DI BAWAH 👇👇👇
    ═══════════════════════════════════════════════════════════════ */
 const KM_CONFIG = {
-  API_URL:   'https://script.google.com/macros/s/AKfycbzegnWbRrAhRayFi-wRuUFPv6bXAj4d-XTB3f7WW-p37-A5R_24OadziUSWzR3N1cOp/exec',
+  API_URL:   'https://script.google.com/macros/s/AKfycbyZg0cm1HmToO9iZH3DUTq1SArVVJufweFJmRj-RV4il83dBxeId9opQPXV0bMzJi6a/exec',
   API_TOKEN: 'km_ubah_token_ini_jadi_panjang_dan_rahasia_2025'
 };
 /* ═══════════════════════════════════════════════════════════════
-   ☝️☝️☝️  GANTI 2 NILAI DI ATAS  ☝️☝️☝️
+   ☝️☝️☝️ GANTI 2 NILAI DI ATAS ☝️☝️☝️
    ═══════════════════════════════════════════════════════════════ */
 
 /* ============================================================
-   API CLIENT
+   API CLIENT (dengan timeout + retry)
    ============================================================ */
 const KM_API = (() => {
-  async function call(action, payload) {
-    const res = await fetch(KM_CONFIG.API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({ action, token: KM_CONFIG.API_TOKEN, payload })
-    });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const data = await res.json();
-    if (!data.ok) throw new Error(data.error || 'API error');
-    return data;
+  async function call(action, payload, opts) {
+    opts = opts || {};
+    const timeout = opts.timeout || 25000;
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeout);
+    try {
+      const res = await fetch(KM_CONFIG.API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action, token: KM_CONFIG.API_TOKEN, payload }),
+        signal: controller.signal
+      });
+      clearTimeout(timer);
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      if (!data.ok) throw new Error(data.error || 'API error');
+      return data;
+    } catch (e) {
+      clearTimeout(timer);
+      if (e.name === 'AbortError') throw new Error('Koneksi timeout — server lambat merespons');
+      throw e;
+    }
   }
   return {
-    getAllData:    ()           => call('getAllData'),
-    syncAll:       (state)      => call('syncAll', state),
+    getAllData:    () => call('getAllData'),
+    syncAll:       (state) => call('syncAll', state),
     updateBooking: (id, status) => call('updateBooking', { id, status }),
-    deleteBooking: (id)         => call('deleteBooking', { id })
+    deleteBooking: (id) => call('deleteBooking', { id })
   };
 })();
 
@@ -321,14 +301,23 @@ const HARI=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
 
 function toast(msg,type){
   const t=document.createElement('div');
-  const map={ ok:'border-l-4 border-sage bg-white text-ink-900', err:'border-l-4 border-terra bg-white text-ink-900', wa:'border-l-4 border-wa bg-white text-ink-900', '':'border-l-4 border-accent bg-white text-ink-900' };
-  const icon={ ok:'<i class="fa-solid fa-circle-check text-sage"></i>', err:'<i class="fa-solid fa-circle-exclamation text-terra"></i>', wa:'<i class="fa-brands fa-whatsapp text-wa"></i>', '':'<i class="fa-solid fa-circle-info text-accent"></i>' };
+  const map={ok:'border-l-4 border-sage bg-white text-ink-900',err:'border-l-4 border-terra bg-white text-ink-900',wa:'border-l-4 border-wa bg-white text-ink-900','':'border-l-4 border-accent bg-white text-ink-900'};
+  const icon={ok:'<i class="fa-solid fa-circle-check text-sage"></i>',err:'<i class="fa-solid fa-circle-exclamation text-terra"></i>',wa:'<i class="fa-brands fa-whatsapp text-wa"></i>','':'<i class="fa-solid fa-circle-info text-accent"></i>'};
   t.className='flex items-start gap-3 px-4 py-3 rounded-xl shadow-card text-[13px] font-medium animate-slide-up '+(map[type]||map['']);
   t.innerHTML=`<span class="mt-0.5 text-[13px] flex-shrink-0">${icon[type]||icon['']}</span><span class="leading-snug">${esc(msg)}</span>`;
   el('toasts').appendChild(t);
   setTimeout(()=>{try{t.remove()}catch(_){}},3400);
 }
 const confirmAction=msg=>window.confirm(msg);
+
+/* ✅ FIX 1: Helper untuk set state.today — dipanggil di SEMUA jalur load */
+function setToday(){
+  const d = new Date();
+  state.today = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 12);
+  if (!state.reportMonth || !state.reportMonth.year) {
+    state.reportMonth = { year: d.getFullYear(), month: d.getMonth() };
+  }
+}
 
 /* ============================================================
    SYNC INDICATOR
@@ -407,13 +396,13 @@ const MIGRATE_TX={
 };
 
 const BADGE={
-  success: 'bg-sage-soft text-sage ring-1 ring-sage-ring/40',
-  warning: 'bg-amber-soft text-amber ring-1 ring-amber-ring/40',
-  danger:  'bg-terra-soft text-terra ring-1 ring-terra-ring/40',
-  info:    'bg-steel-soft text-steel ring-1 ring-steel-ring/40',
-  muted:   'bg-ink-100 text-ink-500 ring-1 ring-ink-200/70',
-  primary: 'bg-accent-soft text-accent ring-1 ring-accent-ring/50',
-  wa:      'bg-wa-soft text-[#128C4A] ring-1 ring-wa/20'
+  success:'bg-sage-soft text-sage ring-1 ring-sage-ring/40',
+  warning:'bg-amber-soft text-amber ring-1 ring-amber-ring/40',
+  danger:'bg-terra-soft text-terra ring-1 ring-terra-ring/40',
+  info:'bg-steel-soft text-steel ring-1 ring-steel-ring/40',
+  muted:'bg-ink-100 text-ink-500 ring-1 ring-ink-200/70',
+  primary:'bg-accent-soft text-accent ring-1 ring-accent-ring/50',
+  wa:'bg-wa-soft text-[#128C4A] ring-1 ring-wa/20'
 };
 const badge=(tone,content)=>`<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold whitespace-nowrap ${BADGE[tone]||BADGE.muted}">${content}</span>`;
 
@@ -423,6 +412,7 @@ const badge=(tone,content)=>`<span class="inline-flex items-center gap-1.5 px-2.
 const STORAGE_KEY='kos-data-v7';
 const WA_KEY='kos-wa-history-v1';
 const ONBOARD_KEY='kos-onboard-v7';
+const WA_HISTORY_MAX = 300; // ✅ FIX 4: batasi riwayat WA agar payload tidak membengkak
 
 const state={
   today:null,
@@ -455,29 +445,28 @@ function genRooms(){
   });
 }
 const TENANTS_SEED=[
-  {id:'T01',name:'Mahraniy',phone:'0812-1111-0001',notes:''},{id:'T02',name:'Putri Agvi',phone:'0812-1111-0002',notes:''},
-  {id:'T03',name:'Aulia',phone:'0812-1111-0003',notes:''},{id:'T04',name:'adis',phone:'0812-1111-0004',notes:''},
-  {id:'T05',name:'Queensha',phone:'0812-1111-0005',notes:''},{id:'T06',name:'Sarahh',phone:'0812-1111-0006',notes:''},
-  {id:'T07',name:'Maritza',phone:'0812-1111-0007',notes:''},{id:'T08',name:'Putri',phone:'0812-1111-0008',notes:''},
-  {id:'T09',name:'Zaskia',phone:'0812-1111-0009',notes:''},{id:'T10',name:'agis',phone:'0812-1111-0010',notes:''},
-  {id:'T11',name:'Reihana',phone:'0812-1111-0011',notes:''},{id:'T12',name:'Karina',phone:'0812-1111-0012',notes:''},
-  {id:'T13',name:'Ade Irma',phone:'0812-1111-0013',notes:''},{id:'T14',name:'aisya',phone:'0812-1111-0014',notes:''},
-  {id:'T15',name:'indah',phone:'0812-1111-0015',notes:''},{id:'T16',name:'Renata',phone:'0812-1111-0016',notes:''},
-  {id:'T17',name:'Monica',phone:'0812-1111-0017',notes:''},{id:'T18',name:'Aridha',phone:'0812-1111-0018',notes:''},
-  {id:'T19',name:'Melly',phone:'0812-1111-0019',notes:''},{id:'T20',name:'fira',phone:'0812-1111-0020',notes:''},
-  {id:'T21',name:'Nadia',phone:'0812-1111-0021',notes:''},{id:'T22',name:'naya',phone:'0812-1111-0022',notes:''},
-  {id:'T23',name:'Salsha',phone:'0812-1111-0023',notes:''},{id:'T24',name:'Indhira',phone:'0812-1111-0024',notes:''},
-  {id:'T25',name:'ulvi',phone:'0812-1111-0025',notes:''},{id:'T26',name:'bunga',phone:'0812-1111-0026',notes:''},
-  {id:'T27',name:'Dhea',phone:'0812-1111-0027',notes:''},{id:'T28',name:'Sarah',phone:'0812-1111-0028',notes:''},
-  {id:'T29',name:'Mithia',phone:'0812-1111-0029',notes:''},{id:'T30',name:'Nabila',phone:'0812-1111-0030',notes:''}
+  {name:'Mahraniy',phone:'0812-1111-0001'},{name:'Putri Agvi',phone:'0812-1111-0002'},
+  {name:'Aulia',phone:'0812-1111-0003'},{name:'Adis',phone:'0812-1111-0004'},
+  {name:'Queensha',phone:'0812-1111-0005'},{name:'Sarahh',phone:'0812-1111-0006'},
+  {name:'Maritza',phone:'0812-1111-0007'},{name:'Putri',phone:'0812-1111-0008'},
+  {name:'Zaskia',phone:'0812-1111-0009'},{name:'Agis',phone:'0812-1111-0010'},
+  {name:'Reihana',phone:'0812-1111-0011'},{name:'Karina',phone:'0812-1111-0012'},
+  {name:'Ade Irma',phone:'0812-1111-0013'},{name:'Aisya',phone:'0812-1111-0014'},
+  {name:'Indah',phone:'0812-1111-0015'},{name:'Renata',phone:'0812-1111-0016'},
+  {name:'Monica',phone:'0812-1111-0017'},{name:'Aridha',phone:'0812-1111-0018'},
+  {name:'Melly',phone:'0812-1111-0019'},{name:'Fira',phone:'0812-1111-0020'},
+  {name:'Nadia',phone:'0812-1111-0021'},{name:'Naya',phone:'0812-1111-0022'},
+  {name:'Salsha',phone:'0812-1111-0023'},{name:'Indhira',phone:'0812-1111-0024'},
+  {name:'Ulvi',phone:'0812-1111-0025'},{name:'Bunga',phone:'0812-1111-0026'},
+  {name:'Dhea',phone:'0812-1111-0027'},{name:'Sarah',phone:'0812-1111-0028'},
+  {name:'Mithia',phone:'0812-1111-0029'},{name:'Nabila',phone:'0812-1111-0030'}
 ];
 function seedData(){
-  const d=new Date();
-  state.today=new Date(d.getFullYear(),d.getMonth(),d.getDate(),12);
-  state.reportMonth={year:state.today.getFullYear(),month:state.today.getMonth()};
+  setToday(); // ✅ FIX: pakai helper
   state.rooms=genRooms();
-  state.tenants=TENANTS_SEED.map(t=>({...t}));
+  state.tenants=TENANTS_SEED.map((t,i)=>({id:`TNT-${String(i+1).padStart(4,'0')}`,name:t.name,phone:t.phone,notes:''}));
   state.rentals=[];state.transactions=[];state.counters={};state.waHistory=[];
+  state.counters.rooms=30;state.counters.tenants=30;
   const rel=n=>toISO(addDays(state.today,n));
   const addRental=(roomId,tenantId,off,value,unit,opts)=>{
     opts=opts||{};
@@ -502,47 +491,28 @@ function seedData(){
     type,amount,transactionDate:date,paymentMethod:method||'Transfer Bank',notes:notes||'',status:'posted'
   });
   let r;
-  r=addRental('1A','T01',-5,1,'month',{price:1600000,available:rel(30)});addTx(r,'rent',1600000,r.startDate,'Transfer Bank','Pelunasan');addTx(r,'deposit',500000,r.startDate,'Transfer Bank','Deposit');
-  r=addRental('1B','T02',-25,1,'month');addTx(r,'rent',1200000,r.startDate,'Transfer Bank','Lunas');
-  r=addRental('1C','T03',-32,2,'week',{price:450000,available:rel(-18)});addTx(r,'rent',450000,r.startDate,'Cash','2 minggu cash');
-  r=addRental('1D','T04',-20,9,'day',{price:500000,available:rel(-10)});addTx(r,'rent',500000,r.startDate,'Cash','9 hari');
-  const r4=r;
-  r=addRental('1D','T05',-9,1,'month',{prev:r4.id,empty:1,available:rel(21)});addTx(r,'dp',300000,r.startDate,'Transfer Bank','DP');addTx(r,'deposit',300000,r.startDate,'Transfer Bank','Deposit');
-  r=addRental('1E','T06',-30,1,'month');addTx(r,'rent',1200000,r.startDate,'Transfer Bank','');
-  r=addRental('1F','T07',-20,1,'month');addTx(r,'rent',1300000,r.startDate,'Transfer Bank','');
-  r=addRental('1G','T08',-27,1,'month');addTx(r,'rent',1300000,r.startDate,'Transfer Bank','');
-  r=addRental('1H','T09',-20,1,'month');addTx(r,'rent',1200000,r.startDate,'Transfer Bank','');
-  r=addRental('1I','T10',-28,1,'month');addTx(r,'rent',1500000,r.startDate,'Cash','cash');
-  r=addRental('1J','T11',-27,1,'month');addTx(r,'rent',1100000,r.startDate,'Cash','cash');
-  r=addRental('1K','T12',-10,1,'month');addTx(r,'rent',1200000,r.startDate,'Transfer Bank','');
-  r=addRental('1L','T13',-22,1,'month');addTx(r,'rent',1000000,r.startDate,'Transfer Bank','Pelunasan');addTx(r,'deposit',500000,r.startDate,'Transfer Bank','DP');
-  r=addRental('1M','T14',-32,1,'month');addTx(r,'rent',1100000,r.startDate,'Transfer Bank','');
-  r=addRental('1N','T15',-20,1,'month');addTx(r,'rent',1200000,r.startDate,'Transfer Bank','');
-  r=addRental('2A','T16',-18,1,'month');addTx(r,'rent',1300000,r.startDate,'Transfer Bank','');
-  r=addRental('2B','T17',-32,1,'month');addTx(r,'rent',1300000,r.startDate,'Transfer Bank','');
-  r=addRental('2C','T18',-25,1,'month');addTx(r,'rent',1300000,r.startDate,'Transfer Bank','');
-  r=addRental('2D','T04',-20,14,'day',{price:550000,available:rel(-5)});addTx(r,'rent',550000,r.startDate,'Transfer Bank','');addTx(r,'deposit',250000,rel(-19),'Transfer Bank','DP');
-  const r19=addRental('2E','T19',-50,1,'month',{available:rel(-22)});addTx(r19,'rent',1300000,r19.startDate,'Transfer Bank','');
-  r=addRental('2E','T20',-22,1,'month',{prev:r19.id,empty:0});addTx(r,'deposit',500000,rel(-23),'Transfer Bank','DP');addTx(r,'rent',1300000,rel(-22),'Transfer Bank','');
-  r=addRental('2F','T08',-30,1,'month');addTx(r,'rent',1300000,r.startDate,'Transfer Bank','');
-  r=addRental('2G','T21',-34,1,'month');addTx(r,'rent',1400000,r.startDate,'Transfer Bank','');
-  r=addRental('2H','T22',-7,1,'month');addTx(r,'rent',1300000,r.startDate,'Transfer Bank','');
-  r=addRental('2I','T23',-2,1,'month');addTx(r,'rent',1300000,r.startDate,'Transfer Bank','');
-  r=addRental('2J','T24',-23,1,'month');addTx(r,'rent',1300000,r.startDate,'Transfer Bank','');
-  r=addRental('2K','T25',-30,1,'month');addTx(r,'rent',650000,rel(-11),'Transfer Bank','Cicilan 1/2');addTx(r,'rent',650000,rel(-19),'Transfer Bank','Cicilan 2/2');
-  r=addRental('2L','T26',-28,1,'month');addTx(r,'rent',1300000,r.startDate,'Transfer Bank','');
-  r=addRental('2M','T27',-9,1,'month');addTx(r,'rent',1300000,r.startDate,'Transfer Bank','');
-  r=addRental('2N','T28',-28,1,'month');addTx(r,'rent',1300000,r.startDate,'Transfer Bank','');
-  r=addRental('2O','T29',-28,1,'month');addTx(r,'rent',1300000,r.startDate,'Transfer Bank','');
-  r=addRental('2P','T30',-3,1,'month');addTx(r,'rent',1300000,r.startDate,'Transfer Bank','');
+  r=addRental('RM-0001','TNT-0001',-5,1,'month',{price:1600000,available:rel(30)});addTx(r,'rent',1600000,r.startDate,'Transfer Bank','Pelunasan');addTx(r,'deposit',500000,r.startDate,'Transfer Bank','Deposit');
+  r=addRental('RM-0002','TNT-0002',-25,1,'month');addTx(r,'rent',1200000,r.startDate,'Transfer Bank','Lunas');
+  r=addRental('RM-0005','TNT-0006',-30,1,'month');addTx(r,'rent',1200000,r.startDate,'Transfer Bank','');
+  r=addRental('RM-0006','TNT-0007',-20,1,'month');addTx(r,'rent',1300000,r.startDate,'Transfer Bank','');
+  r=addRental('RM-0009','TNT-0010',-28,1,'month');addTx(r,'rent',1500000,r.startDate,'Cash','cash');
+  r=addRental('RM-0011','TNT-0012',-10,1,'month');addTx(r,'rent',1200000,r.startDate,'Transfer Bank','');
+  r=addRental('RM-0013','TNT-0014',-32,1,'month');addTx(r,'rent',1100000,r.startDate,'Transfer Bank','');
+  r=addRental('RM-0016','TNT-0017',-32,1,'month');addTx(r,'rent',1300000,r.startDate,'Transfer Bank','');
+  r=addRental('RM-0019','TNT-0020',-22,1,'month');addTx(r,'rent',1300000,r.startDate,'Transfer Bank','');
+  r=addRental('RM-0021','TNT-0021',-34,1,'month');addTx(r,'rent',1400000,r.startDate,'Transfer Bank','');
+  r=addRental('RM-0023','TNT-0023',-2,1,'month');addTx(r,'rent',1300000,r.startDate,'Transfer Bank','');
+  r=addRental('RM-0027','TNT-0027',-9,1,'month');addTx(r,'rent',1300000,r.startDate,'Transfer Bank','');
+  r=addRental('RM-0030','TNT-0030',-3,1,'month');addTx(r,'rent',1300000,r.startDate,'Transfer Bank','');
 }
 
 /* ============================================================
-   PERSISTENCE — Hybrid localStorage + Google Sheets
+   PERSISTENCE — Hybrid dengan hash-based skip (FIX 4)
    ============================================================ */
 let _persistTimer=null;
 let _syncTimer=null;
 let _syncing=false;
+let _lastSyncJson=''; // ✅ FIX 4: cegah sync redundan
 
 function persist(){
   clearTimeout(_persistTimer);
@@ -555,25 +525,25 @@ function persist(){
       }));
     }catch(e){console.warn('Cache gagal:',e)}
   },200);
-
   clearTimeout(_syncTimer);
-  _syncTimer=setTimeout(syncToSheets,800);
+  _syncTimer=setTimeout(syncToSheets,1000);
 }
 
 async function syncToSheets(){
   if(_syncing)return;
+  const payload={
+    rooms:state.rooms,tenants:state.tenants,rentals:state.rentals,
+    transactions:state.transactions,waHistory:state.waHistory,settings:state.settings
+  };
+  // ✅ FIX 4: skip jika tidak ada perubahan
+  const json=JSON.stringify(payload);
+  if(json===_lastSyncJson){setSyncStatus('ok','Tersinkron');return}
   _syncing=true;
   setSyncStatus('syncing','Menyimpan…');
   try{
-    const res=await KM_API.syncAll({
-      rooms:state.rooms,
-      tenants:state.tenants,
-      rentals:state.rentals,
-      transactions:state.transactions,
-      waHistory:state.waHistory,
-      settings:state.settings
-    });
+    const res=await KM_API.syncAll(payload);
     if(!res.ok)throw new Error(res.error);
+    _lastSyncJson=json;
     setSyncStatus('ok','Tersinkron');
   }catch(e){
     setSyncStatus('error','Gagal sync');
@@ -585,7 +555,7 @@ async function syncToSheets(){
 
 function persistWA(){
   clearTimeout(_syncTimer);
-  _syncTimer=setTimeout(syncToSheets,500);
+  _syncTimer=setTimeout(syncToSheets,600);
 }
 
 function migrateData(d){
@@ -604,7 +574,9 @@ function migrateData(d){
   return d;
 }
 
+/* ✅ FIX 1+5: loadFromServer selalu setToday & deteksi data kosong */
 async function loadFromServer(){
+  setToday();
   setSyncStatus('syncing','Memuat…');
   let cached=null;
   try{
@@ -616,15 +588,22 @@ async function loadFromServer(){
     const res=await KM_API.getAllData();
     if(res.ok && res.data){
       const d=migrateData(res.data);
+      const isEmpty=(!d.rooms||d.rooms.length===0)&&(!d.tenants||d.tenants.length===0);
+      if(isEmpty){
+        // ✅ FIX 5: Sheets kosong → biar di-seed oleh init()
+        setSyncStatus('ok','Siap');
+        return false;
+      }
       state.rooms=d.rooms||[];
       state.tenants=d.tenants||[];
       state.rentals=d.rentals||[];
       state.transactions=d.transactions||[];
-      state.waHistory=d.waHistory||[];
+      state.waHistory=(d.waHistory||[]).slice(-WA_HISTORY_MAX);
       state.bookings=d.bookings||[];
       state.settings=Object.assign({lateFeePerDay:20000,kosName:'Kos Melati',kosAddress:'',kosPhone:'',kosDescription:''},d.settings||{});
       rebuildCounters();
       cacheLocally();
+      _lastSyncJson=JSON.stringify({rooms:state.rooms,tenants:state.tenants,rentals:state.rentals,transactions:state.transactions,waHistory:state.waHistory,settings:state.settings});
       setSyncStatus('ok','Tersinkron');
       return true;
     }
@@ -633,13 +612,13 @@ async function loadFromServer(){
     setSyncStatus('offline','Mode offline');
   }
 
-  if(cached && Array.isArray(cached.rooms)){
+  if(cached && Array.isArray(cached.rooms) && cached.rooms.length>0){
     const d=migrateData(cached);
     state.rooms=d.rooms||[];
     state.tenants=d.tenants||[];
     state.rentals=d.rentals||[];
     state.transactions=d.transactions||[];
-    state.waHistory=d.waHistory||[];
+    state.waHistory=(d.waHistory||[]).slice(-WA_HISTORY_MAX);
     state.settings=Object.assign({lateFeePerDay:20000,kosName:'Kos Melati',kosAddress:'',kosPhone:'',kosDescription:''},d.settings||{});
     rebuildCounters();
     toast('Mode offline: memakai data cache','');
@@ -738,6 +717,7 @@ function importData(file){
         state.waHistory=d.waHistory||[];
         state.settings=Object.assign({lateFeePerDay:20000},d.settings||{});
         rebuildCounters();
+        _lastSyncJson=''; // force sync
         persist();
         render();
         toast('Data berhasil dimuat & disinkronkan','ok');
@@ -807,6 +787,7 @@ function calculateLateFee(r,today){
 }
 function getRentalStatus(r,today){
   today=today||state.today;
+  if(!today)return{code:'unknown',label:'—',tone:'muted'};
   if(r.status==='cancelled')return{code:'cancelled',label:'Dibatalkan',tone:'muted'};
   if(r.status==='finished')return{code:'finished',label:'Selesai',tone:'muted'};
   const s=parseISO(r.startDate),e=parseISO(r.endDate);
@@ -831,6 +812,7 @@ const DUE_SOON_DAYS=7;
 function getTaskList(today){
   today=today||state.today;
   const tasks={urgent:[],warning:[],info:[]};
+  if(!today)return tasks;
   state.rentals.forEach(r=>{
     if(r.status==='cancelled'||r.status==='finished')return;
     const st=getRentalStatus(r,today);const b=calculateBilling(r);
@@ -870,8 +852,7 @@ function buildReminderMessage(rental){
   const t=getTenant(rental.tenantId);const b=calculateBilling(rental);
   const st=getRentalStatus(rental);const room=getRoom(rental.roomId);
   const L=[];
-  L.push(`Halo *${t?t.name:'Penyewa'}*`);
-  L.push('');
+  L.push(`Halo *${t?t.name:'Penyewa'}*`);L.push('');
   if(st.code==='overdue')L.push(`Kami dari manajemen kos ingin mengingatkan bahwa masa sewa kamar *${room?room.name:rental.roomId}* Anda *TELAH TERLAMBAT ${st.lateDays} hari* (berakhir ${formatTanggalID(rental.endDate)}).`);
   else if(st.code==='lastday')L.push(`Kami dari manajemen kos ingin mengingatkan bahwa masa sewa kamar *${room?room.name:rental.roomId}* Anda berakhir *HARI INI* (${formatTanggalID(rental.endDate)}).`);
   else if(st.code==='active')L.push(`Kami dari manajemen kos ingin mengingatkan bahwa masa sewa kamar *${room?room.name:rental.roomId}* Anda akan berakhir dalam *${st.remainingDays} hari* pada *${formatTanggalID(rental.endDate,true)}*.`);
@@ -900,23 +881,15 @@ function previewReminder(rentalId){
         <i class="fa-solid fa-triangle-exclamation mt-0.5 flex-shrink-0"></i>
         <div>Nomor HP belum diisi. Klik <strong>Edit Penyewa</strong> dulu.</div>
       </div>`:''}
-      <label class="flex flex-col gap-2">
-        <span class="text-[11px] font-semibold text-ink-400 tracking-wider uppercase">Nomor Tujuan</span>
-        <input type="text" value="${esc(t?t.phone:'-')}" readonly class="f-input">
-      </label>
-      <label class="flex flex-col gap-2">
-        <span class="text-[11px] font-semibold text-ink-400 tracking-wider uppercase">Isi Pesan (bisa diedit)</span>
-        <textarea id="waMsg" rows="12" class="f-input font-mono leading-relaxed text-[12.5px]">${esc(msg)}</textarea>
-      </label>
+      <label class="flex flex-col gap-2"><span class="text-[11px] font-semibold text-ink-400 tracking-wider uppercase">Nomor Tujuan</span>
+        <input type="text" value="${esc(t?t.phone:'-')}" readonly class="f-input"></label>
+      <label class="flex flex-col gap-2"><span class="text-[11px] font-semibold text-ink-400 tracking-wider uppercase">Isi Pesan (bisa diedit)</span>
+        <textarea id="waMsg" rows="12" class="f-input font-mono leading-relaxed text-[12.5px]">${esc(msg)}</textarea></label>
     </div>
     <div class="px-4 sm:px-6 py-4 border-t border-ink-200/60 bg-ink-100/40 flex justify-end gap-2 flex-wrap">
       <button class="btn-secondary" data-action="close-modal" type="button">Batal</button>
-      <button class="btn-secondary" data-action="edit-tenant" data-id="${r.tenantId}" type="button">
-        <i class="fa-solid fa-pen text-[11px]"></i> Edit Penyewa
-      </button>
-      <button class="btn-wa" data-action="send-wa-custom" data-id="${r.id}" type="button">
-        <i class="fa-brands fa-whatsapp"></i> Buka WhatsApp
-      </button>
+      <button class="btn-secondary" data-action="edit-tenant" data-id="${r.tenantId}" type="button"><i class="fa-solid fa-pen text-[11px]"></i> Edit Penyewa</button>
+      <button class="btn-wa" data-action="send-wa-custom" data-id="${r.id}" type="button"><i class="fa-brands fa-whatsapp"></i> Buka WhatsApp</button>
     </div>`,'md'
   );
 }
@@ -928,6 +901,8 @@ function logWASent(rental,message){
     periodEnd:rental.endDate,sisa:calculateBilling(rental).sisa,
     sentAt:new Date().toISOString(),message
   });
+  // ✅ FIX 4: cap riwayat WA agar tidak membengkak
+  if(state.waHistory.length>WA_HISTORY_MAX)state.waHistory=state.waHistory.slice(-WA_HISTORY_MAX);
   rental.logs=rental.logs||[];
   rental.logs.push({date:toISO(state.today),type:'wa',text:'Pengingat WhatsApp dikirim',by:'system'});
   persistWA();persist();
@@ -961,9 +936,7 @@ function startBulkWA(){
   const withPhone=rows.filter(x=>{const t=getTenant(x.rental.tenantId);return t&&cleanPhone(t.phone)});
   const noPhone=rows.length-withPhone.length;
   if(!withPhone.length)return toast('Semua penyewa belum punya nomor HP','err');
-  const msg=`Kirim pengingat WhatsApp ke ${withPhone.length} penyewa?`+
-    (noPhone?`\n\n(${noPhone} penyewa dilewati karena tanpa nomor HP)`:'')+
-    `\n\nTab WhatsApp akan terbuka otomatis. Izinkan pop-up di browser Anda.`;
+  const msg=`Kirim pengingat WhatsApp ke ${withPhone.length} penyewa?`+(noPhone?`\n\n(${noPhone} penyewa dilewati karena tanpa nomor HP)`:'')+`\n\nTab WhatsApp akan terbuka otomatis.`;
   if(!confirmAction(msg))return;
   bulkState.running=true;bulkState.stop=false;bulkState.index=0;
   bulkState.rows=withPhone;bulkState.total=withPhone.length;
@@ -1031,15 +1004,12 @@ function modalHeader(title,sub){
       <h3 class="text-[15px] sm:text-[16px] font-bold text-ink-900 tracking-tight">${title}</h3>
       ${sub?`<p class="text-[11.5px] sm:text-[12px] text-ink-500 mt-1 leading-snug">${sub}</p>`:''}
     </div>
-    <button data-action="close-modal" type="button" class="w-9 h-9 flex items-center justify-center rounded-lg text-ink-400 hover:text-ink-700 hover:bg-ink-100 transition-colors flex-shrink-0">
-      <i class="fa-solid fa-xmark"></i>
-    </button>
+    <button data-action="close-modal" type="button" class="w-9 h-9 flex items-center justify-center rounded-lg text-ink-400 hover:text-ink-700 hover:bg-ink-100 transition-colors flex-shrink-0"><i class="fa-solid fa-xmark"></i></button>
   </div>`;
 }
 function openModal(html,size){
   const m=el('modal');
-  m.className='w-full bg-white rounded-xl sm:rounded-2xl shadow-modal animate-slide-up overflow-hidden '+
-    ({sm:'max-w-[480px]',md:'max-w-[680px]',lg:'max-w-[880px]',xl:'max-w-[1080px]'}[size||'md']);
+  m.className='w-full bg-white rounded-xl sm:rounded-2xl shadow-modal animate-slide-up overflow-hidden '+({sm:'max-w-[480px]',md:'max-w-[680px]',lg:'max-w-[880px]',xl:'max-w-[1080px]'}[size||'md']);
   m.innerHTML=html;
   el('modalBackdrop').hidden=false;
   document.body.style.overflow='hidden';
@@ -1056,9 +1026,7 @@ function drawerHeader(title,sub,extra){
       ${sub?`<p class="text-[12px] sm:text-[12.5px] text-ink-500 mt-1 leading-snug">${sub}</p>`:''}
     </div>
     <div class="flex items-center gap-1.5 flex-shrink-0">${extra||''}
-      <button data-action="close-drawer" type="button" class="w-9 h-9 flex items-center justify-center rounded-lg text-ink-400 hover:text-ink-700 hover:bg-ink-100 transition-colors">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
+      <button data-action="close-drawer" type="button" class="w-9 h-9 flex items-center justify-center rounded-lg text-ink-400 hover:text-ink-700 hover:bg-ink-100 transition-colors"><i class="fa-solid fa-xmark"></i></button>
     </div>
   </div>`;
 }
@@ -1074,7 +1042,7 @@ function closeDrawer(){
 }
 
 /* ============================================================
-   ROUTER
+   ROUTER — dengan error boundary (FIX 2)
    ============================================================ */
 const META={
   today:['Hari Ini','Tugas dan ringkasan kos Anda'],
@@ -1086,61 +1054,80 @@ const META={
 };
 
 function render(){
-  const ae=document.activeElement;
-  const fid=ae&&ae.id;
-  const m=META[state.activeView]||META.today;
-  el('pageTitle').textContent=m[0];
-  el('pageSub').textContent=m[1];
+  // ✅ FIX: selalu pastikan state.today ada
+  if (!state.today) setToday();
 
-  $$('#nav .nav-btn').forEach(b=>{
-    const active=b.dataset.view===state.activeView;
-    b.classList.toggle('bg-white/[0.06]',active);
-    b.classList.toggle('text-white',active);
-    b.classList.toggle('font-semibold',active);
-    b.classList.toggle('text-ink-400',!active);
-  });
-  $$('#mobileNav .mnav-btn').forEach(b=>{
-    const active=b.dataset.view===state.activeView;
-    b.classList.toggle('active',active);
-    b.classList.toggle('text-ink-900',active);
-    b.classList.toggle('text-ink-400',!active);
-  });
+  try {
+    const ae=document.activeElement;
+    const fid=ae&&ae.id;
+    const m=META[state.activeView]||META.today;
+    el('pageTitle').textContent=m[0];
+    el('pageSub').textContent=m[1];
 
-  const addBtn=el('globalAddBtn');
-  if(state.activeView==='tenants'){
-    addBtn.innerHTML='<i class="fa-solid fa-user-plus text-[11px]"></i><span class="hidden sm:inline">Tambah Penyewa</span><span class="sm:hidden">Penyewa</span>';
-    addBtn.dataset.global='add-tenant';
-  } else {
-    addBtn.innerHTML='<i class="fa-solid fa-plus text-[11px]"></i><span class="hidden sm:inline">Sewakan Kamar</span><span class="sm:hidden">Sewa</span>';
-    addBtn.dataset.global='rent-wizard';
-  }
+    $$('#nav .nav-btn').forEach(b=>{
+      const active=b.dataset.view===state.activeView;
+      b.classList.toggle('bg-white/[0.06]',active);
+      b.classList.toggle('text-white',active);
+      b.classList.toggle('font-semibold',active);
+      b.classList.toggle('text-ink-400',!active);
+    });
+    $$('#mobileNav .mnav-btn').forEach(b=>{
+      const active=b.dataset.view===state.activeView;
+      b.classList.toggle('active',active);
+      b.classList.toggle('text-ink-900',active);
+      b.classList.toggle('text-ink-400',!active);
+    });
 
-  const urgentCount=state.rentals.filter(r=>{
-    const c=getRentalStatus(r).code;return (c==='overdue'||c==='lastday')&&calculateBilling(r).sisa>0;
-  }).length;
-  const nb=el('navBadgeToday');
-  if(nb){nb.classList.toggle('hidden',!urgentCount);nb.textContent=urgentCount;}
-  const mbn=el('mnavBadgeToday');
-  if(mbn){mbn.classList.toggle('hidden',!urgentCount);mbn.textContent=urgentCount;}
+    const addBtn=el('globalAddBtn');
+    if(state.activeView==='tenants'){
+      addBtn.innerHTML='<i class="fa-solid fa-user-plus text-[11px]"></i><span class="hidden sm:inline">Tambah Penyewa</span><span class="sm:hidden">Penyewa</span>';
+      addBtn.dataset.global='add-tenant';
+    } else {
+      addBtn.innerHTML='<i class="fa-solid fa-plus text-[11px]"></i><span class="hidden sm:inline">Sewakan Kamar</span><span class="sm:hidden">Sewa</span>';
+      addBtn.dataset.global='rent-wizard';
+    }
 
-  const pendingBookings=(state.bookings||[]).filter(b=>b.status==='pending').length;
-  const nbb=el('navBadgeBookings');
-  if(nbb){nbb.classList.toggle('hidden',!pendingBookings);nbb.textContent=pendingBookings;}
-  const mbb=el('mnavBadgeBookings');
-  if(mbb){mbb.classList.toggle('hidden',!pendingBookings);mbb.textContent=pendingBookings;}
+    const urgentCount=state.rentals.filter(r=>{
+      const c=getRentalStatus(r).code;return (c==='overdue'||c==='lastday')&&calculateBilling(r).sisa>0;
+    }).length;
+    const nb=el('navBadgeToday');
+    if(nb){nb.classList.toggle('hidden',!urgentCount);nb.textContent=urgentCount;}
+    const mbn=el('mnavBadgeToday');
+    if(mbn){mbn.classList.toggle('hidden',!urgentCount);mbn.textContent=urgentCount;}
 
-  const V={
-    today:viewToday,rooms:viewRooms,tenants:viewTenants,
-    bookings:viewBookings,money:viewMoney,settings:viewSettings
-  };
-  const fn=V[state.activeView]||viewToday;
-  el('content').innerHTML=fn();
+    const pendingBookings=(state.bookings||[]).filter(b=>b.status==='pending').length;
+    const nbb=el('navBadgeBookings');
+    if(nbb){nbb.classList.toggle('hidden',!pendingBookings);nbb.textContent=pendingBookings;}
+    const mbb=el('mnavBadgeBookings');
+    if(mbb){mbb.classList.toggle('hidden',!pendingBookings);mbb.textContent=pendingBookings;}
 
-  if(fid&&fid!=='q'){
-    const el2=el(fid);
-    if(el2&&el2.focus){el2.focus();try{el2.setSelectionRange&&el2.setSelectionRange(999,999)}catch(_){}}
+    const V={today:viewToday,rooms:viewRooms,tenants:viewTenants,bookings:viewBookings,money:viewMoney,settings:viewSettings};
+    const fn=V[state.activeView]||viewToday;
+    el('content').innerHTML=fn();
+
+    if(fid&&fid!=='q'){
+      const el2=el(fid);
+      if(el2&&el2.focus){el2.focus();try{el2.setSelectionRange&&el2.setSelectionRange(999,999)}catch(_){}}
+    }
+  } catch(err) {
+    // ✅ FIX 2: error boundary — halaman tidak blank total
+    console.error('Render error:', err);
+    el('content').innerHTML = `
+      <div class="py-20 px-4 text-center">
+        <div class="w-14 h-14 rounded-full bg-terra-soft flex items-center justify-center mx-auto">
+          <i class="fa-solid fa-triangle-exclamation text-terra text-[20px]"></i>
+        </div>
+        <p class="text-[14px] font-semibold text-ink-800 mt-4">Terjadi kesalahan saat menampilkan halaman</p>
+        <p class="text-[12px] text-ink-500 mt-1 max-w-md mx-auto">${esc(String(err.message||err))}</p>
+        <div class="mt-5 flex items-center justify-center gap-2 flex-wrap">
+          <button onclick="location.reload()" class="btn-primary" type="button"><i class="fa-solid fa-rotate"></i> Muat Ulang</button>
+          <button onclick="window.__km_reset()" class="btn-secondary" type="button"><i class="fa-solid fa-broom"></i> Bersihkan Cache</button>
+        </div>
+      </div>`;
   }
 }
+window.__km_reset=()=>{localStorage.removeItem(STORAGE_KEY);localStorage.removeItem(WA_KEY);location.reload()};
+
 const matchQ=(...f)=>{
   if(!state.q)return true;
   const hay=f.map(x=>x==null?'':String(x)).join(' ').toLowerCase();
@@ -1151,9 +1138,9 @@ const matchQ=(...f)=>{
    VIEW: HARI INI
    ============================================================ */
 function viewToday(){
-  const t=state.today;
-  const tasks=getTaskList();
-  const statuses=state.rooms.map(r=>getRoomDisplayStatus(r));
+  const t=state.today||new Date();
+  const tasks=getTaskList(t);
+  const statuses=state.rooms.map(r=>getRoomDisplayStatus(r,t));
   const terisi=statuses.filter(s=>s.code==='terisi').length;
   const kosong=statuses.filter(s=>s.code==='kosong').length;
   const booking=statuses.filter(s=>s.code==='booking').length;
@@ -1170,8 +1157,8 @@ function viewToday(){
     const r=item.rental;
     const room=getRoom(r.roomId);
     const toneMap={
-      danger:{bg:'bg-terra-soft',border:'border-terra-ring/50',icon:'text-terra',label:'text-terra'},
-      warning:{bg:'bg-amber-soft',border:'border-amber-ring/50',icon:'text-amber',label:'text-amber'}
+      danger:{bg:'bg-terra-soft',icon:'text-terra',label:'text-terra'},
+      warning:{bg:'bg-amber-soft',icon:'text-amber',label:'text-amber'}
     };
     const s=toneMap[tone];
     return `<div class="action-card bg-white border border-ink-200/60 rounded-xl2 shadow-card overflow-hidden">
@@ -1208,9 +1195,7 @@ function viewToday(){
     const r=item.rental;const room=getRoom(r.roomId);
     return `<div class="action-card bg-white border border-ink-200/60 rounded-xl2 shadow-card p-4 sm:p-5 flex flex-col gap-3">
       <div class="flex items-start gap-3">
-        <div class="w-10 h-10 rounded-xl bg-steel-soft flex items-center justify-center flex-shrink-0">
-          <i class="fa-solid fa-calendar-check text-steel"></i>
-        </div>
+        <div class="w-10 h-10 rounded-xl bg-steel-soft flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-calendar-check text-steel"></i></div>
         <div class="min-w-0 flex-1">
           <div class="text-[14px] sm:text-[14.5px] font-bold text-ink-900 truncate">${esc(tenantName(r.tenantId))}</div>
           <div class="text-[12px] text-ink-500 mt-0.5">${esc(room?room.name:r.roomId)} · ${esc(item.reason)}</div>
@@ -1224,7 +1209,7 @@ function viewToday(){
     </div>`;
   };
 
-  const kosongRooms=state.rooms.filter(r=>getRoomDisplayStatus(r).code==='kosong').slice(0,8);
+  const kosongRooms=state.rooms.filter(r=>getRoomDisplayStatus(r,t).code==='kosong').slice(0,8);
   const roomChip=r=>`<button data-action="open-room" data-id="${r.id}" type="button" class="action-card bg-white border border-ink-200/60 rounded-xl px-3.5 sm:px-4 py-3 text-left hover:border-accent-ring transition-colors">
     <div class="text-[13px] sm:text-[13.5px] font-bold text-ink-900 truncate">${esc(r.name)}</div>
     <div class="text-[10.5px] sm:text-[11px] text-ink-500 mt-0.5 tabular-nums">${rupiah(r.priceMonthly)}/bln</div>
@@ -1236,7 +1221,7 @@ function viewToday(){
   <div class="mb-5 sm:mb-6">
     <div class="text-[12.5px] sm:text-[13px] text-ink-500 font-medium">${greet} 👋</div>
     <div class="text-[17px] sm:text-[18px] lg:text-[20px] font-bold text-ink-900 tracking-tight mt-1">
-      ${totalTasks===0 ? 'Semua beres hari ini!' : `Ada <span class="text-terra">${totalTasks}</span> hal yang perlu ditangani`}
+      ${totalTasks===0?'Semua beres hari ini!':`Ada <span class="text-terra">${totalTasks}</span> hal yang perlu ditangani`}
     </div>
   </div>
 
@@ -1266,8 +1251,7 @@ function viewToday(){
       <div class="grid lg:grid-cols-2 gap-3 sm:gap-4">
         ${tasks.urgent.map(x=>actionCard(x,'danger')).join('')}
       </div>
-    </div>
-  `:''}
+    </div>`:''}
 
   ${tasks.warning.length?`
     <div class="mb-6 sm:mb-7">
@@ -1279,8 +1263,7 @@ function viewToday(){
       <div class="grid lg:grid-cols-2 gap-3 sm:gap-4">
         ${tasks.warning.map(x=>actionCard(x,'warning')).join('')}
       </div>
-    </div>
-  `:''}
+    </div>`:''}
 
   ${tasks.info.length?`
     <div class="mb-6 sm:mb-7">
@@ -1291,8 +1274,7 @@ function viewToday(){
       <div class="grid lg:grid-cols-2 gap-3 sm:gap-4">
         ${tasks.info.map(infoCard).join('')}
       </div>
-    </div>
-  `:''}
+    </div>`:''}
 
   ${kosongRooms.length?`
     <div class="mb-6 sm:mb-7">
@@ -1307,24 +1289,21 @@ function viewToday(){
       <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-3">
         ${kosongRooms.map(roomChip).join('')}
       </div>
-    </div>
-  `:''}
+    </div>`:''}
 
   ${totalTasks>0?`
     <div class="mt-4 flex justify-center no-print">
       <button class="btn-wa btn-lg" data-action="bulk-wa" type="button">
         <i class="fa-brands fa-whatsapp"></i> Kirim Pengingat Massal (${totalTasks})
       </button>
-    </div>
-  `:`
+    </div>`:`
     <div class="mt-6 sm:mt-8 py-12 sm:py-14 text-center bg-white border border-ink-200/60 rounded-xl2 shadow-soft">
       <div class="w-14 h-14 rounded-full bg-sage-soft flex items-center justify-center mx-auto">
         <i class="fa-solid fa-mug-hot text-sage text-[18px]"></i>
       </div>
       <p class="text-[14px] font-semibold text-ink-700 mt-4">Tidak ada tugas mendesak</p>
       <p class="text-[12.5px] text-ink-400 mt-1">Nikmati hari Anda ☕</p>
-    </div>
-  `}
+    </div>`}
   `;
 }
 
@@ -1335,8 +1314,7 @@ function viewRooms(){
   const f=state.filter.rooms;
   const statusesAll=state.rooms.map(r=>getRoomDisplayStatus(r));
   const pills=[['all','Semua'],['terisi','Terisi'],['kosong','Kosong'],['booking','Dipesan'],['maintenance','Perbaikan']];
-  const rooms=state.rooms.filter(r=>f==='all'||getRoomDisplayStatus(r).code===f)
-    .filter(r=>matchQ(r.name,r.facilities));
+  const rooms=state.rooms.filter(r=>f==='all'||getRoomDisplayStatus(r).code===f).filter(r=>matchQ(r.name,r.facilities));
 
   const roomCard=r=>{
     const s=getRoomDisplayStatus(r);
@@ -1349,9 +1327,7 @@ function viewRooms(){
       info=`<div class="mt-3 pt-3 border-t border-ink-200/60">
         <div class="text-[12.5px] font-semibold text-ink-800 truncate">${esc(tenantName(act.tenantId))}</div>
         <div class="text-[11px] text-ink-500 mt-0.5 tabular-nums">${formatTanggalShort(act.startDate)} – ${formatTanggalShort(act.endDate)}</div>
-        <div class="mt-1.5 flex items-center gap-1.5 flex-wrap">${badge(st.tone,st.label)}
-          ${b.sisa>0?badge('danger','Sisa '+rupiah(b.sisa)):''}
-        </div>
+        <div class="mt-1.5 flex items-center gap-1.5 flex-wrap">${badge(st.tone,st.label)}${b.sisa>0?badge('danger','Sisa '+rupiah(b.sisa)):''}</div>
       </div>`;
     }else{
       info=`<div class="mt-3 pt-3 border-t border-ink-200/60 text-[11.5px] text-ink-400">Ketuk untuk ${s.code==='maintenance'?'aktifkan kembali':'sewakan'}</div>`;
@@ -1385,7 +1361,6 @@ function openRoomDrawer(roomId){
   const act=s.rental;
 
   let body='';
-
   if(s.code==='kosong'){
     body=`
     <div class="p-4 sm:p-6 flex flex-col gap-4 sm:gap-5">
@@ -1469,17 +1444,13 @@ function openRoomDrawer(roomId){
               <div class="text-[11px] font-semibold text-terra tracking-wider uppercase">Belum Dibayar</div>
               <div class="text-[24px] sm:text-[26px] font-bold text-ink-900 bignum leading-none mt-1">${rupiah(b.sisa)}</div>
             </div>
-            <button class="btn-primary btn-lg" data-action="quick-pay" data-id="${act.id}" type="button">
-              <i class="fa-solid fa-money-bill-wave"></i> Catat Bayar
-            </button>
+            <button class="btn-primary btn-lg" data-action="quick-pay" data-id="${act.id}" type="button"><i class="fa-solid fa-money-bill-wave"></i> Catat Bayar</button>
           </div>
-        </div>
-      `:`
+        </div>`:`
         <div class="rounded-xl2 bg-sage-soft border border-sage-ring/50 p-4 flex items-center gap-3">
           <i class="fa-solid fa-circle-check text-sage text-[18px]"></i>
           <div class="text-[13px] sm:text-[13.5px] font-semibold text-sage">Lunas — tidak ada tunggakan</div>
-        </div>
-      `}
+        </div>`}
 
       <div class="grid grid-cols-2 gap-2">
         <button class="btn-wa justify-center" data-action="preview-wa" data-id="${act.id}" type="button"><i class="fa-brands fa-whatsapp"></i> Chat WA</button>
@@ -1522,10 +1493,7 @@ function openRoomDrawer(roomId){
     body=`<div class="p-4 sm:p-6"><div class="text-[13px] text-ink-500">Status tidak dikenal.</div></div>`;
   }
 
-  openDrawer(
-    drawerHeader(esc(room.name),esc(room.facilities||''))+
-    body
-  );
+  openDrawer(drawerHeader(esc(room.name),esc(room.facilities||''))+body);
 }
 
 /* ============================================================
@@ -1558,17 +1526,12 @@ function viewTenants(){
         </div>
       </div>
       <div class="hidden sm:block min-w-0 flex-shrink-0 text-right">
-        ${shown?`
-          <div class="text-[12.5px] font-semibold text-ink-800">${esc(room?room.name:shown.roomId)}</div>
-          <div class="text-[11px] text-ink-400 tabular-nums">${formatTanggalShort(shown.startDate)} – ${formatTanggalShort(shown.endDate)}</div>
-        `:'<span class="text-[12px] text-ink-400">Tidak aktif</span>'}
+        ${shown?`<div class="text-[12.5px] font-semibold text-ink-800">${esc(room?room.name:shown.roomId)}</div>
+          <div class="text-[11px] text-ink-400 tabular-nums">${formatTanggalShort(shown.startDate)} – ${formatTanggalShort(shown.endDate)}</div>`
+        :'<span class="text-[12px] text-ink-400">Tidak aktif</span>'}
       </div>
-      <div class="hidden md:block flex-shrink-0">
-        ${st?badge(st.tone,st.label):badge('muted','—')}
-      </div>
-      <div class="hidden lg:block flex-shrink-0">
-        ${ps?badge(ps.tone,ps.label+(b.sisa>0?` · ${rupiah(b.sisa)}`:'')):''}
-      </div>
+      <div class="hidden md:block flex-shrink-0">${st?badge(st.tone,st.label):badge('muted','—')}</div>
+      <div class="hidden lg:block flex-shrink-0">${ps?badge(ps.tone,ps.label+(b.sisa>0?` · ${rupiah(b.sisa)}`:'')):''}</div>
       <i class="fa-solid fa-chevron-right text-[11px] text-ink-300 flex-shrink-0"></i>
     </button>`;
   }).join('');
@@ -1611,7 +1574,6 @@ function openTenantDrawer(tenantId){
         ${badge(type==='lama'?'info':'primary',type==='lama'?'Penyewa Lama':'Penyewa Baru')}
         ${phone?badge('success','WhatsApp siap'):badge('warning','Nomor HP belum diisi')}
       </div>
-
       ${active?`
         <div class="rounded-xl2 border border-ink-200/60 p-4 sm:p-5 bg-white">
           <div class="flex items-center justify-between gap-3 mb-2">
@@ -1630,14 +1592,11 @@ function openTenantDrawer(tenantId){
               <div class="text-[13px] sm:text-[14px] font-bold ${b.sisa>0?'text-terra':'text-sage'} bignum mt-0.5">${rupiah(b.sisa)}</div>
             </div>
           </div>
-        </div>
-      `:`
+        </div>`:`
         <div class="rounded-xl2 bg-ink-100 p-5 text-center">
           <i class="fa-solid fa-circle-info text-ink-400 text-[20px]"></i>
           <p class="text-[12.5px] text-ink-500 mt-2">Belum ada sewa aktif</p>
-        </div>
-      `}
-
+        </div>`}
       <div class="grid grid-cols-2 gap-2">
         ${active?`
           <button class="btn-wa justify-center" data-action="preview-wa" data-id="${active.id}" type="button"><i class="fa-brands fa-whatsapp"></i> Chat WA</button>
@@ -1646,21 +1605,18 @@ function openTenantDrawer(tenantId){
           <button class="btn-primary justify-center col-span-2" data-action="rent-tenant" data-id="${t.id}" type="button"><i class="fa-solid fa-plus text-[11px]"></i> Sewakan Kamar</button>
         `}
       </div>
-
       ${t.notes?`<div class="rounded-xl bg-amber-soft border border-amber-ring/40 px-4 py-3 text-[12.5px] text-amber"><i class="fa-solid fa-note-sticky mr-2"></i>${esc(t.notes)}</div>`:''}
-
       ${history?`
         <div>
           <div class="text-[11px] font-semibold text-ink-400 tracking-wider uppercase mb-2">Riwayat Sewa (${rs.length})</div>
           <div class="flex flex-col gap-2">${history}</div>
-        </div>
-      `:''}
+        </div>`:''}
     </div>`
   );
 }
 
 /* ============================================================
-   VIEW: PEMESANAN (BARU)
+   VIEW: PEMESANAN
    ============================================================ */
 function viewBookings(){
   const all=state.bookings||[];
@@ -1675,10 +1631,9 @@ function viewBookings(){
     ['converted', `Terkonversi (${converted.length})`, 'fa-user-plus'],
     ['rejected',  `Ditolak (${rejected.length})`,   'fa-ban']
   ];
-  const list = state.bookingsTab==='pending'   ? pending
-             : state.bookingsTab==='approved'  ? approved
-             : state.bookingsTab==='converted' ? converted
-             : rejected;
+  const list = state.bookingsTab==='pending' ? pending
+             : state.bookingsTab==='approved' ? approved
+             : state.bookingsTab==='converted' ? converted : rejected;
 
   const rows=list.map(b=>{
     const room=getRoom(b.roomId);
@@ -1686,10 +1641,8 @@ function viewBookings(){
     const labelMap={pending:'Menunggu',approved:'Disetujui',converted:'Terkonversi',rejected:'Ditolak'};
     const wa=cleanPhone(b.phone);
     return `<tr class="table-row border-t border-ink-200/60 hover:bg-ink-100/40">
-      ${td(`<div class="text-[12.5px] font-semibold text-ink-900">${esc(b.name)}</div>
-            <div class="text-[11px] text-ink-400 tabular-nums">${esc(b.phone||'-')}</div>`)}
-      ${td(`<div class="text-[12px] text-ink-700">${esc(room?room.name:b.roomId)}</div>
-            <div class="text-[11px] text-ink-400 tabular-nums">Mulai ${formatTanggalShort(b.startDate)}</div>`)}
+      ${td(`<div class="text-[12.5px] font-semibold text-ink-900">${esc(b.name)}</div><div class="text-[11px] text-ink-400 tabular-nums">${esc(b.phone||'-')}</div>`)}
+      ${td(`<div class="text-[12px] text-ink-700">${esc(room?room.name:b.roomId)}</div><div class="text-[11px] text-ink-400 tabular-nums">Mulai ${formatTanggalShort(b.startDate)}</div>`)}
       ${td(`<span class="text-[12px] text-ink-600">${esc(b.durationValue)} ${esc(b.durationUnit)}</span>`,'hidden md:table-cell')}
       ${td(badge(toneMap[b.status]||'muted',labelMap[b.status]||b.status))}
       ${td(`<span class="text-[11px] text-ink-500 tabular-nums whitespace-nowrap">${formatDateTimeID(b.createdAt)}</span>`,'hidden lg:table-cell')}
@@ -1711,8 +1664,7 @@ function viewBookings(){
     cardHead('Pemesanan Online',`${all.length} total booking dari landing page`,
       `<button class="btn-secondary" data-action="booking-refresh" type="button"><i class="fa-solid fa-rotate text-[11px]"></i> <span class="hidden sm:inline">Refresh</span></button>`)+
     `<div class="px-4 sm:px-6 pt-3 pb-2 border-b border-ink-200/60">${tabHTML(tabs,state.bookingsTab,'bookings-tab')}</div>`+
-    (rows?tableWrap(`<table class="w-full">${th('Nama / HP','Kamar','Durasi','Status','Dibuat','')}${rows}</table>`)
-         :emptyState('fa-calendar-check','Tidak ada booking di kategori ini.'))
+    (rows?tableWrap(`<table class="w-full">${th('Nama / HP','Kamar','Durasi','Status','Dibuat','')}${rows}</table>`):emptyState('fa-calendar-check','Tidak ada booking di kategori ini.'))
   );
 }
 
@@ -1731,16 +1683,15 @@ async function bookingRefresh(){
     toast('Gagal refresh: '+e.message,'err');
   }
 }
-
 async function bookingSetStatus(id,status){
   const b=(state.bookings||[]).find(x=>x.id===id);
-  if(!b) return;
+  if(!b)return;
   const labelMap={approved:'Setujui',rejected:'Tolak',pending:'Kembalikan ke Menunggu'};
-  if(!confirmAction(`${labelMap[status]||'Ubah'} booking dari ${b.name}?`)) return;
+  if(!confirmAction(`${labelMap[status]||'Ubah'} booking dari ${b.name}?`))return;
   try{
     setSyncStatus('syncing','Menyimpan…');
     const res=await KM_API.updateBooking(id,status);
-    if(!res.ok) throw new Error(res.error);
+    if(!res.ok)throw new Error(res.error);
     b.status=status;
     render();
     setSyncStatus('ok','Tersinkron');
@@ -1750,15 +1701,14 @@ async function bookingSetStatus(id,status){
     toast('Gagal: '+e.message,'err');
   }
 }
-
 async function bookingDelete(id){
   const b=(state.bookings||[]).find(x=>x.id===id);
-  if(!b) return;
-  if(!confirmAction(`Hapus booking dari ${b.name}?`)) return;
+  if(!b)return;
+  if(!confirmAction(`Hapus booking dari ${b.name}?`))return;
   try{
     setSyncStatus('syncing','Menghapus…');
     const res=await KM_API.deleteBooking(id);
-    if(!res.ok) throw new Error(res.error);
+    if(!res.ok)throw new Error(res.error);
     state.bookings=state.bookings.filter(x=>x.id!==id);
     render();
     setSyncStatus('ok','Tersinkron');
@@ -1768,25 +1718,21 @@ async function bookingDelete(id){
     toast('Gagal: '+e.message,'err');
   }
 }
-
 function bookingWA(id){
   const b=(state.bookings||[]).find(x=>x.id===id);
-  if(!b) return;
+  if(!b)return;
   const phone=cleanPhone(b.phone);
   const room=getRoom(b.roomId);
-  const msg=`Halo *${b.name}*,\n\nTerima kasih sudah booking *${room?room.name:b.roomId}* mulai *${formatTanggalID(b.startDate,true)}* (${b.durationValue} ${b.durationUnit}).\n\nKami akan segera memproses booking Anda. Mohon konfirmasi ketersediaan Anda.\n\nTerima kasih.`;
+  const msg=`Halo *${b.name}*,\n\nTerima kasih sudah booking *${room?room.name:b.roomId}* mulai *${formatTanggalID(b.startDate,true)}* (${b.durationValue} ${b.durationUnit}).\n\nKami akan segera memproses booking Anda.\n\nTerima kasih.`;
   const url=phone?`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`:`https://wa.me/?text=${encodeURIComponent(msg)}`;
   window.open(url,'_blank');
 }
-
 function bookingConvert(id){
   const b=(state.bookings||[]).find(x=>x.id===id);
-  if(!b) return;
-  if(!confirmAction(`Ubah booking ${b.name} menjadi sewa aktif?`)) return;
-
+  if(!b)return;
+  if(!confirmAction(`Ubah booking ${b.name} menjadi sewa aktif?`))return;
   const tenant={id:nextId('TNT'),name:b.name,phone:b.phone||'-',email:b.email||'',notes:b.notes||''};
   state.tenants.push(tenant);
-
   const p=calculateRentalEndDate(b.startDate,b.durationValue,b.durationUnit);
   if(!p){toast('Periode booking tidak valid','err');return}
   const room=getRoom(b.roomId);
@@ -1807,16 +1753,11 @@ function bookingConvert(id){
     createdAt:toISO(state.today),logs:[]
   };
   state.rentals.push(rental);
-
   b.status='converted';
   KM_API.updateBooking(id,'converted').catch(()=>{});
-
-  persist();
-  render();
+  persist();render();
   toast('Booking diubah menjadi sewa aktif','ok');
-  setTimeout(()=>{
-    if(confirmAction('Catat pembayaran pertama sekarang?')) openTxForm(rental.id);
-  },250);
+  setTimeout(()=>{if(confirmAction('Catat pembayaran pertama sekarang?'))openTxForm(rental.id)},250);
 }
 
 /* ============================================================
@@ -1825,10 +1766,7 @@ function bookingConvert(id){
 function viewMoney(){
   const tabs=[['pembayaran','Pembayaran','fa-money-bill-wave'],['tagihan','Tagihan','fa-file-invoice'],['laporan','Laporan','fa-chart-line']];
   const inner = state.moneyTab==='tagihan' ? viewBills() : state.moneyTab==='laporan' ? viewReports() : viewPayments();
-  return `
-    <div class="mb-4 sm:mb-5">${tabHTML(tabs,state.moneyTab,'money-tab')}</div>
-    ${inner}
-  `;
+  return `<div class="mb-4 sm:mb-5">${tabHTML(tabs,state.moneyTab,'money-tab')}</div>${inner}`;
 }
 function viewPayments(){
   const KIND_TONE={payment:'success',deposit:'info',charge:'warning',refund:'danger'};
@@ -2008,12 +1946,7 @@ function viewWAHistory(){
 /* ============================================================
    WIZARD
    ============================================================ */
-const wizard={
-  step:1, roomId:'',
-  tenantMode:'existing', tenantId:'', newName:'', newPhone:'',
-  startDate:'', durationValue:1, durationUnit:'month',
-  totalPrice:0, priceTouched:false
-};
+const wizard={step:1,roomId:'',tenantMode:'existing',tenantId:'',newName:'',newPhone:'',startDate:'',durationValue:1,durationUnit:'month',totalPrice:0,priceTouched:false};
 
 function openRentWizard(preset){
   preset=preset||{};
@@ -2022,7 +1955,7 @@ function openRentWizard(preset){
   wizard.tenantMode='existing';
   wizard.tenantId=preset.tenantId||'';
   wizard.newName='';wizard.newPhone='';
-  wizard.startDate=toISO(state.today);
+  wizard.startDate=toISO(state.today||new Date());
   wizard.durationValue=1;wizard.durationUnit='month';
   wizard.totalPrice=0;wizard.priceTouched=false;
   renderWizard();
@@ -2087,15 +2020,11 @@ function renderWizard(){
             <div class="text-[12.5px] sm:text-[13px] font-bold text-ink-900 mt-2">Orang Baru</div>
             <div class="text-[11px] text-ink-500 mt-0.5">Pertama kali menyewa</div>
           </button>
-        </div>
-      `:''}
+        </div>`:''}
       ${wizard.tenantMode==='existing'&&existing?`
         <label class="flex flex-col gap-1.5">
           <span class="text-[11px] font-semibold text-ink-400 tracking-wider uppercase">Pilih Penyewa</span>
-          <select id="wizTenantSel" class="f-input">
-            <option value="">— Pilih —</option>
-            ${tenantOpts}
-          </select>
+          <select id="wizTenantSel" class="f-input"><option value="">— Pilih —</option>${tenantOpts}</select>
         </label>
       `:`
         <div class="grid sm:grid-cols-2 gap-3 sm:gap-4">
@@ -2114,17 +2043,13 @@ function renderWizard(){
     const autoPrice=room?autoPriceFor(room,wizard.durationValue,wizard.durationUnit):0;
     const shownPrice=wizard.priceTouched?wizard.totalPrice:autoPrice;
     const conflict=preview?checkRentalConflict(wizard.roomId,wizard.startDate,toISO(preview.end),null):null;
-
-    const tenantLabel=wizard.tenantMode==='new'
-      ? (wizard.newName||'(orang baru)')
-      : tenantName(wizard.tenantId);
+    const tenantLabel=wizard.tenantMode==='new'?(wizard.newName||'(orang baru)'):tenantName(wizard.tenantId);
 
     body=`<div class="p-4 sm:p-6 flex flex-col gap-4 sm:gap-5">
       <div>
         <h4 class="text-[13.5px] sm:text-[14px] font-bold text-ink-900 mb-1">Berapa lama & berapa harganya?</h4>
         <p class="text-[12px] text-ink-500">Harga otomatis terisi, tapi bisa diubah.</p>
       </div>
-
       <div class="rounded-xl2 bg-accent-soft border border-accent-ring/40 p-3.5 sm:p-4 flex items-center gap-3">
         <i class="fa-solid fa-circle-info text-accent"></i>
         <div class="min-w-0 text-[12.5px]">
@@ -2132,9 +2057,7 @@ function renderWizard(){
           <div class="text-ink-500 truncate">untuk ${esc(tenantLabel)}</div>
         </div>
       </div>
-
       ${fld('Tanggal Mulai',`<input id="wizStart" type="date" value="${esc(wizard.startDate)}" class="f-input">`)}
-
       <div class="grid grid-cols-2 gap-3">
         ${fld('Berapa lama?',`<input id="wizDur" type="number" min="1" value="${wizard.durationValue}" class="f-input">`)}
         ${fld('Satuan',`<select id="wizUnit" class="f-input">
@@ -2143,17 +2066,9 @@ function renderWizard(){
           <option value="month"${wizard.durationUnit==='month'?' selected':''}>Bulan</option>
         </select>`)}
       </div>
-
       ${fld('Harga Total (Rp)',`<input id="wizPrice" type="number" min="0" step="1000" value="${shownPrice||''}" class="f-input">`)}
-
       <div id="wizPreview" class="rounded-xl2 border border-ink-200/60 p-3.5 sm:p-4 text-[12.5px] leading-relaxed">
-        ${preview?`
-          <div class="flex items-center gap-2 text-ink-700">
-            <i class="fa-solid fa-calendar-check text-accent flex-shrink-0"></i>
-            <span>Berakhir <strong>${formatTanggalID(toISO(preview.end),true)}</strong> · ${preview.totalDays} hari</span>
-          </div>
-          ${conflict?`<div class="mt-2 text-terra font-semibold"><i class="fa-solid fa-triangle-exclamation mr-1"></i>Bentrok dengan ${esc(tenantName(conflict.tenantId))}</div>`:''}
-        `:'<span class="text-ink-400">Isi tanggal & durasi.</span>'}
+        ${preview?`<div class="flex items-center gap-2 text-ink-700"><i class="fa-solid fa-calendar-check text-accent flex-shrink-0"></i><span>Berakhir <strong>${formatTanggalID(toISO(preview.end),true)}</strong> · ${preview.totalDays} hari</span></div>${conflict?`<div class="mt-2 text-terra font-semibold"><i class="fa-solid fa-triangle-exclamation mr-1"></i>Bentrok dengan ${esc(tenantName(conflict.tenantId))}</div>`:''}`:'<span class="text-ink-400">Isi tanggal & durasi.</span>'}
       </div>
     </div>
     <div class="px-4 sm:px-6 py-4 border-t border-ink-200/60 bg-ink-100/40 flex justify-between gap-2">
@@ -2162,11 +2077,7 @@ function renderWizard(){
     </div>`;
   }
 
-  openModal(
-    modalHeader('Sewakan Kamar','Ikuti langkah-langkahnya — hanya butuh 30 detik')+
-    stepIndicator(wizard.step)+
-    body,'lg'
-  );
+  openModal(modalHeader('Sewakan Kamar','Ikuti langkah-langkahnya — hanya butuh 30 detik')+stepIndicator(wizard.step)+body,'lg');
 
   if(wizard.step===3){
     const upd=()=>{
@@ -2182,24 +2093,14 @@ function renderWizard(){
       const conflict=preview?checkRentalConflict(wizard.roomId,wizard.startDate,toISO(preview.end),null):null;
       const box=el('wizPreview');
       if(box){
-        box.innerHTML=preview?`
-          <div class="flex items-center gap-2 text-ink-700">
-            <i class="fa-solid fa-calendar-check text-accent flex-shrink-0"></i>
-            <span>Berakhir <strong>${formatTanggalID(toISO(preview.end),true)}</strong> · ${preview.totalDays} hari</span>
-          </div>
-          ${conflict?`<div class="mt-2 text-terra font-semibold"><i class="fa-solid fa-triangle-exclamation mr-1"></i>Bentrok dengan ${esc(tenantName(conflict.tenantId))}</div>`:''}
-        `:'<span class="text-ink-400">Isi tanggal & durasi.</span>';
+        box.innerHTML=preview?`<div class="flex items-center gap-2 text-ink-700"><i class="fa-solid fa-calendar-check text-accent flex-shrink-0"></i><span>Berakhir <strong>${formatTanggalID(toISO(preview.end),true)}</strong> · ${preview.totalDays} hari</span></div>${conflict?`<div class="mt-2 text-terra font-semibold"><i class="fa-solid fa-triangle-exclamation mr-1"></i>Bentrok dengan ${esc(tenantName(conflict.tenantId))}</div>`:''}`:'<span class="text-ink-400">Isi tanggal & durasi.</span>';
       }
     };
-    ['wizStart','wizDur','wizUnit'].forEach(id=>{
-      const n=el(id);if(n){n.addEventListener('change',upd);n.addEventListener('input',upd)}
-    });
+    ['wizStart','wizDur','wizUnit'].forEach(id=>{const n=el(id);if(n){n.addEventListener('change',upd);n.addEventListener('input',upd)}});
     const price=el('wizPrice');
     if(price)price.addEventListener('input',()=>{wizard.priceTouched=true});
   }
-  if(wizard.step===2&&wizard.tenantMode==='new'){
-    setTimeout(()=>{const n=el('wizNewName');if(n)n.focus()},50);
-  }
+  if(wizard.step===2&&wizard.tenantMode==='new')setTimeout(()=>{const n=el('wizNewName');if(n)n.focus()},50);
 }
 function autoPriceFor(room,value,unit){
   const v=clampNum(value);if(!v)return 0;
@@ -2210,8 +2111,7 @@ function autoPriceFor(room,value,unit){
 function wizardNext(){
   if(wizard.step===1){
     if(!wizard.roomId)return toast('Pilih kamar dulu','err');
-    wizard.step=2;
-    renderWizard();
+    wizard.step=2;renderWizard();
   } else if(wizard.step===2){
     if(wizard.tenantMode==='existing'){
       const sel=el('wizTenantSel');
@@ -2222,52 +2122,32 @@ function wizardNext(){
       wizard.newPhone=(el('wizNewPhone').value||'').trim();
       if(!wizard.newName)return toast('Nama penyewa wajib diisi','err');
     }
-    wizard.step=3;
-    renderWizard();
+    wizard.step=3;renderWizard();
   }
 }
-function wizardBack(){
-  if(wizard.step>1){wizard.step--;renderWizard()}
-}
+function wizardBack(){if(wizard.step>1){wizard.step--;renderWizard()}}
 function wizardFinish(){
   wizard.startDate=el('wizStart').value;
   wizard.durationValue=parseInt(el('wizDur').value,10)||0;
   wizard.durationUnit=el('wizUnit').value;
   const price=clampNum(el('wizPrice').value);
-
   if(!parseISO(wizard.startDate))return toast('Tanggal mulai tidak valid','err');
   if(wizard.durationValue<=0)return toast('Durasi harus lebih dari 0','err');
   if(price<=0)return toast('Harga harus lebih dari 0','err');
-
   const p=calculateRentalEndDate(wizard.startDate,wizard.durationValue,wizard.durationUnit);
   if(!p)return toast('Periode tidak valid','err');
   const conflict=checkRentalConflict(wizard.roomId,wizard.startDate,toISO(p.end),null);
   if(conflict)return toast(`Bentrok dengan ${tenantName(conflict.tenantId)}`,'err');
-
   let tenantId=wizard.tenantId;
   if(wizard.tenantMode==='new'){
     const nt={id:nextId('TNT'),name:wizard.newName,phone:wizard.newPhone||'-',notes:''};
     state.tenants.push(nt);tenantId=nt.id;
   }
   const status=parseISO(wizard.startDate)>state.today?'booked':'active';
-  const rental={id:nextId('RTL'),roomId:wizard.roomId,tenantId,
-    startDate:wizard.startDate,endDate:toISO(p.end),
-    durationValue:wizard.durationValue,durationUnit:wizard.durationUnit,
-    totalPrice:price,status,
-    previousRentalId:null,availableDate:null,emptyDays:null,
-    createdAt:toISO(state.today),logs:[]};
+  const rental={id:nextId('RTL'),roomId:wizard.roomId,tenantId,startDate:wizard.startDate,endDate:toISO(p.end),durationValue:wizard.durationValue,durationUnit:wizard.durationUnit,totalPrice:price,status,previousRentalId:null,availableDate:null,emptyDays:null,createdAt:toISO(state.today),logs:[]};
   state.rentals.push(rental);
-  persist();
-  closeModal();
-  render();
-
-  setTimeout(()=>{
-    if(confirmAction('Sewa berhasil dibuat!\n\nCatat pembayaran pertama sekarang?')){
-      openTxForm(rental.id);
-    } else {
-      toast('Sewa berhasil dibuat','ok');
-    }
-  }, 200);
+  persist();closeModal();render();
+  setTimeout(()=>{if(confirmAction('Sewa berhasil dibuat!\n\nCatat pembayaran pertama sekarang?'))openTxForm(rental.id);else toast('Sewa berhasil dibuat','ok')},200);
 }
 
 /* ============================================================
@@ -2333,7 +2213,6 @@ function saveRoom(id){
   persist();closeModal();render();
   toast(id?'Kamar diperbarui':'Kamar ditambahkan','ok');
 }
-
 function openTxForm(rentalId,presetAmount){
   const r=getRental(rentalId);if(!r)return;
   const b=calculateBilling(r);
@@ -2364,19 +2243,14 @@ function openTxForm(rentalId,presetAmount){
   );
   setTimeout(()=>{const n=el('txAmount');if(n)n.focus()},50);
   const sel=el('txType');
-  if(sel)sel.addEventListener('change',()=>{
-    el('txSubWrap').classList.toggle('hidden',sel.value!=='extra');
-  });
+  if(sel)sel.addEventListener('change',()=>{el('txSubWrap').classList.toggle('hidden',sel.value!=='extra')});
 }
 function saveTx(rentalId){
   const r=getRental(rentalId);if(!r)return;
   const type=el('txType').value;
   const amount=clampNum(el('txAmount').value);
   if(amount<=0)return toast('Jumlah harus lebih dari 0','err');
-  state.transactions.push({id:nextId('TRX'),rentalId:r.id,tenantId:r.tenantId,roomId:r.roomId,
-    type,subtype:type==='extra'?(el('txSub').value||''):'',amount,
-    transactionDate:el('txDate').value||toISO(state.today),
-    paymentMethod:el('txMethod').value,notes:el('txNotes').value.trim(),status:'posted'});
+  state.transactions.push({id:nextId('TRX'),rentalId:r.id,tenantId:r.tenantId,roomId:r.roomId,type,subtype:type==='extra'?(el('txSub').value||''):'',amount,transactionDate:el('txDate').value||toISO(state.today),paymentMethod:el('txMethod').value,notes:el('txNotes').value.trim(),status:'posted'});
   persist();closeModal();render();
   toast('Pembayaran dicatat','ok');
 }
@@ -2388,13 +2262,11 @@ function deleteTx(txId){
   state.transactions.splice(i,1);persist();
   if(!el('drawerBackdrop').hidden){
     const openRoomId=[...state.rooms].find(r=>getRoomDisplayStatus(r).rental&&getRoomDisplayStatus(r).rental.id===t.rentalId);
-    if(openRoomId)openRoomDrawer(openRoomId.id);
-    else closeDrawer();
+    if(openRoomId)openRoomDrawer(openRoomId.id);else closeDrawer();
   }
   render();
   toast('Catatan dihapus','ok');
 }
-
 function openRentalDetail(id){
   const r=getRental(id);if(!r)return;
   const room=getRoom(r.roomId);const b=calculateBilling(r);
@@ -2411,13 +2283,9 @@ function openRentalDetail(id){
     </tr>`;
   }).join('');
   openModal(
-    modalHeader(`${esc(tenantName(r.tenantId))} — ${esc(room?room.name:r.roomId)}`,
-      `${formatTanggalID(r.startDate,true)} – ${formatTanggalID(r.endDate,true)}`)+
+    modalHeader(`${esc(tenantName(r.tenantId))} — ${esc(room?room.name:r.roomId)}`,`${formatTanggalID(r.startDate,true)} – ${formatTanggalID(r.endDate,true)}`)+
     `<div class="p-4 sm:p-6 flex flex-col gap-4 sm:gap-5">
-      <div class="flex items-center gap-2 flex-wrap">
-        ${badge(st.tone,st.label)}
-        ${badge(ps.tone,ps.label)}
-      </div>
+      <div class="flex items-center gap-2 flex-wrap">${badge(st.tone,st.label)}${badge(ps.tone,ps.label)}</div>
       <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 sm:gap-3">
         ${[['Total Tagihan',rupiah(b.totalTagihan),false],['Sudah Dibayar',rupiah(b.totalDibayar),false],['Belum Dibayar',rupiah(b.sisa),b.sisa>0],['Deposit',rupiah(b.depositMasuk),false],['Biaya Tambahan',rupiah(b.biayaTambahan),false],['Denda',rupiah(b.transactions.filter(t=>t.type==='late_fee').reduce((s,t)=>s+t.amount,0)),false]].map(x=>`
           <div class="rounded-xl px-3 sm:px-4 py-3 ${x[2]?'bg-terra-soft':'bg-ink-100'} min-w-0">
@@ -2450,13 +2318,12 @@ function setRentalStatus(id,status,label){
 }
 function rentExtend(rentalId){
   const r=getRental(rentalId);if(!r)return;
-  const startDate=toISO(addDays(parseISO(r.endDate),1));
   wizard.step=2;
   wizard.roomId=r.roomId;
   wizard.tenantMode='existing';
   wizard.tenantId=r.tenantId;
   wizard.newName='';wizard.newPhone='';
-  wizard.startDate=startDate;
+  wizard.startDate=toISO(addDays(parseISO(r.endDate),1));
   wizard.durationValue=r.durationValue;
   wizard.durationUnit=r.durationUnit;
   wizard.totalPrice=r.totalPrice;
@@ -2499,10 +2366,9 @@ function exportReportCSV(){
   const msISO=toISO(new Date(rm.year,rm.month,1,12));
   const meISO=toISO(new Date(rm.year,rm.month+1,0,12));
   const rows=[['Tanggal','Penyewa','Kamar','Jenis','Metode','Jumlah','Catatan']];
-  state.transactions.filter(t=>{const d=parseISO(t.transactionDate);return!!d&&t.transactionDate>=msISO&&t.transactionDate<=meISO})
-    .forEach(t=>{
-      rows.push([t.transactionDate,tenantName(t.tenantId),(getRoom(t.roomId)||{}).name||'',TX[t.type]?TX[t.type].label:t.type,t.paymentMethod||'',t.amount||0,t.notes||'']);
-    });
+  state.transactions.filter(t=>{const d=parseISO(t.transactionDate);return!!d&&t.transactionDate>=msISO&&t.transactionDate<=meISO}).forEach(t=>{
+    rows.push([t.transactionDate,tenantName(t.tenantId),(getRoom(t.roomId)||{}).name||'',TX[t.type]?TX[t.type].label:t.type,t.paymentMethod||'',t.amount||0,t.notes||'']);
+  });
   downloadCSV(`laporan-${rm.year}-${String(rm.month+1).padStart(2,'0')}.csv`,rows);
 }
 function exportWACSV(){
@@ -2512,11 +2378,11 @@ function exportWACSV(){
 }
 
 /* ============================================================
-   EVENT DELEGATION
+   EVENT DELEGATION (FIX 3: hapus duplikasi handler)
    ============================================================ */
 function switchView(v){
   state.activeView=v;
-  if(state.q){state.q=''}
+  if(state.q)state.q='';
   render();
   window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -2525,103 +2391,91 @@ document.addEventListener('click',e=>{
   const t=e.target.closest('[data-action],[data-view],[data-global]');
   if(!t)return;
   const id=t.dataset.id;
-  if(t.dataset.view!==undefined){switchView(t.dataset.view);return}
-  if(t.dataset.global!==undefined){
+
+  // Prioritas: data-action > data-global > data-view
+  if(t.dataset.action){
+    switch(t.dataset.action){
+      case 'close-modal':closeModal();return;
+      case 'close-drawer':closeDrawer();return;
+      case 'stop-bulk':stopBulk();return;
+      case 'preview-wa':previewReminder(id);return;
+      case 'send-wa-custom':sendWACustom(id);return;
+      case 'edit-tenant':closeDrawer();openTenantForm(id);return;
+      case 'add-tenant':openTenantForm();return;
+      case 'save-tenant':saveTenant(id||null);return;
+      case 'add-room':openRoomForm();return;
+      case 'edit-room':closeDrawer();openRoomForm(id);return;
+      case 'save-room':saveRoom(id||null);return;
+      case 'toggle-maint':{const r=getRoom(id);if(r){r.manualStatus=r.manualStatus==='maintenance'?null:'maintenance';persist();closeDrawer();render()}return;}
+      case 'filter-rooms':state.filter.rooms=id;render();return;
+      case 'open-room':openRoomDrawer(id);return;
+      case 'open-tenant':openTenantDrawer(id);return;
+      case 'rent-room':closeDrawer();openRentWizard({roomId:id});return;
+      case 'rent-tenant':closeDrawer();openRentWizard({tenantId:id});return;
+      case 'rent-extend':rentExtend(id);return;
+      case 'open-rental':closeDrawer();openRentalDetail(id);return;
+      case 'edit-rental':closeModal();openRentalForm(id);return;
+      case 'add-tx':closeDrawer();openTxForm(id);return;
+      case 'quick-pay':closeDrawer();openTxForm(id);return;
+      case 'tx-fill-full':{const r=getRental(id);if(!r)return;const b=calculateBilling(r);el('txAmount').value=b.sisa;return;}
+      case 'save-tx':saveTx(id);return;
+      case 'del-tx':deleteTx(id);return;
+      case 'finish-rental':setRentalStatus(id,'finished','Tandai selesai (checkout)');return;
+      case 'cancel-rental':setRentalStatus(id,'cancelled','Batalkan');return;
+      case 'bulk-wa':startBulkWA();return;
+      case 'money-tab':state.moneyTab=id;render();return;
+      case 'settings-tab':state.settingsTab=id;render();return;
+      case 'bookings-tab':state.bookingsTab=id;render();return;
+      case 'booking-refresh':bookingRefresh();return;
+      case 'booking-approve':bookingSetStatus(id,'approved');return;
+      case 'booking-reject':bookingSetStatus(id,'rejected');return;
+      case 'booking-wa':bookingWA(id);return;
+      case 'booking-convert':bookingConvert(id);return;
+      case 'booking-delete':bookingDelete(id);return;
+      case 'report-prev':case 'report-next':{
+        const rm=state.reportMonth;
+        const d=new Date(rm.year,rm.month+(t.dataset.action==='report-next'?1:-1),1,12);
+        state.reportMonth={year:d.getFullYear(),month:d.getMonth()};
+        render();return;
+      }
+      case 'export-tx':exportTransactionsCSV();return;
+      case 'export-bills':exportBillsCSV();return;
+      case 'export-report':exportReportCSV();return;
+      case 'export-data':exportData();return;
+      case 'export-sheets':exportFromSheets();return;
+      case 'force-sync':{setSyncStatus('syncing','Menyimpan…');_lastSyncJson='';syncToSheets().then(()=>toast('Sinkron selesai','ok'));return;}
+      case 'import-data':el('importFile').click();return;
+      case 'reset-data':clearAllData();return;
+      case 'save-settings':{
+        state.settings.lateFeePerDay=clampNum(el('setLateFee')?.value||20000);
+        if(el('setKosName'))state.settings.kosName=el('setKosName').value.trim();
+        if(el('setKosAddress'))state.settings.kosAddress=el('setKosAddress').value.trim();
+        if(el('setKosPhone'))state.settings.kosPhone=el('setKosPhone').value.trim();
+        if(el('setKosDesc'))state.settings.kosDescription=el('setKosDesc').value.trim();
+        persist();toast('Pengaturan disimpan','ok');return;
+      }
+      case 'open-wa-detail':openWADetail(id);return;
+      case 'wa-resend':{const w=state.waHistory.find(x=>x.id===id);if(w)openWA(`https://wa.me/${cleanPhone(w.phone)}?text=${encodeURIComponent(w.message||'')}`);return;}
+      case 'clear-wa':if(confirmAction('Hapus seluruh riwayat WhatsApp?')){state.waHistory=[];persistWA();render();toast('Riwayat dihapus','ok')}return;
+      case 'export-wa':exportWACSV();return;
+      case 'open-help':openHelp();return;
+      case 'wiz-room':wizard.roomId=id;renderWizard();return;
+      case 'wiz-tenant-mode':wizard.tenantMode=id;renderWizard();return;
+      case 'wiz-next':wizardNext();return;
+      case 'wiz-back':wizardBack();return;
+      case 'wiz-finish':wizardFinish();return;
+      case 'save-rental-edit':saveRentalEdit(id);return;
+    }
+    return;
+  }
+
+  if(t.dataset.global){
     if(t.dataset.global==='add-tenant')openTenantForm();
     else if(t.dataset.global==='rent-wizard')openRentWizard();
     return;
   }
-  switch(t.dataset.action){
-    case 'close-modal':closeModal();break;
-    case 'close-drawer':closeDrawer();break;
-    case 'stop-bulk':stopBulk();break;
-    case 'preview-wa':previewReminder(id);break;
-    case 'send-wa-custom':sendWACustom(id);break;
-    case 'edit-tenant':closeDrawer();openTenantForm(id);break;
-    case 'add-tenant':openTenantForm();break;
-    case 'save-tenant':saveTenant(id||null);break;
-    case 'add-room':openRoomForm();break;
-    case 'edit-room':closeDrawer();openRoomForm(id);break;
-    case 'save-room':saveRoom(id||null);break;
-    case 'toggle-maint':{
-      const r=getRoom(id);
-      if(r){r.manualStatus=r.manualStatus==='maintenance'?null:'maintenance';persist();closeDrawer();render()}
-      break;
-    }
-    case 'filter-rooms':state.filter.rooms=id;render();break;
-    case 'open-room':openRoomDrawer(id);break;
-    case 'open-tenant':openTenantDrawer(id);break;
-    case 'rent-room':closeDrawer();openRentWizard({roomId:id});break;
-    case 'rent-tenant':closeDrawer();openRentWizard({tenantId:id});break;
-    case 'rent-extend':rentExtend(id);break;
-    case 'open-rental':closeDrawer();openRentalDetail(id);break;
-    case 'edit-rental':closeModal();openRentalForm(id);break;
-    case 'add-tx':closeDrawer();openTxForm(id);break;
-    case 'quick-pay':closeDrawer();openTxForm(id);break;
-    case 'tx-fill-full':{
-      const r=getRental(id);if(!r)return;
-      const b=calculateBilling(r);el('txAmount').value=b.sisa;break;
-    }
-    case 'save-tx':saveTx(id);break;
-    case 'del-tx':deleteTx(id);break;
-    case 'finish-rental':setRentalStatus(id,'finished','Tandai selesai (checkout)');break;
-    case 'cancel-rental':setRentalStatus(id,'cancelled','Batalkan');break;
-    case 'bulk-wa':startBulkWA();break;
-    case 'money-tab':state.moneyTab=id;render();break;
-    case 'settings-tab':state.settingsTab=id;render();break;
-    case 'bookings-tab':state.bookingsTab=id;render();break;
-    case 'booking-refresh':bookingRefresh();break;
-    case 'booking-approve':bookingSetStatus(id,'approved');break;
-    case 'booking-reject':bookingSetStatus(id,'rejected');break;
-    case 'booking-wa':bookingWA(id);break;
-    case 'booking-convert':bookingConvert(id);break;
-    case 'booking-delete':bookingDelete(id);break;
-    case 'report-prev':case 'report-next':{
-      const rm=state.reportMonth;
-      const d=new Date(rm.year,rm.month+(t.dataset.action==='report-next'?1:-1),1,12);
-      state.reportMonth={year:d.getFullYear(),month:d.getMonth()};
-      render();break;
-    }
-    case 'export-tx':exportTransactionsCSV();break;
-    case 'export-bills':exportBillsCSV();break;
-    case 'export-report':exportReportCSV();break;
-    case 'export-data':exportData();break;
-    case 'export-sheets':exportFromSheets();break;
-    case 'force-sync':{
-      setSyncStatus('syncing','Menyimpan…');
-      syncToSheets().then(()=>toast('Sinkron selesai','ok'));
-      break;
-    }
-    case 'import-data':el('importFile').click();break;
-    case 'reset-data':clearAllData();break;
-    case 'save-settings':{
-      state.settings.lateFeePerDay=clampNum(el('setLateFee')?.value||20000);
-      if(el('setKosName'))    state.settings.kosName=el('setKosName').value.trim();
-      if(el('setKosAddress')) state.settings.kosAddress=el('setKosAddress').value.trim();
-      if(el('setKosPhone'))   state.settings.kosPhone=el('setKosPhone').value.trim();
-      if(el('setKosDesc'))    state.settings.kosDescription=el('setKosDesc').value.trim();
-      persist();
-      toast('Pengaturan disimpan','ok');
-      break;
-    }
-    case 'open-wa-detail':openWADetail(id);break;
-    case 'wa-resend':{
-      const w=state.waHistory.find(x=>x.id===id);
-      if(w)openWA(`https://wa.me/${cleanPhone(w.phone)}?text=${encodeURIComponent(w.message||'')}`);
-      break;
-    }
-    case 'clear-wa':
-      if(confirmAction('Hapus seluruh riwayat WhatsApp?')){state.waHistory=[];persistWA();render();toast('Riwayat dihapus','ok')}
-      break;
-    case 'export-wa':exportWACSV();break;
-    case 'open-help':openHelp();break;
-    case 'wiz-room':wizard.roomId=id;renderWizard();break;
-    case 'wiz-tenant-mode':wizard.tenantMode=id;renderWizard();break;
-    case 'wiz-next':wizardNext();break;
-    case 'wiz-back':wizardBack();break;
-    case 'wiz-finish':wizardFinish();break;
-    case 'save-rental-edit':saveRentalEdit(id);break;
-  }
+
+  if(t.dataset.view!==undefined){switchView(t.dataset.view);return;}
 });
 
 /* ============================================================
@@ -2631,26 +2485,11 @@ function openHelp(){
   openModal(
     modalHeader('Bantuan','Cara pakai KosManager')+
     `<div class="p-4 sm:p-6 text-[13px] sm:text-[13.5px] text-ink-700 leading-relaxed flex flex-col gap-4">
-      <div class="flex items-start gap-3">
-        <div class="w-8 h-8 rounded-lg bg-sage-soft flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-house text-sage text-[12px]"></i></div>
-        <div><strong>Hari Ini</strong> — semua tugas harian ada di sini. Klik <em>Chat WA</em> untuk menagih, <em>Catat Bayar</em> untuk mencatat pembayaran.</div>
-      </div>
-      <div class="flex items-start gap-3">
-        <div class="w-8 h-8 rounded-lg bg-steel-soft flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-door-open text-steel text-[12px]"></i></div>
-        <div><strong>Kamar</strong> — ketuk kamar untuk melihat semua aksi: sewakan, catat bayar, perpanjang, atau checkout.</div>
-      </div>
-      <div class="flex items-start gap-3">
-        <div class="w-8 h-8 rounded-lg bg-amber-soft flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-calendar-check text-amber text-[12px]"></i></div>
-        <div><strong>Pemesanan</strong> — booking dari landing page publik. Setujui, tolak, atau langsung ubah jadi sewa aktif.</div>
-      </div>
-      <div class="flex items-start gap-3">
-        <div class="w-8 h-8 rounded-lg bg-accent-soft flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-wallet text-accent text-[12px]"></i></div>
-        <div><strong>Uang</strong> — 3 tab: <em>Pembayaran</em>, <em>Tagihan</em>, <em>Laporan</em>.</div>
-      </div>
-      <div class="flex items-start gap-3">
-        <div class="w-8 h-8 rounded-lg bg-terra-soft flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-cloud text-terra text-[12px]"></i></div>
-        <div><strong>Google Sheets</strong> — semua data tersimpan otomatis di Spreadsheet Anda. Indikator hijau di pojok = tersinkron.</div>
-      </div>
+      <div class="flex items-start gap-3"><div class="w-8 h-8 rounded-lg bg-sage-soft flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-house text-sage text-[12px]"></i></div><div><strong>Hari Ini</strong> — semua tugas harian ada di sini.</div></div>
+      <div class="flex items-start gap-3"><div class="w-8 h-8 rounded-lg bg-steel-soft flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-door-open text-steel text-[12px]"></i></div><div><strong>Kamar</strong> — ketuk kamar untuk aksi lengkap.</div></div>
+      <div class="flex items-start gap-3"><div class="w-8 h-8 rounded-lg bg-amber-soft flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-calendar-check text-amber text-[12px]"></i></div><div><strong>Pemesanan</strong> — booking dari landing page publik.</div></div>
+      <div class="flex items-start gap-3"><div class="w-8 h-8 rounded-lg bg-accent-soft flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-wallet text-accent text-[12px]"></i></div><div><strong>Uang</strong> — Pembayaran, Tagihan, Laporan.</div></div>
+      <div class="flex items-start gap-3"><div class="w-8 h-8 rounded-lg bg-terra-soft flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-cloud text-terra text-[12px]"></i></div><div><strong>Google Sheets</strong> — tersimpan otomatis. Indikator hijau = OK.</div></div>
     </div>
     <div class="px-4 sm:px-6 py-4 border-t border-ink-200/60 bg-ink-100/40 flex justify-end">
       <button class="btn-primary" data-action="close-modal" type="button">Mengerti</button>
@@ -2662,18 +2501,9 @@ function showOnboarding(){
   openModal(
     modalHeader('Selamat Datang di KosManager 👋','Sistem manajemen kos berbasis cloud')+
     `<div class="p-4 sm:p-6 flex flex-col gap-3 sm:gap-4">
-      <div class="flex items-start gap-4 p-4 rounded-xl bg-sage-soft border border-sage-ring/40">
-        <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center flex-shrink-0"><span class="text-[14px] font-bold text-sage">1</span></div>
-        <div><div class="text-[13px] sm:text-[13.5px] font-bold text-ink-900">Data otomatis tersimpan di Google Sheets</div><div class="text-[12px] text-ink-600 mt-0.5">Setiap perubahan langsung disinkron. Indikator hijau di pojok kiri bawah = OK.</div></div>
-      </div>
-      <div class="flex items-start gap-4 p-4 rounded-xl bg-steel-soft border border-steel-ring/40">
-        <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center flex-shrink-0"><span class="text-[14px] font-bold text-steel">2</span></div>
-        <div><div class="text-[13px] sm:text-[13.5px] font-bold text-ink-900">Landing page publik siap menerima booking</div><div class="text-[12px] text-ink-600 mt-0.5">Calon penyewa bisa pesan online. Booking masuk ke tab <strong>Pemesanan</strong>.</div></div>
-      </div>
-      <div class="flex items-start gap-4 p-4 rounded-xl bg-amber-soft border border-amber-ring/40">
-        <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center flex-shrink-0"><span class="text-[14px] font-bold text-amber">3</span></div>
-        <div><div class="text-[13px] sm:text-[13.5px] font-bold text-ink-900">Kelola dari menu Hari Ini</div><div class="text-[12px] text-ink-600 mt-0.5">Tagihan yang perlu ditagih muncul otomatis.</div></div>
-      </div>
+      <div class="flex items-start gap-4 p-4 rounded-xl bg-sage-soft border border-sage-ring/40"><div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center flex-shrink-0"><span class="text-[14px] font-bold text-sage">1</span></div><div><div class="text-[13px] sm:text-[13.5px] font-bold text-ink-900">Data otomatis tersimpan di Google Sheets</div><div class="text-[12px] text-ink-600 mt-0.5">Indikator hijau di pojok = OK.</div></div></div>
+      <div class="flex items-start gap-4 p-4 rounded-xl bg-steel-soft border border-steel-ring/40"><div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center flex-shrink-0"><span class="text-[14px] font-bold text-steel">2</span></div><div><div class="text-[13px] sm:text-[13.5px] font-bold text-ink-900">Landing page publik siap menerima booking</div><div class="text-[12px] text-ink-600 mt-0.5">Booking masuk ke tab <strong>Pemesanan</strong>.</div></div></div>
+      <div class="flex items-start gap-4 p-4 rounded-xl bg-amber-soft border border-amber-ring/40"><div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center flex-shrink-0"><span class="text-[14px] font-bold text-amber">3</span></div><div><div class="text-[13px] sm:text-[13.5px] font-bold text-ink-900">Kelola dari menu Hari Ini</div><div class="text-[12px] text-ink-600 mt-0.5">Tagihan yang perlu ditagih muncul otomatis.</div></div></div>
     </div>
     <div class="px-4 sm:px-6 py-4 border-t border-ink-200/60 bg-ink-100/40 flex justify-between gap-2">
       <button class="btn-ghost" data-action="close-modal" type="button">Lewati</button>
@@ -2683,7 +2513,6 @@ function showOnboarding(){
   localStorage.setItem(ONBOARD_KEY,'1');
 }
 
-/* Form rental edit */
 function openRentalForm(rentalId){
   const editing=rentalId?getRental(rentalId):null;
   if(!editing)return;
@@ -2699,10 +2528,7 @@ function openRentalForm(rentalId){
       ${fld('Tanggal Mulai',`<input id="rfStart" type="date" value="${esc(startISO)}" class="f-input">`)}
       <div class="hidden sm:block"></div>
       ${fld('Durasi',`<input id="rfDur" type="number" min="1" value="${dv}" class="f-input">`)}
-      ${fld('Satuan',`<select id="rfUnit" class="f-input">
-        <option value="day"${du==='day'?' selected':''}>Hari</option>
-        <option value="week"${du==='week'?' selected':''}>Minggu</option>
-        <option value="month"${du==='month'?' selected':''}>Bulan</option></select>`)}
+      ${fld('Satuan',`<select id="rfUnit" class="f-input"><option value="day"${du==='day'?' selected':''}>Hari</option><option value="week"${du==='week'?' selected':''}>Minggu</option><option value="month"${du==='month'?' selected':''}>Bulan</option></select>`)}
       <div class="sm:col-span-2">${fld('Harga Total (Rp)',`<input id="rfPrice" type="number" min="0" step="1000" value="${editing.totalPrice}" class="f-input">`)}</div>
     </div>
     <div class="px-4 sm:px-6 py-4 border-t border-ink-200/60 bg-ink-100/40 flex justify-end gap-2">
@@ -2732,14 +2558,12 @@ function saveRentalEdit(rentalId){
 }
 
 /* ============================================================
-   BIND STATIC & INIT
+   BIND STATIC (FIX 3: tidak ada handler ganda)
    ============================================================ */
 function bindStatic(){
-  el('helpBtn').addEventListener('click',openHelp);
-  el('globalAddBtn').addEventListener('click',()=>{
-    if(el('globalAddBtn').dataset.global==='add-tenant')openTenantForm();
-    else openRentWizard();
-  });
+  // ✅ FIX: globalAddBtn TIDAK lagi pakai direct listener — pakai delegation
+  // ✅ FIX: helpBtn pakai data-action="open-help"
+  el('helpBtn').setAttribute('data-action','open-help');
   el('importFile').addEventListener('change',e=>{
     const f=e.target.files[0];
     if(f)importData(f);
@@ -2755,21 +2579,33 @@ function bindStatic(){
   });
 }
 
+/* ============================================================
+   INIT (FIX 1,2,5)
+   ============================================================ */
 async function init(){
+  setToday(); // ✅ FIX: state.today di-set SEBELUM apa pun
+
   el('content').innerHTML=`<div class="py-20 text-center text-ink-400">
     <i class="fa-solid fa-spinner fa-spin text-2xl"></i>
     <p class="text-[13px] mt-3">Memuat data dari Google Sheets…</p>
+    <p class="text-[11px] text-ink-400 mt-1">Maksimal 25 detik</p>
   </div>`;
 
   const ok=await loadFromServer();
+
   if(!ok){
+    // ✅ FIX 5: Sheets kosong / tidak ada data → seed lalu push
+    seedData();
+    setSyncStatus('syncing','Menyiapkan data awal…');
+    try{
+      await syncToSheets();
+    }catch(_){}
+  } else if(state.rooms.length===0){
+    // Defensive: kalau rooms kosong padahal data lain ada
     seedData();
     await syncToSheets();
   }
 
-  if(!state.reportMonth||!state.reportMonth.year){
-    state.reportMonth={year:state.today.getFullYear(),month:state.today.getMonth()};
-  }
   bindStatic();
   render();
   setTimeout(showOnboarding,400);
