@@ -49,25 +49,39 @@ tailwind.config = {
 </script>
 
 <style>
-  html, body { background:#FAF9F5; }
-  body { font-family:'Plus Jakarta Sans',system-ui,sans-serif; -webkit-font-smoothing:antialiased; color:#1C1917; }
-  [hidden] { display:none !important; }
+    html, body { background:#FAF9F5; }
+    body { font-family:'Plus Jakarta Sans',system-ui,sans-serif; -webkit-font-smoothing:antialiased; color:#1C1917; }
+    [hidden] { display:none !important; }
 
-  ::-webkit-scrollbar { width:10px; height:10px; }
-  ::-webkit-scrollbar-track { background:transparent; }
-  ::-webkit-scrollbar-thumb { background:#E7E5E4; border-radius:8px; border:3px solid #FAF9F5; }
-  ::-webkit-scrollbar-thumb:hover { background:#D6D3D1; }
-  .sidebar-scroll::-webkit-scrollbar-thumb { background:#3A3531; border-color:#221E1B; }
-  .sidebar-dark { background:#1F1C1A; }
+    ::-webkit-scrollbar { width:10px; height:10px; }
+    ::-webkit-scrollbar-track { background:transparent; }
+    ::-webkit-scrollbar-thumb { background:#E7E5E4; border-radius:8px; border:3px solid #FAF9F5; }
+    ::-webkit-scrollbar-thumb:hover { background:#D6D3D1; }
+    .sidebar-scroll::-webkit-scrollbar-thumb { background:#3A3531; border-color:#221E1B; }
+    .sidebar-dark { background:#1F1C1A; }
 
-  input:focus, select:focus, textarea:focus, button:focus-visible {
-    outline:none; border-color:#A8A29E; box-shadow:0 0 0 4px rgba(63,58,52,0.08);
-  }
-  input[type=number]::-webkit-outer-spin-button,
-  input[type=number]::-webkit-inner-spin-button { -webkit-appearance:none; margin:0; }
-  input[type=number] { -moz-appearance:textfield; appearance:textfield; }
-  .table-row { transition:background 120ms ease; }
-  @media print { .no-print { display:none !important; } }
+    input:focus, select:focus, textarea:focus, button:focus-visible {
+      outline:none; border-color:#A8A29E; box-shadow:0 0 0 4px rgba(63,58,52,0.08);
+    }
+    input[type=number]::-webkit-outer-spin-button,
+    input[type=number]::-webkit-inner-spin-button { -webkit-appearance:none; margin:0; }
+    input[type=number] { -moz-appearance:textfield; appearance:textfield; }
+    .table-row { transition:background 120ms ease; }
+    @media print { .no-print { display:none !important; } }
+
+    /* ── Mobile nav drawer ── */
+    #mobileNavDrawer {
+      width: min(85vw, 320px);
+      max-width: 85vw;
+    }
+    @media (max-width: 1023px) {
+      #sidebar { display: none !important; }
+      .lg\:ml-64 { margin-left: 0 !important; }
+      .lg\:flex { display: none !important; }
+    }
+    @media (min-width: 1024px) {
+      #mobileNavDrawer { display: none !important; }
+    }
 
   /* ── Buttons ── */
   .btn-primary,.btn-secondary,.btn-wa,.btn-tertiary,.btn-danger-soft,.btn-success-soft{
@@ -126,7 +140,7 @@ tailwind.config = {
 <div class="flex min-h-screen">
 
   <!-- ══════════ SIDEBAR (5 MENU) ══════════ -->
-  <aside id="sidebar" class="sidebar-dark sidebar-scroll w-full lg:w-64 lg:fixed lg:inset-y-0 lg:flex lg:flex-col z-30 overflow-y-auto">
+  <aside id="sidebar" class="sidebar-dark sidebar-scroll hidden lg:flex lg:w-64 lg:fixed lg:inset-y-0 lg:flex lg:flex-col z-30 overflow-y-auto">
     <div class="px-6 pt-7 pb-6 border-b border-white/[0.04]">
       <div class="flex items-center gap-3">
         <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#4A433B] to-[#2A2520] flex items-center justify-center shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
@@ -170,14 +184,19 @@ tailwind.config = {
   <main class="flex-1 min-w-0 lg:ml-64 flex flex-col">
 
     <header class="sticky top-0 z-20 bg-canvas border-b border-ink-200/60">
-      <div class="px-5 lg:px-10 py-5 flex items-center justify-between gap-4 flex-wrap">
-        <div class="min-w-0">
-          <h1 id="pageTitle" class="text-[22px] lg:text-[26px] font-bold text-ink-900 tracking-tight leading-none">Hari Ini</h1>
-          <p id="pageSub" class="text-[13px] text-ink-500 mt-1.5 leading-snug"></p>
+      <div class="px-4 lg:px-10 py-4 flex items-center justify-between gap-3 flex-wrap">
+        <div class="flex items-center gap-2 min-w-0">
+          <button id="mobileMenuBtn" class="lg:hidden w-10 h-10 flex items-center justify-center rounded-lg text-ink-700 hover:bg-ink-100 transition-colors flex-shrink-0" type="button" aria-label="Menu">
+            <i class="fa-solid fa-bars text-[16px]"></i>
+          </button>
+          <div class="min-w-0">
+            <h1 id="pageTitle" class="text-[20px] lg:text-[26px] font-bold text-ink-900 tracking-tight leading-none">Hari Ini</h1>
+            <p id="pageSub" class="text-[12px] lg:text-[13px] text-ink-500 mt-1 leading-snug"></p>
+          </div>
         </div>
         <div class="flex items-center gap-2 flex-wrap">
           <button id="globalAddBtn" class="btn-primary btn-lg" type="button">
-            <i class="fa-solid fa-plus text-[12px]"></i><span>Sewakan Kamar</span>
+            <i class="fa-solid fa-plus text-[12px]"></i><span class="hidden sm:inline">Sewakan Kamar</span>
           </button>
         </div>
       </div>
@@ -218,6 +237,32 @@ tailwind.config = {
     <button data-action="stop-bulk" type="button" class="px-3.5 py-2 text-[12px] font-semibold text-terra bg-terra-soft hover:bg-terra-soft/70 rounded-lg transition-colors">
       <i class="fa-solid fa-stop text-[10px] mr-1.5"></i> Hentikan
     </button>
+  </div>
+</div>
+
+<div id="mobileNavBackdrop" hidden class="fixed inset-0 z-[55] bg-ink-900/40 flex justify-start animate-fade-in">
+  <div id="mobileNavDrawer" class="h-full bg-white shadow-modal animate-slide-right overflow-y-auto">
+    <div class="px-5 pt-6 pb-4 border-b border-ink-200/60 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-[#4A433B] to-[#2A2520] flex items-center justify-center">
+          <i class="fa-solid fa-building-columns text-[#D9CFC0] text-[14px]"></i>
+        </div>
+        <div>
+          <div class="text-[14px] font-bold text-ink-900">KosManager</div>
+          <div class="text-[10px] text-ink-500 font-medium tracking-wider uppercase">Versi 6</div>
+        </div>
+      </div>
+      <button id="closeMobileNav" class="w-8 h-8 flex items-center justify-center rounded-lg text-ink-400 hover:text-ink-700 hover:bg-ink-100 transition-colors">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+    <nav id="mobileNav" class="flex flex-col gap-1 p-3"></nav>
+    <div class="px-3 pb-6 pt-3 border-t border-ink-200/60">
+      <button id="mobileHelpBtn" class="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-ink-700 hover:bg-ink-100 text-[13px] font-medium w-full">
+        <i class="fa-regular fa-circle-question w-4 text-center text-[13px]"></i><span>Bantuan</span>
+      </button>
+      <p class="text-[11px] text-ink-400 leading-relaxed px-3 pt-2">Data tersimpan otomatis di perangkat ini.</p>
+    </div>
   </div>
 </div>
 
@@ -896,7 +941,6 @@ const META={
   settings:['Pengaturan','Konfigurasi aplikasi']
 };
 const SEARCHABLE=['rooms','tenants'];
-
 function render(){
   const ae=document.activeElement;
   const fid=ae&&ae.id;
@@ -915,10 +959,10 @@ function render(){
   // Contextual global add button
   const addBtn=el('globalAddBtn');
   if(state.activeView==='tenants'){
-    addBtn.innerHTML='<i class="fa-solid fa-user-plus text-[12px]"></i><span>Tambah Penyewa</span>';
+    addBtn.innerHTML='<i class="fa-solid fa-user-plus text-[12px]"></i><span class="hidden sm:inline"> tambahkan Penyewa</span>';
     addBtn.dataset.global='add-tenant';
   } else {
-    addBtn.innerHTML='<i class="fa-solid fa-plus text-[12px]"></i><span>Sewakan Kamar</span>';
+    addBtn.innerHTML='<i class="fa-solid fa-plus text-[12px]"></i><span class="hidden sm:inline">Sewakan Kamar</span>';
     addBtn.dataset.global='rent-wizard';
   }
 
@@ -929,6 +973,9 @@ function render(){
   const nb=el('navBadgeToday');
   nb.classList.toggle('hidden',!urgentCount);
   nb.textContent=urgentCount;
+
+  // Update mobile nav badge
+  updateMobileNavBadge();
 
   const V={
     today:viewToday,rooms:viewRooms,tenants:viewTenants,
@@ -2383,10 +2430,53 @@ document.addEventListener('click',e=>{
 });
 
 /* ============================================================
+   MOBILE NAV DRAWER
+   ============================================================ */
+const MOBILE_NAV_ITEMS=[
+  {view:'today', icon:'fa-house', label:'Hari Ini'},
+  {view:'rooms', icon:'fa-door-open', label:'Kamar'},
+  {view:'tenants', icon:'fa-users', label:'Penyewa'},
+  {view:'money', icon:'fa-wallet', label:'Uang'},
+  {view:'settings', icon:'fa-gear', label:'Pengaturan'}
+];
+function buildMobileNav(){
+  const nav=el('mobileNav');
+  if(!nav)return;
+  nav.innerHTML=MOBILE_NAV_ITEMS.map(item=>`
+    <button data-view="${item.view}" class="mobile-nav-btn flex items-center gap-3 px-3 py-3 rounded-lg text-ink-700 text-[15px] font-medium w-full transition-colors hover:bg-ink-100">
+      <i class="fa-solid ${item.icon} w-5 text-center text-[15px] text-ink-500"></i>
+      <span>${item.label}</span>
+      ${item.view==='today'?`<span id="mobileNavBadgeToday" class="ml-auto hidden bg-terra text-white text-[10px] font-bold px-1.5 py-0.5 rounded-md leading-none"></span>`:''}
+    </button>`).join('');
+}
+function openMobileNav(){
+  buildMobileNav();
+  el('mobileNavBackdrop').hidden=false;
+  document.body.style.overflow='hidden';
+}
+function closeMobileNav(){
+  el('mobileNavBackdrop').hidden=true;
+  document.body.style.overflow='';
+}
+function updateMobileNavBadge(){
+  const urgentCount=state.rentals.filter(r=>{
+    const c=getRentalStatus(r).code;return (c==='overdue'||c==='lastday')&&calculateBilling(r).sisa>0;
+  }).length;
+  const nb=el('mobileNavBadgeToday');
+  if(!nb)return;
+  nb.classList.toggle('hidden',!urgentCount);
+  nb.textContent=urgentCount;
+}
+
+/* ============================================================
    INIT
    ============================================================ */
 function bindStatic(){
   el('helpBtn').addEventListener('click',openHelp);
+  el('mobileHelpBtn').addEventListener('click',()=>{closeMobileNav();openHelp();});
+  el('mobileMenuBtn').addEventListener('click',openMobileNav);
+  el('closeMobileNav').addEventListener('click',closeMobileNav);
+  el('mobileNavBackdrop').addEventListener('click',e=>{if(e.target===el('mobileNavBackdrop'))closeMobileNav()});
   el('globalAddBtn').addEventListener('click',()=>{
     if(el('globalAddBtn').dataset.global==='add-tenant')openTenantForm();
     else openRentWizard();
@@ -2400,7 +2490,8 @@ function bindStatic(){
   el('drawerBackdrop').addEventListener('click',e=>{if(e.target===el('drawerBackdrop'))closeDrawer()});
   document.addEventListener('keydown',e=>{
     if(e.key==='Escape'){
-      if(!el('drawerBackdrop').hidden)closeDrawer();
+      if(!el('mobileNavBackdrop').hidden)closeMobileNav();
+      else if(!el('drawerBackdrop').hidden)closeDrawer();
       else if(!el('modalBackdrop').hidden)closeModal();
     }
   });
